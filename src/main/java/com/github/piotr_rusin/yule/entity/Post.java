@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  * A class representing blog posts.
@@ -31,6 +32,10 @@ public class Post {
 	@Column(name="creation_date")
 	@CreationTimestamp
 	private Date creationDate;
+
+	@Column(name="modification_date")
+	@UpdateTimestamp
+	private Date modificationDate;
 
 	public int getId() {
 		return id;
@@ -68,5 +73,8 @@ public class Post {
 		return creationDate;
 	}
 
+	public Date getModificationDate() {
+		return modificationDate;
+	}
 
 }
