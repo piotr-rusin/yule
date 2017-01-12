@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import org.hibernate.annotations.CreationTimestamp;
 
 /**
  * A class representing blog posts.
@@ -29,6 +29,7 @@ public class Post {
 	private String content;
 
 	@Column(name="creation_date")
+	@CreationTimestamp
 	private Date creationDate;
 
 	public int getId() {
@@ -67,9 +68,5 @@ public class Post {
 		return creationDate;
 	}
 
-	@PrePersist
-	protected void resetCreationDate() {
-		creationDate = new Date();
-	}
 
 }
