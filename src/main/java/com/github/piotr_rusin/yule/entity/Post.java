@@ -15,7 +15,7 @@ import javax.persistence.Table;
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  */
 @Entity
-@Table(name="Post")
+@Table(name="posts")
 public class Post {
 	@Id
 	@Column(name="id")
