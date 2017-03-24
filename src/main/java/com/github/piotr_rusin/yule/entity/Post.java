@@ -39,7 +39,7 @@ import org.hibernate.annotations.UpdateTimestamp;
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  */
 @Entity
-@Table(name="posts")
+@Table(name="articles")
 public class Post {
 	@Id
 	@Column(name="id")
