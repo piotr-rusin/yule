@@ -34,13 +34,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 /**
- * A class representing blog posts.
+ * A class representing blog articles.
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  */
 @Entity
 @Table(name="articles")
-public class Post {
+public class Article {
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
