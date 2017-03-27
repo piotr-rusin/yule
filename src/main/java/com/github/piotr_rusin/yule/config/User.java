@@ -34,7 +34,7 @@ public class User {
 	}
 
 	public String getUsername() {
-		return this.username;
+		return username;
 	}
 
 	public void setPassword(String password) {
@@ -42,7 +42,7 @@ public class User {
 	}
 
 	public String getPassword() {
-		return this.password;
+		return password;
 	}
 
 	public void setRoles(String[] roles) {
@@ -50,6 +50,6 @@ public class User {
 	}
 
 	public String[] getRoles() {
-		return this.roles;
+		return roles;
 	}
 }

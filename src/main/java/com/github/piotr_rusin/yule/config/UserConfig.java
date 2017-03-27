@@ -34,6 +34,6 @@ public class UserConfig {
 	private final List<User> users = new ArrayList<>();
 
 	public List<User> getUsers() {
-		return this.users;
+		return users;
 	}
 }
