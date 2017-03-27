@@ -117,6 +117,10 @@ public class Article {
 		return modificationDate;
 	}
 
+	public ArticleStatus getStatus() {
+		return status;
+	}
+
 	public boolean isPost() {
 		return post;
 	}
