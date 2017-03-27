@@ -116,6 +116,10 @@ public class Article {
 		return creationDate;
 	}
 
+	public Date getPublicationDate() {
+		return publicationDate;
+	}
+
 	public Date getModificationDate() {
 		return modificationDate;
 	}
