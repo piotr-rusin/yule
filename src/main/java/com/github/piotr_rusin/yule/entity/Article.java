@@ -26,6 +26,8 @@ package com.github.piotr_rusin.yule.entity;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -60,11 +62,14 @@ public class Article {
 	@UpdateTimestamp
 	private Date modificationDate;
 
+	@Enumerated(EnumType.STRING)
+	private ArticleStatus status = ArticleStatus.DRAFT;
+
 	/**
 	 * Specifies whether an article is also a blog post.
 	 *
-	 * All articles on a blog are publicly accessible through
-	 * their URL addresses.
+	 * All published, non-private articles on a blog are publicly
+	 * accessible through their URL addresses.
 	 *
 	 * All articles that are also blog posts are additionally listed on
 	 * one of the pages of a blog, in reverse chronological order.
