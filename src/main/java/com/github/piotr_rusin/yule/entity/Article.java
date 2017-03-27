@@ -60,6 +60,18 @@ public class Article {
 	@UpdateTimestamp
 	private Date modificationDate;
 
+	/**
+	 * Specifies whether an article is also a blog post.
+	 *
+	 * All articles on a blog are publicly accessible through
+	 * their URL addresses.
+	 *
+	 * All articles that are also blog posts are additionally listed on
+	 * one of the pages of a blog, in reverse chronological order.
+	 */
+	@Column(name="is_blog_post")
+	private boolean post = true;
+
 	public int getId() {
 		return id;
 	}
@@ -100,4 +112,11 @@ public class Article {
 		return modificationDate;
 	}
 
+	public boolean isPost() {
+		return post;
+	}
+
+	public void setPost(boolean post) {
+		this.post = post;
+	}
 }
