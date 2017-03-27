@@ -128,6 +128,36 @@ public class Article {
 		return status;
 	}
 
+	/**
+	 * Set status of the article and adjust its publication date.
+	 *
+	 * @param ArticleStatus status - a status value to be set. A new
+	 * value of publicationDate depends both on this value and on
+	 * the direction of change of the previous status.
+	 *
+	 * When changing status from a non-published one to a published one
+	 * (either PUBLISHED or PRIVATE), publicationDate is set to the
+	 * current date.
+	 *
+	 * When changing status from a published one to DRAFT, the
+	 * publicationDate is set to null.
+	 *
+	 * Articles changing their status from a published one to another
+	 * published one preserve their original publication date.
+	 */
+	public void setStatus(ArticleStatus status) {
+		this.status = status;
+
+		switch (status) {
+			case PUBLISHED:
+			case PRIVATE:
+				if (publicationDate == null) publicationDate = new Date();
+				break;
+			case DRAFT:
+			default: publicationDate = null;
+		}
+	}
+
 	public boolean isPost() {
 		return post;
 	}
