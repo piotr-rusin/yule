@@ -58,6 +58,9 @@ public class Article {
 	@CreationTimestamp
 	private Date creationDate;
 
+	@Column(name="publication_date")
+	private Date publicationDate;
+
 	@Column(name="modification_date")
 	@UpdateTimestamp
 	private Date modificationDate;
