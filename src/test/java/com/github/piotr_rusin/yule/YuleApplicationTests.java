@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *******************************************************************************/
-package com.github.piotr.rusin.yule;
+package com.github.piotr_rusin.yule;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
