@@ -26,6 +26,7 @@ package com.github.piotr_rusin.yule.entity;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -41,6 +42,7 @@ import org.hibernate.annotations.UpdateTimestamp;
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  */
 @Entity
+@EntityListeners(ArticleListener.class)
 @Table(name="articles")
 public class Article {
 	@Id
