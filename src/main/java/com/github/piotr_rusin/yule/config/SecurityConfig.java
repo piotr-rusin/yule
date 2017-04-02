@@ -35,7 +35,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	UserConfig application;
+	UserConfig userConfig;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -48,12 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		for (User user: application.getUsers()) {
-			auth
-				.inMemoryAuthentication()
-				.withUser(user.getUsername())
-				.password(user.getPassword())
-				.roles(user.getRoles());
-		}
+		auth
+			.inMemoryAuthentication()
+			.withUser(userConfig.getLogin())
+			.password(userConfig.getPassword())
+			.roles(userConfig.getRoles());
 	}
 }

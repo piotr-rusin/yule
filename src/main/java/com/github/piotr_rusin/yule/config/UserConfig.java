@@ -23,17 +23,36 @@
  *******************************************************************************/
 package com.github.piotr_rusin.yule.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties("security")
+@ConfigurationProperties("yule.user")
 public class UserConfig {
 
-	private final List<User> users = new ArrayList<>();
+	private String login;
+	private String password;
+	private String[] roles;
 
-	public List<User> getUsers() {
-		return users;
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setRoles(String[] roles) {
+		this.roles = roles;
+	}
+
+	public String[] getRoles() {
+		return roles;
 	}
 }
