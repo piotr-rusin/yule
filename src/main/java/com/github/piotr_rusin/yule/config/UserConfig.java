@@ -23,13 +23,24 @@
  *******************************************************************************/
 package com.github.piotr_rusin.yule.config;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
 @ConfigurationProperties("yule.user")
+@Validated
 public class UserConfig {
 
+	@NotNull
 	private String login;
+
+	@NotNull
+	@Size(min=6, max=20)
 	private String password;
+
+	@Size(min=1)
 	private String[] roles;
 
 	public void setLogin(String login) {
