@@ -43,6 +43,8 @@ public class UserConfig {
 	@Size(min=1)
 	private String[] roles;
 
+	private String name = login;
+
 	public void setLogin(String login) {
 		this.login = login;
 	}
@@ -65,5 +67,13 @@ public class UserConfig {
 
 	public String[] getRoles() {
 		return roles;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
