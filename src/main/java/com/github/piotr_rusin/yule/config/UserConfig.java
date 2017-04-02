@@ -29,6 +29,8 @@ import javax.validation.constraints.Size;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+import com.github.piotr_rusin.yule.validation.Email;
+
 @ConfigurationProperties("yule.user")
 @Validated
 public class UserConfig {
@@ -44,6 +46,9 @@ public class UserConfig {
 	private String[] roles;
 
 	private String name = login;
+
+	@Email
+	private String email;
 
 	public void setLogin(String login) {
 		this.login = login;
@@ -75,5 +80,13 @@ public class UserConfig {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }
