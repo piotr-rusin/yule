@@ -73,8 +73,8 @@ public class Article {
 	/**
 	 * Specifies whether an article is also a blog post.
 	 *
-	 * All published, non-private articles on a blog are publicly
-	 * accessible through their URL addresses.
+	 * All published articles on a blog are publicly accessible
+	 * through their URL addresses.
 	 *
 	 * All articles that are also blog posts are additionally listed on
 	 * one of the pages of a blog, in reverse chronological order.
@@ -138,21 +138,16 @@ public class Article {
 	 * the direction of change of the previous status.
 	 *
 	 * When changing status from a non-published one to a published one
-	 * (either PUBLISHED or PRIVATE), publicationDate is set to the
-	 * current date.
+	 * publicationDate is set to the current date.
 	 *
 	 * When changing status from a published one to DRAFT, the
 	 * publicationDate is set to null.
-	 *
-	 * Articles changing their status from a published one to another
-	 * published one preserve their original publication date.
 	 */
 	public void setStatus(ArticleStatus status) {
 		this.status = status;
 
 		switch (status) {
 			case PUBLISHED:
-			case PRIVATE:
 				if (publicationDate == null) publicationDate = new Date();
 				break;
 			case DRAFT:

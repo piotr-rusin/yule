@@ -43,13 +43,4 @@ public enum ArticleStatus {
 	 * and a public URL.
 	 */
 	PUBLISHED,
-	/**
-	 * Same as PUBLISHED, except the URL isn't public - it's accessible
-	 * only for administrators.
-	 *
-	 * If a private article is also a blog post (see Article.post), it
-	 * is displayed with all published blog posts only for users logged
-	 * in as administrators.
-	 */
-	PRIVATE
 }
