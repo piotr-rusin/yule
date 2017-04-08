@@ -42,5 +42,5 @@ public enum ArticleStatus {
 	 * A finished article, accessible through both administration panel
 	 * and a public URL.
 	 */
-	PUBLISHED,
+	PUBLIC
 }

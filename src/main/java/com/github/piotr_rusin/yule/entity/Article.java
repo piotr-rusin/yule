@@ -147,7 +147,7 @@ public class Article {
 		this.status = status;
 
 		switch (status) {
-			case PUBLISHED:
+			case PUBLIC:
 				if (publicationDate == null) publicationDate = new Date();
 				break;
 			case DRAFT:
