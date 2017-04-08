@@ -28,19 +28,19 @@ package com.github.piotr_rusin.yule.entity;
  *
  * A status combines information on current life-cycle stage of
  * an article with information on it being accessible to
- * authenticated and non-authenticated users.
+ * an administrator of a blog instance and unauthenticated users.
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  *
  */
 public enum ArticleStatus {
 	/**
-	 * An incomplete article, accessible only through administration panel.
+	 * An incomplete article, accessible only for administrator.
 	 */
 	DRAFT,
 	/**
-	 * A finished article, accessible through both administration panel
-	 * and a public URL.
+	 * A finished article, accessible for both administrator
+	 * and unauthenticated users.
 	 */
 	PUBLIC
 }
