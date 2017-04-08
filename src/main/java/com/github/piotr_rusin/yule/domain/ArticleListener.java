@@ -21,39 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *******************************************************************************/
-package com.github.piotr_rusin.yule.entity;
+package com.github.piotr_rusin.yule.domain;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
-/**
- * @author Piotr Rusin <piotr.rusin88@gmail.com>
- *
- */
-public interface ArticleRepository extends JpaRepository<Article, Integer>,
-JpaSpecificationExecutor<Article> {
+import com.github.slugify.Slugify;
 
-	@Query(
-		"select a from Article a where a.post = true " +
-		" and a.status = 'PUBLIC' order by a.publicationDate desc"
-	)
-	Page<Article> findPublicPosts(Pageable pageRequest);
+public class ArticleListener {
 
-	@Query(
-		"select a from Article a where a.post = true " +
-		"and a.status = 'PUBLIC' and a.slug = :slug"
-	)
-	Article findPublicPostBy(@Param("slug") String slug);
+	private Slugify slg = new Slugify();
 
-	@Query(
-		"select a from Article a where a.post = false " +
-		"and a.status = 'PUBLIC' and a.slug = :slug"
-	)
-	Article findPublicPageBy(@Param("slug") String slug);
+	@PrePersist
+	@PreUpdate
+	public void makeSureHasSlug(Article article) {
+		if (article.getSlug() == null) {
+			String slug = slg.slugify(article.getTitle());
+			article.setSlug(slug);
+		}
+	}
 
-	Article findOneBySlug(String slug);
 }

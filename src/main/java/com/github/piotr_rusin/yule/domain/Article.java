@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *******************************************************************************/
-package com.github.piotr_rusin.yule.entity;
+package com.github.piotr_rusin.yule.domain;
 
 import java.util.Date;
 import javax.persistence.Column;

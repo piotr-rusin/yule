@@ -21,24 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *******************************************************************************/
-package com.github.piotr_rusin.yule.entity;
+package com.github.piotr_rusin.yule.domain;
 
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-
-import com.github.slugify.Slugify;
-
-public class ArticleListener {
-
-	private Slugify slg = new Slugify();
-
-	@PrePersist
-	@PreUpdate
-	public void makeSureHasSlug(Article article) {
-		if (article.getSlug() == null) {
-			String slug = slg.slugify(article.getTitle());
-			article.setSlug(slug);
-		}
-	}
-
+/**
+ * A class representing article statuses.
+ *
+ * A status combines information on current life-cycle stage of
+ * an article with information on it being accessible to
+ * an administrator of a blog instance and unauthenticated users.
+ *
+ * @author Piotr Rusin <piotr.rusin88@gmail.com>
+ *
+ */
+public enum ArticleStatus {
+	/**
+	 * An incomplete article, accessible only for administrator.
+	 */
+	DRAFT,
+	/**
+	 * A finished article, accessible for both administrator
+	 * and unauthenticated users.
+	 */
+	PUBLIC
 }

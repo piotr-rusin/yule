@@ -21,26 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *******************************************************************************/
-package com.github.piotr_rusin.yule.entity;
+package com.github.piotr_rusin.yule.repository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.github.piotr_rusin.yule.domain.Article;
 
 /**
- * A class representing article statuses.
- *
- * A status combines information on current life-cycle stage of
- * an article with information on it being accessible to
- * an administrator of a blog instance and unauthenticated users.
- *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  *
  */
-public enum ArticleStatus {
-	/**
-	 * An incomplete article, accessible only for administrator.
-	 */
-	DRAFT,
-	/**
-	 * A finished article, accessible for both administrator
-	 * and unauthenticated users.
-	 */
-	PUBLIC
+public interface ArticleRepository extends JpaRepository<Article, Integer>,
+JpaSpecificationExecutor<Article> {
+
+	@Query(
+		"select a from Article a where a.post = true " +
+		" and a.status = 'PUBLIC' order by a.publicationDate desc"
+	)
+	Page<Article> findPublicPosts(Pageable pageRequest);
+
+	@Query(
+		"select a from Article a where a.post = true " +
+		"and a.status = 'PUBLIC' and a.slug = :slug"
+	)
+	Article findPublicPostBy(@Param("slug") String slug);
+
+	@Query(
+		"select a from Article a where a.post = false " +
+		"and a.status = 'PUBLIC' and a.slug = :slug"
+	)
+	Article findPublicPageBy(@Param("slug") String slug);
+
+	Article findOneBySlug(String slug);
 }

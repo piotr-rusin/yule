@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *******************************************************************************/
-package com.github.piotr_rusin.yule.entity;
+package com.github.piotr_rusin.yule.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -43,6 +43,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.github.piotr_rusin.yule.domain.Article;
+import com.github.piotr_rusin.yule.domain.ArticleStatus;
 
 /**
  * Integration tests for custom queries defined in
