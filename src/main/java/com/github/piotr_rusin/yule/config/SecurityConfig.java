@@ -34,8 +34,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableConfigurationProperties(UserConfig.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	private UserConfig userConfig;
+
 	@Autowired
-	UserConfig userConfig;
+	public SecurityConfig(UserConfig userConfig) {
+		this.userConfig = userConfig;
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
