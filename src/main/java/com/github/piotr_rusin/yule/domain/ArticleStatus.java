@@ -34,13 +34,13 @@ package com.github.piotr_rusin.yule.domain;
  *
  */
 public enum ArticleStatus {
-	/**
-	 * An incomplete article, accessible only for administrator.
-	 */
-	DRAFT,
-	/**
-	 * A finished article, accessible for both administrator
-	 * and unauthenticated users.
-	 */
-	PUBLIC
+    /**
+     * An incomplete article, accessible only for administrator.
+     */
+    DRAFT,
+    /**
+     * A finished article, accessible for both administrator and
+     * unauthenticated users.
+     */
+    PUBLIC
 }

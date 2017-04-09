@@ -34,28 +34,29 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableConfigurationProperties(UserConfig.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private UserConfig userConfig;
+    private UserConfig userConfig;
 
-	@Autowired
-	public SecurityConfig(UserConfig userConfig) {
-		this.userConfig = userConfig;
-	}
+    @Autowired
+    public SecurityConfig(UserConfig userConfig) {
+        this.userConfig = userConfig;
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests()
-				.antMatchers("/admin/**").hasRole("ADMIN")
-			.and()
-				.formLogin();
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .antMatchers("/admin/**")
+                .hasRole("ADMIN")
+            .and()
+                .formLogin();
+    }
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth
-			.inMemoryAuthentication()
-			.withUser(userConfig.getLogin())
-			.password(userConfig.getPassword())
-			.roles(userConfig.getRoles());
-	}
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+            .inMemoryAuthentication()
+            .withUser(userConfig.getLogin())
+            .password(userConfig.getPassword())
+            .roles(userConfig.getRoles());
+    }
 }

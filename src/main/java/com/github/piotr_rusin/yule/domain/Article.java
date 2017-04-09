@@ -43,123 +43,126 @@ import org.hibernate.annotations.UpdateTimestamp;
  */
 @Entity
 @EntityListeners(ArticleListener.class)
-@Table(name="articles")
+@Table(name = "articles")
 public class Article {
-	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	private String title;
+    private String title;
 
-	private String slug;
+    private String slug;
 
-	private String content;
+    private String content;
 
-	@Column(name="creation_date")
-	@CreationTimestamp
-	private Date creationDate;
+    @Column(name = "creation_date")
+    @CreationTimestamp
+    private Date creationDate;
 
-	@Column(name="publication_date")
-	private Date publicationDate;
+    @Column(name = "publication_date")
+    private Date publicationDate;
 
-	@Column(name="modification_date")
-	@UpdateTimestamp
-	private Date modificationDate;
+    @Column(name = "modification_date")
+    @UpdateTimestamp
+    private Date modificationDate;
 
-	@Enumerated(EnumType.STRING)
-	private ArticleStatus status = ArticleStatus.DRAFT;
+    @Enumerated(EnumType.STRING)
+    private ArticleStatus status = ArticleStatus.DRAFT;
 
-	/**
-	 * Specifies whether an article is also a blog post.
-	 *
-	 * All published articles on a blog are publicly accessible
-	 * through their URL addresses.
-	 *
-	 * All articles that are also blog posts are additionally listed on
-	 * one of the pages of a blog, in reverse chronological order.
-	 */
-	@Column(name="is_blog_post")
-	private boolean post = true;
+    /**
+     * Specifies whether an article is also a blog post.
+     *
+     * All published articles on a blog are publicly accessible
+     * through their URL addresses.
+     *
+     * All articles that are also blog posts are additionally
+     * listed on one of the pages of a blog, in reverse
+     * chronological order.
+     */
+    @Column(name = "is_blog_post")
+    private boolean post = true;
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getSlug() {
-		return slug;
-	}
+    public String getSlug() {
+        return slug;
+    }
 
-	public void setSlug(String slug) {
-		this.slug = slug;
-	}
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public Date getCreationDate() {
-		return creationDate;
-	}
+    public Date getCreationDate() {
+        return creationDate;
+    }
 
-	public Date getPublicationDate() {
-		return publicationDate;
-	}
+    public Date getPublicationDate() {
+        return publicationDate;
+    }
 
-	public Date getModificationDate() {
-		return modificationDate;
-	}
+    public Date getModificationDate() {
+        return modificationDate;
+    }
 
-	public ArticleStatus getStatus() {
-		return status;
-	}
+    public ArticleStatus getStatus() {
+        return status;
+    }
 
-	/**
-	 * Set status of the article and adjust its publication date.
-	 *
-	 * @param ArticleStatus status - a status value to be set. A new
-	 * value of publicationDate depends both on this value and on
-	 * the direction of change of the previous status.
-	 *
-	 * When changing status from a non-published one to a published one
-	 * publicationDate is set to the current date.
-	 *
-	 * When changing status from a published one to DRAFT, the
-	 * publicationDate is set to null.
-	 */
-	public void setStatus(ArticleStatus status) {
-		this.status = status;
+    /**
+     * Set status of the article and adjust its publication date.
+     *
+     * @param ArticleStatus status - a status value to be set.
+     * A new value of publicationDate depends both on this value and
+     * on the direction of change of the previous status.
+     *
+     * When changing status from a non-published one to a published
+     * one publicationDate is set to the current date.
+     *
+     * When changing status from a published one to DRAFT,
+     * the publicationDate is set to null.
+     */
+    public void setStatus(ArticleStatus status) {
+        this.status = status;
 
-		switch (status) {
-			case PUBLIC:
-				if (publicationDate == null) publicationDate = new Date();
-				break;
-			case DRAFT:
-			default: publicationDate = null;
-		}
-	}
+        switch (status) {
+        case PUBLIC:
+            if (publicationDate == null)
+                publicationDate = new Date();
+            break;
+        case DRAFT:
+        default:
+            publicationDate = null;
+        }
+    }
 
-	public boolean isPost() {
-		return post;
-	}
+    public boolean isPost() {
+        return post;
+    }
 
-	public void setPost(boolean post) {
-		this.post = post;
-	}
+    public void setPost(boolean post) {
+        this.post = post;
+    }
 }

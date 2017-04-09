@@ -30,15 +30,14 @@ import com.github.slugify.Slugify;
 
 public class ArticleListener {
 
-	private Slugify slg = new Slugify();
+    private Slugify slg = new Slugify();
 
-	@PrePersist
-	@PreUpdate
-	public void makeSureHasSlug(Article article) {
-		if (article.getSlug() == null) {
-			String slug = slg.slugify(article.getTitle());
-			article.setSlug(slug);
-		}
-	}
-
+    @PrePersist
+    @PreUpdate
+    public void makeSureHasSlug(Article article) {
+        if (article.getSlug() == null) {
+            String slug = slg.slugify(article.getTitle());
+            article.setSlug(slug);
+        }
+    }
 }

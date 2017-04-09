@@ -29,7 +29,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class YuleApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(YuleApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(YuleApplication.class, args);
+    }
 }

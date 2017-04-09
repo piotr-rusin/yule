@@ -32,26 +32,20 @@ import org.springframework.data.repository.query.Param;
 
 import com.github.piotr_rusin.yule.domain.Article;
 
-public interface ArticleRepository extends JpaRepository<Article, Integer>,
-JpaSpecificationExecutor<Article> {
+public interface ArticleRepository
+        extends JpaRepository<Article, Integer>, JpaSpecificationExecutor<Article> {
 
-	@Query(
-		"select a from Article a where a.post = true " +
-		" and a.status = 'PUBLIC' order by a.publicationDate desc"
-	)
-	Page<Article> findPublicPosts(Pageable pageRequest);
+    @Query("select a from Article a where a.post = true "
+            + "and a.status = 'PUBLIC' order by a.publicationDate desc")
+    Page<Article> findPublicPosts(Pageable pageRequest);
 
-	@Query(
-		"select a from Article a where a.post = true " +
-		"and a.status = 'PUBLIC' and a.slug = :slug"
-	)
-	Article findPublicPostBy(@Param("slug") String slug);
+    @Query("select a from Article a where a.post = true "
+            + "and a.status = 'PUBLIC' and a.slug = :slug")
+    Article findPublicPostBy(@Param("slug") String slug);
 
-	@Query(
-		"select a from Article a where a.post = false " +
-		"and a.status = 'PUBLIC' and a.slug = :slug"
-	)
-	Article findPublicPageBy(@Param("slug") String slug);
+    @Query("select a from Article a where a.post = false "
+            + "and a.status = 'PUBLIC' and a.slug = :slug")
+    Article findPublicPageBy(@Param("slug") String slug);
 
-	Article findOneBySlug(String slug);
+    Article findOneBySlug(String slug);
 }

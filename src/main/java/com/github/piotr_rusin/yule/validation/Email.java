@@ -37,9 +37,8 @@ import javax.validation.constraints.Pattern;
 /**
  * A constraint for validating email addresses.
  *
- * Based on:
- * - http://stackoverflow.com/q/4459474
- * - https://gist.github.com/php-coder/1616466
+ * Based on: - http://stackoverflow.com/q/4459474 -
+ * https://gist.github.com/php-coder/1616466
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  *
@@ -47,12 +46,14 @@ import javax.validation.constraints.Pattern;
 @org.hibernate.validator.constraints.Email
 @Pattern(regexp = ".+@.+\\..+")
 @ReportAsSingleViolation
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target({ ElementType.FIELD, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
 public @interface Email {
-	String message() default "{org.hibernate.validator.constraints.Email.message}";
-	Class<?>[] groups() default {};
+    String message() default "{org.hibernate.validator.constraints.Email.message}";
+
+    Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

@@ -35,58 +35,58 @@ import com.github.piotr_rusin.yule.validation.Email;
 @Validated
 public class UserConfig {
 
-	@NotNull
-	private String login;
+    @NotNull
+    private String login;
 
-	@NotNull
-	@Size(min=6, max=20)
-	private String password;
+    @NotNull
+    @Size(min = 6, max = 20)
+    private String password;
 
-	@Size(min=1)
-	private String[] roles;
+    @Size(min = 1)
+    private String[] roles;
 
-	private String name = login;
+    private String name = login;
 
-	@Email
-	private String email;
+    @Email
+    private String email;
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-	public String getLogin() {
-		return login;
-	}
+    public String getLogin() {
+        return login;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setRoles(String[] roles) {
-		this.roles = roles;
-	}
+    public void setRoles(String[] roles) {
+        this.roles = roles;
+    }
 
-	public String[] getRoles() {
-		return roles;
-	}
+    public String[] getRoles() {
+        return roles;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

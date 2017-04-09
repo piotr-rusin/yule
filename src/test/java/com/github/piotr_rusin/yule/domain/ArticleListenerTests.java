@@ -45,86 +45,83 @@ import com.github.slugify.Slugify;
  */
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@AutoConfigureTestDatabase(replace=Replace.NONE)
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class ArticleListenerTests {
 
-	@Autowired
-	private TestEntityManager entityManager;
+    @Autowired
+    private TestEntityManager entityManager;
 
-	private Slugify slg = new Slugify();
+    private Slugify slg = new Slugify();
 
-	private Article article;
+    private Article article;
 
-	@Before
-	public void prepareArticle() {
-		article = new Article();
-		article.setTitle("Lorem ipsum: dolor sit amet");
-		article.setContent(
-			"Lorem ipsum dolor sit amet, consectetur adipiscing" +
-			" elit, sed do eiusmod tempor incididunt ut labore et" +
-			" dolore magna aliqua."
-		);
-	}
+    @Before
+    public void prepareArticle() {
+        article = new Article();
+        article.setTitle("Lorem ipsum: dolor sit amet");
+        article.setContent("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "
+                + "eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+    }
 
-	private void assertSlugIsEqualTo(String expectedSlug) {
-		assertThat(article.getSlug()).isEqualTo(expectedSlug);
-	}
+    private void assertSlugIsEqualTo(String expectedSlug) {
+        assertThat(article.getSlug()).isEqualTo(expectedSlug);
+    }
 
-	private void testExpectedSlugAfterPersist(String expectedSlug) {
-		entityManager.persistFlushFind(article);
+    private void testExpectedSlugAfterPersist(String expectedSlug) {
+        entityManager.persistFlushFind(article);
 
-		assertSlugIsEqualTo(expectedSlug);
-	}
+        assertSlugIsEqualTo(expectedSlug);
+    }
 
-	@Test
-	public void testSlugIsCreatedFromTitle() {
-		String slugFromTitle = slg.slugify(article.getTitle());
+    @Test
+    public void testSlugIsCreatedFromTitle() {
+        String slugFromTitle = slg.slugify(article.getTitle());
 
-		testExpectedSlugAfterPersist(slugFromTitle);
-	}
+        testExpectedSlugAfterPersist(slugFromTitle);
+    }
 
-	@Test
-	public void testSlugIsPreservedWhenNotNull() {
-		String customSlug = slg.slugify("My custom slug");
-		article.setSlug(customSlug);
+    @Test
+    public void testSlugIsPreservedWhenNotNull() {
+        String customSlug = slg.slugify("My custom slug");
+        article.setSlug(customSlug);
 
-		testExpectedSlugAfterPersist(customSlug);
-	}
+        testExpectedSlugAfterPersist(customSlug);
+    }
 
-	private void testExpectedSlugAfterUpdate(String expectedSlug) {
-		entityManager.flush();
+    private void testExpectedSlugAfterUpdate(String expectedSlug) {
+        entityManager.flush();
 
-		assertSlugIsEqualTo(expectedSlug);
-	}
+        assertSlugIsEqualTo(expectedSlug);
+    }
 
-	/**
-	 * Test if a slug based on the original title of a persisted
-	 * article is preserved after the title has been modified and
-	 * the database has been updated.
-	 */
-	@Test
-	public void testSlugIsPreservedAfterUpdate() {
-		entityManager.persistAndFlush(article);
-		article.setTitle("A new title");
-		String oldSlug = article.getSlug();
+    /**
+     * Test if a slug based on the original title of a persisted
+     * article is preserved after the title has been modified and
+     * the database has been updated.
+     */
+    @Test
+    public void testSlugIsPreservedAfterUpdate() {
+        entityManager.persistAndFlush(article);
+        article.setTitle("A new title");
+        String oldSlug = article.getSlug();
 
-		testExpectedSlugAfterUpdate(oldSlug);
-	}
+        testExpectedSlugAfterUpdate(oldSlug);
+    }
 
-	/**
-	 * Test if a new slug value is created for a persisted article
-	 * after its slug value has been set to null and the database
-	 * has been updated.
-	 */
-	@Test
-	public void testSlugIsCreatedFromTitleAfterUpdate() {
-		String initialSlug = slg.slugify("My custom slug");
-		article.setSlug(initialSlug);
-		entityManager.persistAndFlush(article);
-		article.setSlug(null);
-		String newSlug = slg.slugify(article.getTitle());
+    /**
+     * Test if a new slug value is created for a persisted article
+     * after its slug value has been set to null and the database
+     * has been updated.
+     */
+    @Test
+    public void testSlugIsCreatedFromTitleAfterUpdate() {
+        String initialSlug = slg.slugify("My custom slug");
+        article.setSlug(initialSlug);
+        entityManager.persistAndFlush(article);
+        article.setSlug(null);
+        String newSlug = slg.slugify(article.getTitle());
 
-		testExpectedSlugAfterUpdate(newSlug);
-	}
+        testExpectedSlugAfterUpdate(newSlug);
+    }
 
 }
