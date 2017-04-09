@@ -32,10 +32,6 @@ import org.springframework.data.repository.query.Param;
 
 import com.github.piotr_rusin.yule.domain.Article;
 
-/**
- * @author Piotr Rusin <piotr.rusin88@gmail.com>
- *
- */
 public interface ArticleRepository extends JpaRepository<Article, Integer>,
 JpaSpecificationExecutor<Article> {
 
