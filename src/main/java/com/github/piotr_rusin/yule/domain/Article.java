@@ -23,7 +23,7 @@
  *******************************************************************************/
 package com.github.piotr_rusin.yule.domain;
 
-import java.util.Date;
+import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -56,16 +56,16 @@ public class Article {
 
     @Column(name = "creation_date")
     @CreationTimestamp
-    private Date creationDate;
+    private Instant creationDate;
 
     private boolean published;
 
     @Column(name = "publication_date")
-    private Date publicationDate;
+    private Instant publicationDate;
 
     @Column(name = "modification_date")
     @UpdateTimestamp
-    private Date modificationDate;
+    private Instant modificationDate;
 
     /**
      * Specifies whether an article is also a blog post.
@@ -112,7 +112,7 @@ public class Article {
         this.content = content;
     }
 
-    public Date getCreationDate() {
+    public Instant getCreationDate() {
         return creationDate;
     }
 
@@ -136,7 +136,7 @@ public class Article {
      */
     public void setPublished(boolean published) {
         if (published && !this.published) {
-            publicationDate = new Date();
+            publicationDate = Instant.now();
         } else if (!published) {
             publicationDate = null;
         }
@@ -144,11 +144,11 @@ public class Article {
         this.published = published;
     }
 
-    public Date getPublicationDate() {
+    public Instant getPublicationDate() {
         return publicationDate;
     }
 
-    public Date getModificationDate() {
+    public Instant getModificationDate() {
         return modificationDate;
     }
 
