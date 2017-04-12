@@ -47,7 +47,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.github.piotr_rusin.yule.domain.Article;
 
 /**
- * Integration tests for custom queries defined in ArticleRepository interface.
+ * Integration tests for custom queries defined in
+ * ArticleRepository interface.
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  *
