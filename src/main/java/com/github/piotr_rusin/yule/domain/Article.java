@@ -27,8 +27,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -60,15 +58,14 @@ public class Article {
     @CreationTimestamp
     private Date creationDate;
 
+    private boolean published;
+
     @Column(name = "publication_date")
     private Date publicationDate;
 
     @Column(name = "modification_date")
     @UpdateTimestamp
     private Date modificationDate;
-
-    @Enumerated(EnumType.STRING)
-    private ArticleStatus status = ArticleStatus.DRAFT;
 
     /**
      * Specifies whether an article is also a blog post.
@@ -119,43 +116,40 @@ public class Article {
         return creationDate;
     }
 
+    public boolean isPublished() {
+        return published;
+    }
+
+    /**
+     * Set if the article is published.
+     *
+     * Articles changing status from not published to published receive
+     * the current date as their new publication date.
+     *
+     * Publication date of articles that are set to not published is
+     * set to null.
+     *
+     * When article that was already published is set to published,
+     * its publication date is preserved.
+     *
+     * @param published
+     */
+    public void setPublished(boolean published) {
+        if (published && !this.published) {
+            publicationDate = new Date();
+        } else if (!published) {
+            publicationDate = null;
+        }
+
+        this.published = published;
+    }
+
     public Date getPublicationDate() {
         return publicationDate;
     }
 
     public Date getModificationDate() {
         return modificationDate;
-    }
-
-    public ArticleStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * Set status of the article and adjust its publication date.
-     *
-     * @param ArticleStatus status - a status value to be set.
-     * A new value of publicationDate depends both on this value and
-     * on the direction of change of the previous status.
-     *
-     * When changing status from a non-published one to a published
-     * one publicationDate is set to the current date.
-     *
-     * When changing status from a published one to DRAFT,
-     * the publicationDate is set to null.
-     */
-    public void setStatus(ArticleStatus status) {
-        this.status = status;
-
-        switch (status) {
-        case PUBLIC:
-            if (publicationDate == null)
-                publicationDate = new Date();
-            break;
-        case DRAFT:
-        default:
-            publicationDate = null;
-        }
     }
 
     public boolean isPost() {

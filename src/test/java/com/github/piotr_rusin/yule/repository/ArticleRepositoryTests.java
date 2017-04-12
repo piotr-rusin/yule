@@ -45,7 +45,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.piotr_rusin.yule.domain.Article;
-import com.github.piotr_rusin.yule.domain.ArticleStatus;
 
 /**
  * Integration tests for custom queries defined in ArticleRepository interface.
@@ -73,45 +72,45 @@ public class ArticleRepositoryTests {
     }
 
     @Test
-    public void testFindPublicPostsOrdersByPublicationDate() {
+    public void testFindPublishedPostsOrdersByPublicationDate() {
         Comparator<Article> desc = Comparator
                 .comparing(Article::getPublicationDate)
                 .reversed();
 
         List<Article> actualArticles = articleRepository
-                .findPublicPosts(allArticlePageRequest)
+                .findPublishedPosts(allArticlePageRequest)
                 .getContent();
 
         assertThat(actualArticles).isSortedAccordingTo(desc);
     }
 
     @Test
-    public void testFindPublicPostsFindsAllExpectedArticles() {
+    public void testFindPublishedPostsFindsAllExpectedArticles() {
         List<Article> expectedArticles = filterPublicArticles(Article::isPost);
-        Page<Article> actualArticles = articleRepository.findPublicPosts(allArticlePageRequest);
+        Page<Article> actualArticles = articleRepository.findPublishedPosts(allArticlePageRequest);
 
         assertThat(actualArticles).hasSameElementsAs(expectedArticles);
     }
 
     @Test
-    public void testFindPublicPostBy() {
+    public void testFindPublishedPostBy() {
         Article expectedArticle = getRandomPublicArticleBy(Article::isPost);
-        Article actualArticle = articleRepository.findPublicPostBy(expectedArticle.getSlug());
+        Article actualArticle = articleRepository.findPublishedPostBy(expectedArticle.getSlug());
 
         assertThat(actualArticle).isEqualTo(expectedArticle);
     }
 
     @Test
-    public void testFindPublicPageBy() {
+    public void testFindPublishedPageBy() {
         Article expectedArticle = getRandomPublicArticleBy(a -> !a.isPost());
-        Article actualArticle = articleRepository.findPublicPageBy(expectedArticle.getSlug());
+        Article actualArticle = articleRepository.findPublishedPageBy(expectedArticle.getSlug());
 
         assertThat(actualArticle).isEqualTo(expectedArticle);
     }
 
     /**
-     * Get an article randomly chosen from persistent public articles
-     * fulfilling given condition.
+     * Get an article randomly chosen from persistent published
+     * articles fulfilling given condition.
      *
      * @param condition
      * @return
@@ -135,17 +134,15 @@ public class ArticleRepositoryTests {
     }
 
     /**
-     * Get all persistent public articles fulfilling a condition.
+     * Get all persistent published articles fulfilling a condition.
      *
      * @param condition
      * @return
      */
     private List<Article> filterPublicArticles(Predicate<Article> condition) {
-        Predicate<Article> isPublic = a -> a.getStatus() == ArticleStatus.PUBLIC;
-
         List<Article> articles = allArticles
                 .stream()
-                .filter(condition.and(isPublic)::test)
+                .filter(condition.and(Article::isPublished)::test)
                 .collect(Collectors.toList());
 
         return articles;

@@ -1,5 +1,5 @@
 INSERT INTO articles
-(title, slug, content, creation_date, modification_date, is_blog_post, status, publication_date)
+(title, slug, content, creation_date, modification_date, is_blog_post, published, publication_date)
 VALUES
 (
 	'The first title',
@@ -8,7 +8,7 @@ VALUES
 	'2012-01-01',
 	'2012-01-02',
 	TRUE,
-	'PUBLIC',
+	TRUE,
 	'2012-01-03'
 ),
 (
@@ -18,7 +18,7 @@ VALUES
 	'2012-02-07',
 	'2012-02-15',
 	TRUE,
-	'PUBLIC',
+	TRUE,
 	'2012-02-11'
 ),
 (
@@ -28,7 +28,7 @@ VALUES
 	'2012-03-01',
 	'2012-03-06',
 	TRUE,
-	'DRAFT',
+	FALSE,
 	NULL
 ),
 (
@@ -38,7 +38,7 @@ VALUES
 	'2012-02-04',
 	'2012-02-05',
 	TRUE,
-	'PUBLIC',
+	TRUE,
 	'2012-02-04'
 ),
 (
@@ -49,7 +49,7 @@ VALUES
 	'2012-03-11',
 	'2012-03-14',
 	FALSE,
-	'DRAFT',
+	FALSE,
 	NULL
 ),
 (
@@ -60,7 +60,7 @@ VALUES
 	'2012-02-07',
 	'2012-02-11',
 	TRUE,
-	'PUBLIC',
+	TRUE,
 	'2012-02-10'
 ),
 (
@@ -71,7 +71,7 @@ VALUES
 	'2012-04-01',
 	'2012-05-16',
 	FALSE,
-	'PUBLIC',
+	TRUE,
 	'2012-04-15'
 ),
 (
@@ -82,7 +82,7 @@ VALUES
 	'2012-04-22',
 	'2012-05-01',
 	FALSE,
-	'PUBLIC',
+	TRUE,
 	'2012-05-15'
 ),
 (
@@ -95,7 +95,7 @@ VALUES
 	'2012-06-14',
 	'2012-06-18',
 	TRUE,
-	'DRAFT',
+	FALSE,
 	NULL
 ),
 (
@@ -109,7 +109,7 @@ VALUES
 	'2012-07-01',
 	NULL,
 	TRUE,
-	'DRAFT',
+	FALSE,
 	NULL
 ),
 (
@@ -127,7 +127,7 @@ VALUES
 	'2012-09-21',
 	'2012-09-24',
 	TRUE,
-	'PUBLIC',
+	TRUE,
 	'2012-09-22'
 ),
 (
@@ -143,7 +143,7 @@ VALUES
 	'2012-10-09',
 	'2012-10-28',
 	TRUE,
-	'PUBLIC',
+	TRUE,
 	'2012-11-05'
 ),
 (
@@ -162,7 +162,7 @@ VALUES
 	'2012-12-02',
 	'2012-12-28',
 	FALSE,
-	'PUBLIC',
+	TRUE,
 	'2012-12-08'
 ),
 (
@@ -179,7 +179,7 @@ VALUES
 	'2013-01-07',
 	'2013-01-08',
 	FALSE,
-	'PUBLIC',
+	TRUE,
 	'2013-01-07'
 ),
 (
@@ -194,7 +194,7 @@ VALUES
 	'2013-02-11',
 	'2013-02-20',
 	TRUE,
-	'PUBLIC',
+	TRUE,
 	'2013-02-23'
 ),
 (
@@ -213,7 +213,7 @@ VALUES
 	'2013-03-05',
 	'2013-03-10',
 	TRUE,
-	'PUBLIC',
+	TRUE,
 	'2013-03-15'
 ),
 (
@@ -230,7 +230,7 @@ VALUES
 	'2013-07-01',
 	'2013-07-07',
 	TRUE,
-	'PUBLIC',
+	TRUE,
 	'2013-07-05'
 ),
 (
@@ -252,7 +252,7 @@ VALUES
 	'2013-11-05',
 	'2013-11-12',
 	TRUE,
-	'DRAFT',
+	FALSE,
 	NULL
 ),
 (
@@ -267,7 +267,7 @@ VALUES
 	'2014-02-03',
 	'2014-02-17',
 	FALSE,
-	'PUBLIC',
+	TRUE,
 	'2014-02-21'
 ),
 (
@@ -283,7 +283,7 @@ VALUES
 	'2014-05-26',
 	'2014-05-29',
 	TRUE,
-	'PUBLIC',
+	TRUE,
 	'2014-05-29'
 ),
 (
@@ -300,7 +300,7 @@ VALUES
 	'2014-07-01',
 	'2014-07-01',
 	TRUE,
-	'PUBLIC',
+	TRUE,
 	'2014-08-02'
 ),
 (
@@ -323,6 +323,6 @@ VALUES
 	'2015-02-13',
 	NULL,
 	TRUE,
-	'PUBLIC',
+	TRUE,
 	'2015-02-16'
 );
