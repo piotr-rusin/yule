@@ -63,6 +63,13 @@ public class Article {
     @Column(name = "publication_date")
     private Instant publicationDate;
 
+    /**
+     * If true: publication of the Article is scheduled for its
+     * publication date.
+     */
+    @Column(name = "publication_scheduled")
+    private boolean publicationScheduled;
+
     @Column(name = "modification_date")
     @UpdateTimestamp
     private Instant modificationDate;
