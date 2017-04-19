@@ -45,6 +45,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.piotr_rusin.yule.domain.Article;
+import com.github.piotr_rusin.yule.domain.ArticleStatus;
 
 /**
  * Integration tests for custom queries defined in
@@ -143,7 +144,7 @@ public class ArticleRepositoryTests {
     private List<Article> filterPublicArticles(Predicate<Article> condition) {
         List<Article> articles = allArticles
                 .stream()
-                .filter(condition.and(Article::isPublished)::test)
+                .filter(condition.and((a) -> a.getStatus() == ArticleStatus.PUBLISHED)::test)
                 .collect(Collectors.toList());
 
         return articles;

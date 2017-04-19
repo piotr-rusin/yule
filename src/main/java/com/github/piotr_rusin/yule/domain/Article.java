@@ -24,9 +24,13 @@
 package com.github.piotr_rusin.yule.domain;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -58,17 +62,11 @@ public class Article {
     @CreationTimestamp
     private Instant creationDate;
 
-    private boolean published;
-
     @Column(name = "publication_date")
     private Instant publicationDate;
 
-    /**
-     * If true: publication of the Article is scheduled for its
-     * publication date.
-     */
-    @Column(name = "publication_scheduled")
-    private boolean publicationScheduled;
+    @Enumerated(EnumType.STRING)
+    private ArticleStatus status = ArticleStatus.DRAFT;
 
     @Column(name = "modification_date")
     @UpdateTimestamp
@@ -123,36 +121,66 @@ public class Article {
         return creationDate;
     }
 
-    public boolean isPublished() {
-        return published;
+    public Instant getPublicationDate() {
+        return publicationDate;
+    }
+
+    public ArticleStatus getStatus() {
+        return status;
     }
 
     /**
-     * Set if the article is published.
+     * Set the status of the article.
+     * <p>
+     * If the status value is {@link ArticleStatus#PUBLISHED}, and the
+     * current {@link Article#publicationDate} == null, the publication
+     * date is set to the current {@link Instant}, truncated to minutes.
+     * <p>
+     * Otherwise, the status value must be applicable to the current
+     * publication date of the article. The applicable values are:
+     * <ul>
+     * <li>{@link ArticleStatus#DRAFT} - for any publication date,
+     * including null</li>
+     * <li>{@link ArticleStatus#PUBLICATION_SCHEDULED} - for a future
+     * publication date</li>
+     * <li>{@link ArticleStatus#PUBLISHED} - for a past or present
+     * publication date</li>
+     * </ul>
      *
-     * Articles changing status from not published to published receive
-     * the current date as their new publication date.
+     * @param status
+     *            is a status value associated with current life cycle
+     *            stage of the article
      *
-     * Publication date of articles that are set to not published is
-     * set to null.
-     *
-     * When article that was already published is set to published,
-     * its publication date is preserved.
-     *
-     * @param published
+     * @throws IllegalArgumentException
+     *             if the value of status parameter is not applicable
+     *             for the current value of publicationDate property
      */
-    public void setPublished(boolean published) {
-        if (published && !this.published) {
-            publicationDate = Instant.now();
-        } else if (!published) {
-            publicationDate = null;
+    public void setStatus(ArticleStatus status) {
+        if (publicationDate == null && status == ArticleStatus.PUBLISHED) {
+            publicationDate = Instant.now().truncatedTo(ChronoUnit.MINUTES);
+        } else {
+            assertIsApplicable(status);
         }
 
-        this.published = published;
+        this.status = status;
     }
 
-    public Instant getPublicationDate() {
-        return publicationDate;
+    private void assertIsApplicable(ArticleStatus status) {
+        boolean isFuture = Instant.now().isBefore(publicationDate);
+        boolean applicable = false;
+        switch (status) {
+            case DRAFT:
+                applicable = true;
+            case PUBLICATION_SCHEDULED:
+                applicable = isFuture;
+            case PUBLISHED:
+                applicable = !isFuture;
+        }
+        if (!applicable) {
+            throw new IllegalArgumentException(String.format(
+                    "The value of status argument (%s) is not applicable for the publication date of the article (%s)",
+                    status, publicationDate));
+        }
     }
 
     public Instant getModificationDate() {

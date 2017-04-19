@@ -36,15 +36,18 @@ public interface ArticleRepository
         extends JpaRepository<Article, Integer>, JpaSpecificationExecutor<Article> {
 
     @Query("select a from Article a where a.post = true "
-            + "and a.published = true order by a.publicationDate desc")
+            + "and a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLISHED "
+            + "order by a.publicationDate desc")
     Page<Article> findPublishedPosts(Pageable pageRequest);
 
     @Query("select a from Article a where a.post = true "
-            + "and a.published = true and a.slug = :slug")
+            + "and a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLISHED "
+            + "and a.slug = :slug")
     Article findPublishedPostBy(@Param("slug") String slug);
 
     @Query("select a from Article a where a.post = false "
-            + "and a.published = true and a.slug = :slug")
+            + "and a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLISHED "
+            + "and a.slug = :slug")
     Article findPublishedPageBy(@Param("slug") String slug);
 
     Article findOneBySlug(String slug);
