@@ -59,4 +59,8 @@ public interface ArticleRepository
             + "a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLICATION_SCHEDULED "
             + "and a.publicationDate = :timestamp")
     List<Article> findScheduledBy(@Param("timestamp") Instant publicationTime);
+
+    @Query("select a from Article a where "
+            + "a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLICATION_SCHEDULED")
+    List<Article> findAllScheduled();
 }

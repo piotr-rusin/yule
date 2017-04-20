@@ -151,6 +151,14 @@ public class ArticleRepositoryTests {
         assertThat(actual).hasSameElementsAs(expected);
     }
 
+    @Test
+    public void findAllScheduled() {
+        List<Article> expected = getAllScheduledArticles();
+        List<Article> actual = articleRepository.findAllScheduled();
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
     private Article getRandomArticleFrom(List<Article> articles) {
         Random rand = new Random();
         return articles.get(rand.nextInt(articles.size()));
