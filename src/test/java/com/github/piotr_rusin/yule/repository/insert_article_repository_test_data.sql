@@ -325,4 +325,127 @@ VALUES
 	TRUE,
 	'PUBLISHED',
 	'2015-02-16'
+),
+(
+	'Donec erat risus, varius vitae velit non, finibus faucibus odio',
+	'donec-erat-risus',
+	'Mauris dapibus dui vitae tempor viverra. Pellentesque sed nibh
+	 at velit volutpat vulputate vitae non nulla. Donec vehicula
+	 quam eget risus dictum molestie. Sed efficitur pulvinar elit,
+	 in laoreet justo ullamcorper ac. Cras scelerisque convallis
+	 dapibus. Vivamus sed laoreet quam. Integer vel dapibus urna.
+	 Nullam sed eleifend turpis, in dictum lorem. Nam quis semper
+	 elit.',
+	'2015-02-13',
+	NULL,
+	TRUE,
+	'PUBLICATION_SCHEDULED',
+	'2015-11-16'
+),
+(
+	'Vestibulum et nisl mauris',
+	'vestibulum-et-nisl-mauris',
+	'Phasellus iaculis dui non enim imperdiet ornare. Suspendisse
+	 gravida nec diam vitae vehicula. Praesent at imperdiet leo,
+	 quis viverra ante. Praesent lacinia ultrices metus, nec aliquam
+	 mi rutrum sit amet. Sed in urna et metus sollicitudin posuere.
+	 Maecenas sed arcu porta, feugiat nisi quis, fermentum massa.
+	 Proin maximus vitae mi vitae egestas. Aenean pellentesque arcu
+	 sagittis finibus molestie. Ut gravida elit et orci ullamcorper
+	 elementum. In diam felis, dapibus et condimentum non, porttitor
+	 ut tortor. Proin at dolor eget est iaculis iaculis. Etiam in
+	 nisi lorem.',
+	'2015-02-13',
+	'2016-01-01',
+	TRUE,
+	'PUBLICATION_SCHEDULED',
+	'2015-11-16'
+),
+(
+	'Fusce bibendum cursus nisi, a maximus ligula tincidunt et',
+	'fusce-bibendum-cursus',
+	'Morbi egestas accumsan fringilla. Nam at pretium nibh. In
+	 consectetur, arcu a laoreet elementum, diam quam imperdiet
+	 ipsum, quis suscipit nibh orci vel dui. Etiam mattis finibus
+	 tincidunt. Aliquam non ante gravida, dignissim justo ac,
+	 faucibus felis. Phasellus tincidunt fermentum fermentum.
+	 Suspendisse ultrices odio at lectus elementum tempor imperdiet
+	 quis urna. Etiam a tellus felis. Nunc sodales dolor nunc, eget
+	 tempus ipsum auctor eleifend. Phasellus a semper lorem.
+	 Suspendisse eleifend non ex vitae efficitur.',
+	'2015-02-13',
+	'2016-01-01',
+	TRUE,
+	'PUBLICATION_SCHEDULED',
+	'2015-11-16'
+),
+(
+	'Cras non molestie mauris',
+	'cras-non-molestie-mauris',
+	'Morbi egestas accumsan fringilla. Nam at pretium nibh. In
+	 consectetur, arcu a laoreet elementum, diam quam imperdiet
+	 ipsum, quis suscipit nibh orci vel dui. Etiam mattis finibus
+	 tincidunt. Aliquam non ante gravida, dignissim justo ac,
+	 faucibus felis. Phasellus tincidunt fermentum fermentum.
+	 Suspendisse ultrices odio at lectus elementum tempor imperdiet
+	 quis urna. Etiam a tellus felis. Nunc sodales dolor nunc, eget
+	 tempus ipsum auctor eleifend. Phasellus a semper lorem.
+	 Suspendisse eleifend non ex vitae efficitur.',
+	'2015-02-13',
+	'2016-01-01',
+	TRUE,
+	'PUBLICATION_SCHEDULED',
+	'2015-11-16'
+),
+(
+	'Aenean in magna augue',
+	'aenean-in-magna-augue',
+	'Fusce egestas porttitor mauris at molestie. Vestibulum ante
+	 ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+	 Curae; Vestibulum eget feugiat diam. Curabitur eu elit ullamcorper,
+	 molestie nibh eu, auctor leo. Pellentesque habitant morbi
+	 tristique senectus et netus et malesuada fames ac turpis
+	 egestas. Maecenas dapibus elit vitae dui posuere aliquet.
+	 Pellentesque convallis, arcu sit amet pretium luctus, lacus
+	 turpis efficitur tortor, vel rutrum quam sem et lectus.',
+	'2015-02-13',
+	'2016-01-01',
+	TRUE,
+	'PUBLICATION_SCHEDULED',
+	'2050-04-21'
+),
+(
+	'Integer sit amet lectus ac ligula aliquet aliquam',
+	'integer-sit-amet-lectus',
+	'Cras consectetur sapien non erat imperdiet ornare. Curabitur
+	 at lacus non ex vestibulum vestibulum a viverra dui. Aenean ut
+	 arcu pulvinar, posuere ante ut, convallis lorem. Duis nisl
+	 nibh, tempus id urna ut, bibendum interdum lacus. Etiam
+	 venenatis venenatis semper. Ut suscipit sapien ut elit
+	 bibendum pretium.',
+	'2015-02-13',
+	'2016-01-01',
+	TRUE,
+	'PUBLICATION_SCHEDULED',
+	'2050-04-21'
+),
+(
+	'Curabitur convallis dui metus, in congue erat luctus vel',
+	'curabitur-convallis-dui',
+	'Donec nisi erat, consectetur at ullamcorper ut, ullamcorper
+	 vitae ipsum. Proin et eros arcu. Interdum et malesuada fames
+	 ac ante ipsum primis in faucibus. Phasellus sapien justo,
+	 accumsan eget enim vitae, tempus porttitor sapien. Nam sagittis
+	 nec ante ac porttitor. Nullam sollicitudin congue imperdiet.
+	 Quisque ac condimentum ex, ac lobortis libero. In orci elit,
+	 vulputate sed neque et, gravida pretium nisi. In hac habitasse
+	 platea dictumst. Maecenas faucibus, nibh vitae pharetra
+	 bibendum, est nibh luctus nunc, sit amet maximus nulla ante in
+	 justo. Cras tellus arcu, tempus id eleifend quis, facilisis at
+	 dolor. Quisque pulvinar eu erat in ultricies.',
+	'2015-02-13',
+	'2016-01-01',
+	FALSE,
+	'PUBLICATION_SCHEDULED',
+	'2050-04-21'
 );

@@ -25,6 +25,7 @@ package com.github.piotr_rusin.yule.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -130,23 +131,55 @@ public class ArticleRepositoryTests {
         assertThat(actualArticle).isEqualTo(expectedArticle);
     }
 
+    private List<Article> filterPublicArticles(Predicate<Article> condition) {
+        return filterArticles(condition, ArticleStatus.PUBLISHED);
+    }
+
+    /**
+     * Test if the method finds all scheduled articles with given
+     * publication date.
+     */
+    @Test
+    public void findScheduledBy() {
+        Article randomScheduled = getRandomArticleFrom(getAllScheduledArticles());
+        Instant publicationDate = randomScheduled.getPublicationDate();
+        List<Article> expected = filterScheduledArticles(
+                (a) -> a.getPublicationDate().equals(publicationDate)
+        );
+        List<Article> actual = articleRepository.findScheduledBy(publicationDate);
+
+        assertThat(actual).hasSameElementsAs(expected);
+    }
+
     private Article getRandomArticleFrom(List<Article> articles) {
         Random rand = new Random();
         return articles.get(rand.nextInt(articles.size()));
     }
 
+    private List<Article> getAllScheduledArticles() {
+        return filterScheduledArticles(null);
+    }
+
+    private List<Article> filterScheduledArticles(Predicate<Article> condition) {
+        return filterArticles(condition, ArticleStatus.PUBLICATION_SCHEDULED);
+    }
+
+    private List<Article> filterArticles(Predicate<Article> condition, ArticleStatus status) {
+        Predicate<Article> hasStatus = (a) -> a.getStatus() == status;
+        condition = condition != null ? condition : (a) -> true;
+        return filterArticles(hasStatus.and(condition));
+    }
+
     /**
-     * Get all persistent published articles fulfilling a condition.
+     * Get all persistent articles fulfilling a condition.
      *
      * @param condition
-     * @return
+     * @return a list of articles
      */
-    private List<Article> filterPublicArticles(Predicate<Article> condition) {
-        List<Article> articles = allArticles
+    private List<Article> filterArticles(Predicate<Article> condition) {
+        return allArticles
                 .stream()
-                .filter(condition.and((a) -> a.getStatus() == ArticleStatus.PUBLISHED)::test)
+                .filter(condition::test)
                 .collect(Collectors.toList());
-
-        return articles;
     }
 }

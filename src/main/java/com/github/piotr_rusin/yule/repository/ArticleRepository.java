@@ -23,6 +23,9 @@
  *******************************************************************************/
 package com.github.piotr_rusin.yule.repository;
 
+import java.time.Instant;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -51,4 +54,9 @@ public interface ArticleRepository
     Article findPublishedPageBy(@Param("slug") String slug);
 
     Article findOneBySlug(String slug);
+
+    @Query("select a from Article a where "
+            + "a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLICATION_SCHEDULED "
+            + "and a.publicationDate = :timestamp")
+    List<Article> findScheduledBy(@Param("timestamp") Instant publicationTime);
 }
