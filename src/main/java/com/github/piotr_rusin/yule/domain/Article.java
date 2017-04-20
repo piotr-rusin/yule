@@ -198,4 +198,12 @@ public class Article {
     public void setPost(boolean post) {
         this.post = post;
     }
+
+    @Override
+    public String toString() {
+        return "Article [" + (title != null ? "title=" + title + ", " : "")
+                + (creationDate != null ? "creationDate=" + creationDate + ", " : "")
+                + (publicationDate != null ? "publicationDate=" + publicationDate + ", " : "")
+                + (status != null ? "status=" + status + ", " : "") + "post=" + post + "]";
+    }
 }
