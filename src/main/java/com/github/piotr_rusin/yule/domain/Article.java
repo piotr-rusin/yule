@@ -35,6 +35,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -71,6 +73,9 @@ public class Article {
     @Column(name = "modification_date")
     @UpdateTimestamp
     private Instant modificationDate;
+
+    @Version
+    private int version;
 
     /**
      * Specifies whether an article is also a blog post.
@@ -189,6 +194,10 @@ public class Article {
 
     public Instant getModificationDate() {
         return modificationDate;
+    }
+
+    public int getVersion() {
+        return version;
     }
 
     public boolean isPost() {
