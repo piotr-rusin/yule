@@ -23,6 +23,11 @@
  *******************************************************************************/
 package com.github.piotr_rusin.yule.domain;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.github.piotr_rusin.yule.validation.ExistingArticleConstraint;
+
 /**
  * Life cycle stages of an article
  *
@@ -31,4 +36,21 @@ package com.github.piotr_rusin.yule.domain;
  */
 public enum ArticleStatus {
     DRAFT, SCHEDULED_FOR_PUBLICATION, PUBLISHED;
+
+    /**
+     * Additional constraints for owners of the status
+     */
+    public final List<ExistingArticleConstraint> constraints;
+
+    /**
+     * Create a new instance of the enum
+     *
+     * @param constraints
+     *            are objects representing additional constraints put on
+     *            all instances of Article to which the new
+     *            ArticleStatus will be applied
+     */
+    ArticleStatus(ExistingArticleConstraint... constraints) {
+        this.constraints = Arrays.asList(constraints);
+    }
 }
