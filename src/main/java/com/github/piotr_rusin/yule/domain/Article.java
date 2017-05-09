@@ -34,7 +34,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -78,6 +80,9 @@ public class Article {
 
     @Version
     private int version;
+
+    @Transient
+    private Article cache;
 
     /**
      * Specifies whether an article is also a blog post.
@@ -178,6 +183,41 @@ public class Article {
 
     public void setPost(boolean post) {
         this.post = post;
+    }
+
+    /**
+     * Save the current state of the entity into its cache object.
+     */
+    @PostLoad
+    public void cache() {
+        Article currentState = new Article(title, content);
+        currentState.creationDate = creationDate;
+        currentState.id = id;
+        currentState.modificationDate = modificationDate;
+        currentState.post = post;
+        currentState.publicationDate = publicationDate;
+        currentState.slug = slug;
+        currentState.status = status;
+        currentState.version = version;
+
+        currentState.cache = cache;
+        cache = currentState;
+    }
+
+    /**
+     * Get an Article object representing cached state of this article.
+     * <p>
+     * The cached state represents the state of this article at the
+     * moment of the last call to its {@link #cache() cache) method. It
+     * may be the state of the entity upon being loaded from database if
+     * the cache method wasn't called after this operation.
+     *
+     * @return an instance of Article representing state of the object
+     *         after the last call to the cache() method, or null if the
+     *         method wasn't called yet.
+     */
+    public Article getCache() {
+        return cache;
     }
 
     @Override
