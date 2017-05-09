@@ -38,9 +38,11 @@ import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * A class representing blog articles.
@@ -56,6 +58,7 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank
     private String title;
 
     private String slug;
@@ -71,6 +74,7 @@ public class Article {
     @Column(name = "publication_date")
     private Instant publicationDate;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private ArticleStatus status = ArticleStatus.DRAFT;
 
