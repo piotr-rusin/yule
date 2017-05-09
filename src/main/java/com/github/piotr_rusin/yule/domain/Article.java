@@ -48,6 +48,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.github.piotr_rusin.yule.validation.ExistingArticleConstraint;
+import com.github.piotr_rusin.yule.validation.StatusConstraintsFulfilled;
 
 /**
  * A class representing blog articles.
@@ -57,6 +58,7 @@ import com.github.piotr_rusin.yule.validation.ExistingArticleConstraint;
 @Entity
 @EntityListeners(ArticleListener.class)
 @Table(name = "articles")
+@StatusConstraintsFulfilled
 public class Article {
     @Id
     @Column(name = "id")

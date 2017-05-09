@@ -111,6 +111,39 @@ public class ArticleTests {
     }
 
     @Test
+    public void shouldDetectBlankAndNullContent() {
+        Object[][] statusAndMessagePairs = {
+                { ArticleStatus.SCHEDULED_FOR_PUBLICATION,
+                        "this value must not be blank for scheduled publication" },
+                { ArticleStatus.PUBLISHED, "this value must not be blank for publication" } };
+
+        String[] contentValues = { null, "", "  " };
+        for (String content : contentValues) {
+            for (Object[] data : statusAndMessagePairs) {
+                prepareValidArticle((ArticleStatus) data[0]);
+                article.setContent(content);
+                assertDetectedOneExpectedViolation("content", article, (String) data[1]);
+            }
+        }
+    }
+
+    @Test
+    public void shouldDetectInvalidPublicationDate() {
+        Object[][] statusPublicationDateAndMessageCombinations = {
+                { ArticleStatus.SCHEDULED_FOR_PUBLICATION, Instant.MIN,
+                        "this value must be a future one for scheduled publication" },
+                { ArticleStatus.PUBLISHED, Instant.MAX,
+                        "this value must be a current or a past one for publication" } };
+
+        for (Object[] data : statusPublicationDateAndMessageCombinations) {
+            Instant publicationDate = (Instant) data[1];
+            article.setStatus((ArticleStatus) data[0]);
+            article.setPublicationDate(publicationDate);
+            assertDetectedOneExpectedViolation("publicationDate", article, (String) data[2]);
+        }
+    }
+
+    @Test
     public void shouldDetectNullStatus() {
         article.setStatus(null);
         assertDetectedOneExpectedViolation("status", null, "may not be null");
