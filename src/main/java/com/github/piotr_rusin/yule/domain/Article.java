@@ -134,6 +134,12 @@ public class Article {
         return publicationDate;
     }
 
+    public void setPublicationDate(Instant publicationDate) {
+        if (publicationDate != null)
+            publicationDate = publicationDate.truncatedTo(ChronoUnit.MINUTES);
+        this.publicationDate = publicationDate;
+    }
+
     public ArticleStatus getStatus() {
         return status;
     }
