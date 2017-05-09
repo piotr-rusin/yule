@@ -87,12 +87,11 @@ public class Article {
     /**
      * Specifies whether an article is also a blog post.
      *
-     * All published articles on a blog are publicly accessible
-     * through their URL addresses.
+     * All published articles on a blog are publicly accessible through
+     * their URL addresses.
      *
-     * All articles that are also blog posts are additionally
-     * listed on one of the pages of a blog, in reverse
-     * chronological order.
+     * All articles that are also blog posts are additionally listed on
+     * one of the pages of a blog, in reverse chronological order.
      */
     @Column(name = "is_blog_post")
     private boolean post = true;
