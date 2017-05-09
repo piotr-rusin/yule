@@ -58,6 +58,8 @@ public class Article {
 
     private String slug;
 
+    private String introduction;
+
     private String content;
 
     @Column(name = "creation_date")
@@ -116,6 +118,16 @@ public class Article {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public String getIntroduction() {
+        if (introduction != null)
+            return introduction;
+        return content.split("<!--more-->")[0];
+    }
+
+    public void setIntroduction(String value) {
+        introduction = value;
     }
 
     public String getContent() {
