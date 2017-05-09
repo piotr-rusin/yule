@@ -138,62 +138,12 @@ public class Article {
         return status;
     }
 
-    public boolean isScheduledForPublication() {
-        return status == ArticleStatus.SCHEDULED_FOR_PUBLICATION;
-    }
-
-    /**
-     * Set the status of the article.
-     * <p>
-     * If the status value is {@link ArticleStatus#PUBLISHED}, and the
-     * current {@link Article#publicationDate} == null, the publication
-     * date is set to the current {@link Instant}, truncated to minutes.
-     * <p>
-     * Otherwise, the status value must be applicable to the current
-     * publication date of the article. The applicable values are:
-     * <ul>
-     * <li>{@link ArticleStatus#DRAFT} - for any publication date,
-     * including null</li>
-     * <li>{@link ArticleStatus#PUBLICATION_SCHEDULED} - for a future
-     * publication date</li>
-     * <li>{@link ArticleStatus#PUBLISHED} - for a past or present
-     * publication date</li>
-     * </ul>
-     *
-     * @param status
-     *            is a status value associated with current life cycle
-     *            stage of the article
-     *
-     * @throws IllegalArgumentException
-     *             if the value of status parameter is not applicable
-     *             for the current value of publicationDate property
-     */
     public void setStatus(ArticleStatus status) {
-        if (publicationDate == null && status == ArticleStatus.PUBLISHED) {
-            publicationDate = Instant.now().truncatedTo(ChronoUnit.MINUTES);
-        } else {
-            assertIsApplicable(status);
-        }
-
         this.status = status;
     }
 
-    private void assertIsApplicable(ArticleStatus status) {
-        boolean isFuture = Instant.now().isBefore(publicationDate);
-        boolean applicable = false;
-        switch (status) {
-            case DRAFT:
-                applicable = true;
-            case PUBLICATION_SCHEDULED:
-                applicable = isFuture;
-            case PUBLISHED:
-                applicable = !isFuture;
-        }
-        if (!applicable) {
-            throw new IllegalArgumentException(String.format(
-                    "The value of status argument (%s) is not applicable for the publication date of the article (%s)",
-                    status, publicationDate));
-        }
+    public boolean isScheduledForPublication() {
+        return status == ArticleStatus.SCHEDULED_FOR_PUBLICATION;
     }
 
     public Instant getModificationDate() {
