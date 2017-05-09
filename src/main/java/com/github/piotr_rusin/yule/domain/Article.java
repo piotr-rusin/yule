@@ -138,6 +138,10 @@ public class Article {
         return status;
     }
 
+    public boolean isScheduledForPublication() {
+        return status == ArticleStatus.SCHEDULED_FOR_PUBLICATION;
+    }
+
     /**
      * Set the status of the article.
      * <p>
