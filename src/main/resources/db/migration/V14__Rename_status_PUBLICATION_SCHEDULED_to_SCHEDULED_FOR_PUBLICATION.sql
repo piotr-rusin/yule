@@ -1,0 +1,4 @@
+ALTER TABLE articles ALTER status TYPE varchar(25);
+UPDATE articles SET status = 'SCHEDULED_FOR_PUBLICATION' WHERE
+status = 'PUBLICATION_SCHEDULED';
+

@@ -7,5 +7,5 @@ package com.github.piotr_rusin.yule.domain;
  *
  */
 public enum ArticleStatus {
-    DRAFT, PUBLICATION_SCHEDULED, PUBLISHED;
+    DRAFT, SCHEDULED_FOR_PUBLICATION, PUBLISHED;
 }

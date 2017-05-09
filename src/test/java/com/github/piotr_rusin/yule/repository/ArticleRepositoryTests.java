@@ -169,7 +169,7 @@ public class ArticleRepositoryTests {
     }
 
     private List<Article> filterScheduledArticles(Predicate<Article> condition) {
-        return filterArticles(condition, ArticleStatus.PUBLICATION_SCHEDULED);
+        return filterArticles(condition, ArticleStatus.SCHEDULED_FOR_PUBLICATION);
     }
 
     private List<Article> filterArticles(Predicate<Article> condition, ArticleStatus status) {
