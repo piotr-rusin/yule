@@ -25,6 +25,9 @@ package com.github.piotr_rusin.yule.domain;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,6 +46,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotBlank;
+
+import com.github.piotr_rusin.yule.validation.ExistingArticleConstraint;
 
 /**
  * A class representing blog articles.
@@ -170,6 +175,22 @@ public class Article {
 
     public boolean isScheduledForPublication() {
         return status == ArticleStatus.SCHEDULED_FOR_PUBLICATION;
+    }
+
+    /**
+     * Get status constraints violated by this article.
+     *
+     * @return a List containing all status constraints provided by the
+     *         status object of this article that are not fulfilled by
+     *         this article.
+     */
+    public List<ExistingArticleConstraint> getViolatedStatusConstraints() {
+        if (status == null)
+            return Collections.emptyList();
+        return status.constraints
+                .stream()
+                .filter(c -> !c.isFulfilledFor(this))
+                .collect(Collectors.toList());
     }
 
     public Instant getModificationDate() {
