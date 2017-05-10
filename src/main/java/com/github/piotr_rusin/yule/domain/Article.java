@@ -225,6 +225,7 @@ public class Article {
         currentState.slug = slug;
         currentState.status = status;
         currentState.version = version;
+        currentState.introduction = introduction;
 
         currentState.cache = cache;
         cache = currentState;
