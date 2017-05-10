@@ -138,6 +138,8 @@ public class Article {
     public String getIntroduction() {
         if (introduction != null)
             return introduction;
+        if (content == null)
+            return null;
         return content.split("<!--more-->")[0];
     }
 
