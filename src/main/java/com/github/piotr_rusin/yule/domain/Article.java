@@ -106,6 +106,27 @@ public class Article {
         this.content = content;
     }
 
+    /**
+     * Create a new article as a copy of an existing one.
+     *
+     * @param article is an article to copy
+     */
+    public Article(Article article) {
+        this.title = article.title;
+        this.content = article.content;
+        this.creationDate = article.creationDate;
+        this.id = article.id;
+        this.modificationDate = article.modificationDate;
+        this.post = article.post;
+        this.publicationDate = article.publicationDate;
+        this.slug = article.slug;
+        this.status = article.status;
+        this.version = article.version;
+        this.introduction = article.introduction;
+
+        this.cache = new Article(article.cache);
+    }
+
     public int getId() {
         return id;
     }
