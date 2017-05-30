@@ -24,6 +24,7 @@
 package com.github.piotr_rusin.yule.repository;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -63,4 +64,8 @@ public interface ArticleRepository
     @Query("select a from Article a where "
             + "a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.SCHEDULED_FOR_PUBLICATION")
     List<Article> findAllScheduled();
+
+    @Query("select min(a.publicationDate) from Article a where "
+            + "a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.SCHEDULED_FOR_PUBLICATION")
+    Date findNextScheduledPublicationTime();
 }

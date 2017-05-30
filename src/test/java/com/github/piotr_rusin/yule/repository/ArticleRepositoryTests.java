@@ -27,6 +27,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.time.Instant;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -166,6 +167,16 @@ public class ArticleRepositoryTests {
 
     private List<Article> getAllScheduledArticles() {
         return filterScheduledArticles(null);
+    }
+
+    @Test
+    public void findNextScheduledPublicationTime() {
+        Instant expected = filterScheduledArticles(null).stream()
+                .map(Article::getPublicationDate).min((d1, d2) -> d1.compareTo(d2)).orElse(null);
+        Date actual = articleRepository.findNextScheduledPublicationTime();
+
+        assertThat(actual).isEqualTo(Date.from(expected));
+
     }
 
     private List<Article> filterScheduledArticles(Predicate<Article> condition) {
