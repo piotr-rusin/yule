@@ -34,12 +34,25 @@ import org.springframework.stereotype.Service;
 
 import com.github.piotr_rusin.yule.repository.ArticleRepository;
 
+/**
+ * A trigger to be used for scheduling auto-publication tasks.
+ *
+ * @author Piotr Rusin <piotr.rusin88@gmail.com>
+ *
+ */
 @Service
 public class AutoPublicationTrigger implements Trigger {
     private static final Logger logger = LoggerFactory.getLogger(AutoPublicationTrigger.class);
 
     private ArticleRepository repository;
 
+    /**
+     * Create a new instance.
+     *
+     * @param repository
+     *            is an article repository to be queried for next
+     *            scheduled auto-publication time.
+     */
     @Autowired
     public AutoPublicationTrigger(ArticleRepository repository) {
         this.repository = repository;
