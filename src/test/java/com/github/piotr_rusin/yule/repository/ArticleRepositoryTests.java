@@ -176,7 +176,14 @@ public class ArticleRepositoryTests {
         Date actual = articleRepository.findNextScheduledPublicationTime();
 
         assertThat(actual).isEqualTo(Date.from(expected));
+    }
 
+    @Test
+    public void findCurrentAutoPublicationTargets() {
+        List<Article> expected = filterScheduledArticles(a -> !a.getPublicationDate().isAfter(Instant.now()));
+        List<Article> actual = articleRepository.findCurrentAutoPublicationTargets();
+
+        assertThat(actual).hasSameElementsAs(expected);
     }
 
     private List<Article> filterScheduledArticles(Predicate<Article> condition) {

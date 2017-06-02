@@ -68,4 +68,9 @@ public interface ArticleRepository
     @Query("select min(a.publicationDate) from Article a where "
             + "a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.SCHEDULED_FOR_PUBLICATION")
     Date findNextScheduledPublicationTime();
+
+    @Query("select a from Article a where "
+            + "a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.SCHEDULED_FOR_PUBLICATION "
+            + "and a.publicationDate <= CURRENT_TIMESTAMP")
+    List<Article> findCurrentAutoPublicationTargets();
 }
