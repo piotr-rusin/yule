@@ -43,4 +43,9 @@ public class YuleController {
     public String getBlogTitle() {
         return config.getTitle();
     }
+
+    @ModelAttribute("blogDescription")
+    public String getBlogDescription() {
+        return config.getDescription();
+    }
 }
