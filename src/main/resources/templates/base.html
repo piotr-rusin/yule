@@ -6,6 +6,9 @@
 <body>
   <header>
     <h1 th:text="${blogTitle}">Blog title</h1>
+    <p th:if="${blogDescription}" th:text="${blogDescription}">
+      Blog description
+    </p>
   </header>
   <section layout:fragment="content">
     <p>Blog index or article content</p>
