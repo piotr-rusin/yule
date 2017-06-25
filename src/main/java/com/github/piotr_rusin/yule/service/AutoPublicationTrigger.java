@@ -61,7 +61,11 @@ public class AutoPublicationTrigger implements Trigger {
     @Override
     public Date nextExecutionTime(TriggerContext arg0) {
         Date nextExecutionTime = repository.findNextScheduledPublicationTime();
-        logger.info("Next autopublication scheduled on " + nextExecutionTime);
+        if (nextExecutionTime != null) {
+            logger.info("Next auto-publication scheduled on " + nextExecutionTime);
+        } else {
+            logger.info("No article scheduled for auto-publication");
+        }
         return nextExecutionTime;
     }
 
