@@ -26,6 +26,7 @@ package com.github.piotr_rusin.yule.config;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
@@ -35,7 +36,7 @@ import com.github.piotr_rusin.yule.validation.Email;
 @Validated
 public class UserConfig {
 
-    @NotNull
+    @NotEmpty
     private String login;
 
     @NotNull
