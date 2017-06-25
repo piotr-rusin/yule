@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html layout:decorator="base">
+<head>
+  <title
+    th:if="${blogDescription}"
+    th:text="${blogTitle} + ' &#8211; ' + ${blogDescription}">
+      Yule blog engine
+  </title>
+  <title th:unless="${blogDescription}" th:text="${blogTitle}">
+    Yule blog engine 2
+  </title>
+  </head>
+<body>
+  <section layout:fragment="content">
+    <p>Blog index paragraph</p>
+  </section>
+</body>
+</html>
