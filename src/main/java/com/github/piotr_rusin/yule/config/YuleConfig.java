@@ -21,19 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *******************************************************************************/
-package com.github.piotr_rusin.yule;
+package com.github.piotr_rusin.yule.config;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
-import com.github.piotr_rusin.yule.config.YuleConfig;
+@ConfigurationProperties("yule")
+@Validated
+public class YuleConfig {
+    @NotEmpty
+    private String title;
 
-@SpringBootApplication
-@EnableConfigurationProperties(YuleConfig.class)
-public class YuleApplication {
+    private String description;
 
-    public static void main(String[] args) {
-        SpringApplication.run(YuleApplication.class, args);
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
