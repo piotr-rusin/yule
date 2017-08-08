@@ -95,7 +95,7 @@ public class Article {
     @Column(name = "is_blog_post")
     private boolean post = true;
 
-    protected Article() {
+    public Article() {
     }
 
     public Article(String title, String content) {
