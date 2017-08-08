@@ -44,6 +44,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.github.piotr_rusin.yule.validation.ExistingArticleConstraint;
 import com.github.piotr_rusin.yule.validation.StatusConstraintsFulfilled;
@@ -76,6 +77,7 @@ public class Article {
     @CreationTimestamp
     private Instant creationDate;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "publication_date")
     private Instant publicationDate;
 
