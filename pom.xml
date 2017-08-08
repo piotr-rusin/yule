@@ -26,6 +26,7 @@
 		<assertj.version>3.8.0</assertj.version>
 		<thymeleaf.version>3.0.7.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version>
+		<thymeleaf-extras-java8time.version>3.0.0.RELEASE</thymeleaf-extras-java8time.version>
 	</properties>
 
 	<dependencies>
@@ -88,6 +89,10 @@
 			<artifactId>spring-boot-starter-parent</artifactId>
 			<version>1.5.4.RELEASE</version>
 			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-java8time</artifactId>
 		</dependency>
 	</dependencies>
 
