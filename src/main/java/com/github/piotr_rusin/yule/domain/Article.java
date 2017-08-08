@@ -196,7 +196,11 @@ public class Article {
             return introduction;
         if (content == null)
             return null;
-        return content.split("<!--more-->")[0];
+        String[] segments = content.split("<!--more-->");
+        if (segments.length > 1) {
+            return segments[0];
+         }
+        return null;
     }
 
     /**
