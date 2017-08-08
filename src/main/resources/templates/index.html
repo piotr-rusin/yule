@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html layout:decorate="~{base}">
-<head>
-  <title
-    th:if="${blogDescription}"
-    th:text="${blogTitle} + ' &#8211; ' + ${blogDescription}">
-      Yule blog engine
-  </title>
-  <title th:unless="${blogDescription}" th:text="${blogTitle}">
-    Yule blog engine 2
-  </title>
+  <head>
+    <title
+      th:text="${blogDescription} ? (${blogTitle} + ' - ' + ${blogDescription}): (${blogTitle})">
+      Blog title
+    </title>
   </head>
 <body>
   <section layout:fragment="content">
