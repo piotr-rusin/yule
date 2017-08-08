@@ -192,7 +192,7 @@ public class Article {
      *         content will.
      */
     public String getIntroduction() {
-        if (introduction != null)
+        if (introduction != null && !introduction.isEmpty())
             return introduction;
         if (content == null)
             return null;
