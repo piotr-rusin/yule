@@ -124,6 +124,10 @@ public class Article {
         return id;
     }
 
+    public boolean isNew() {
+        return id == null;
+    }
+
     public String getTitle() {
         return title;
     }
