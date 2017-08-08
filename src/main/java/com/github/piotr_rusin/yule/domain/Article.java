@@ -275,6 +275,10 @@ public class Article {
      * <p>
      * The status object may provide some additional constraints for its
      * owner, so setting it may leave the article in an invalid state.
+     * <p>
+     * If the status being set is {@link ArticleStatus#PUBLISHED "PUBLISHED"} and
+     * the article has no {@link Article#publicationDate publication date} set,
+     * the current moment will be set as the publication date.
      *
      * @param status
      *            is a status value to be set
@@ -282,6 +286,8 @@ public class Article {
      * @see StatusConstraintsFulfilled
      */
     public void setStatus(ArticleStatus status) {
+        if (status == ArticleStatus.PUBLISHED && publicationDate == null)
+            setPublicationDate(Instant.now());
         this.status = status;
     }
 
