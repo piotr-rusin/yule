@@ -122,6 +122,25 @@ public class Article {
         this.introduction = article.introduction;
     }
 
+    /**
+     * Merge this article with the other, but keep the current version
+     * number and id.
+     *
+     * @param article
+     *            is the object providing new data for this article.
+     */
+    public void mergeButKeepVersionAndId(Article article) {
+        this.title = article.title;
+        this.content = article.content;
+        this.creationDate = article.creationDate;
+        this.modificationDate = article.modificationDate;
+        this.post = article.post;
+        this.publicationDate = article.publicationDate;
+        this.slug = article.slug;
+        this.status = article.status;
+        this.introduction = article.introduction;
+    }
+
     public Long getId() {
         return id;
     }
