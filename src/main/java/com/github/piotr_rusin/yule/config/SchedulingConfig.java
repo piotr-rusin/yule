@@ -37,7 +37,6 @@ public class SchedulingConfig implements SchedulingConfigurer{
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar registrar) {
-        // TODO Auto-generated method stub
         registrar.setTaskScheduler(taskScheduler());
     }
 
