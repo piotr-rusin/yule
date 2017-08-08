@@ -109,17 +109,9 @@ public class Article {
      * @param article is an article to copy
      */
     public Article(Article article) {
-        this.title = article.title;
-        this.content = article.content;
-        this.creationDate = article.creationDate;
-        this.id = article.id;
-        this.modificationDate = article.modificationDate;
-        this.post = article.post;
-        this.publicationDate = article.publicationDate;
-        this.slug = article.slug;
-        this.status = article.status;
+        this.mergeButKeepVersionAndId(article);
         this.version = article.version;
-        this.introduction = article.introduction;
+        this.id = article.id;
     }
 
     /**
