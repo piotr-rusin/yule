@@ -61,7 +61,7 @@ public class Article {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotBlank
     private String title;
@@ -120,7 +120,7 @@ public class Article {
         this.introduction = article.introduction;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

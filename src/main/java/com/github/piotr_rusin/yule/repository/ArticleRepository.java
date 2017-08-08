@@ -37,7 +37,7 @@ import org.springframework.data.repository.query.Param;
 import com.github.piotr_rusin.yule.domain.Article;
 
 public interface ArticleRepository
-        extends JpaRepository<Article, Integer>, JpaSpecificationExecutor<Article> {
+        extends JpaRepository<Article, Long>, JpaSpecificationExecutor<Article> {
 
     @Query("select a from Article a where a.post = true "
             + "and a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLISHED "
