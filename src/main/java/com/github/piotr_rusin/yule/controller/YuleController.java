@@ -23,6 +23,8 @@
  *******************************************************************************/
 package com.github.piotr_rusin.yule.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +33,8 @@ import com.github.piotr_rusin.yule.config.YuleConfig;
 
 @Controller
 public class YuleController {
+
+    private static final Logger logger = LoggerFactory.getLogger(YuleController.class);
 
     private YuleConfig config;
 
