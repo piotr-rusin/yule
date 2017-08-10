@@ -109,28 +109,34 @@ public class Article {
      * @param article is an article to copy
      */
     public Article(Article article) {
-        this.mergeButKeepVersionAndId(article);
-        this.version = article.version;
+        this.setAdminAlterableData(article);
         this.id = article.id;
+        this.creationDate = article.creationDate;
+        this.modificationDate = article.modificationDate;
+        this.slug = article.slug;
+        this.version = article.version;
     }
 
     /**
-     * Merge this article with the other, but keep the current version
-     * number and id.
+     * Set data allowed to be alterable by the blog administrator to the
+     * values provided by a data transfer object.
+     * <p>
+     * We assume admin-alterable data are all properties of the Article,
+     * except: {@link Article#id id}, {@link Article#creationDate
+     * creation date}, {@link Article#modificationDate modification
+     * date}, {@link Article#slug slug} and {@link Article#version
+     * version}.
      *
-     * @param article
+     * @param dto
      *            is the object providing new data for this article.
      */
-    public void mergeButKeepVersionAndId(Article article) {
-        this.title = article.title;
-        this.content = article.content;
-        this.creationDate = article.creationDate;
-        this.modificationDate = article.modificationDate;
-        this.post = article.post;
-        this.publicationDate = article.publicationDate;
-        this.slug = article.slug;
-        this.status = article.status;
-        this.introduction = article.introduction;
+    public void setAdminAlterableData(Article dto) {
+        this.title = dto.title;
+        this.content = dto.content;
+        this.post = dto.post;
+        this.publicationDate = dto.publicationDate;
+        this.status = dto.status;
+        this.introduction = dto.introduction;
     }
 
     public Long getId() {
