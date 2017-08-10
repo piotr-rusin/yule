@@ -35,6 +35,8 @@ public class YuleConfig {
 
     private String description;
 
+    private int indexPageSize = 5;
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -50,4 +52,12 @@ public class YuleConfig {
     public String getDescription() {
         return description;
     }
-}
+
+    public void setIndexPageSize(int size) {
+        indexPageSize = size;
+    }
+
+    public int getIndexPageSize() {
+        return indexPageSize;
+    }
+ }
