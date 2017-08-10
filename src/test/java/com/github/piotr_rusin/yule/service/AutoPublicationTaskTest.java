@@ -46,7 +46,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.slf4j.Logger;
-import org.springframework.orm.hibernate5.HibernateOptimisticLockingFailureException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.piotr_rusin.yule.domain.Article;
@@ -130,7 +130,7 @@ public class AutoPublicationTaskTest {
 
     @Test
     public void runLogsWhenOptimisticLockFails() {
-        HibernateOptimisticLockingFailureException ex = mock(HibernateOptimisticLockingFailureException.class);
+        ObjectOptimisticLockingFailureException ex = mock(ObjectOptimisticLockingFailureException.class);
         when(repository.save(any(Article.class))).thenThrow(ex);
         task.run();
         for (Article a: autoPublicationTargets) {

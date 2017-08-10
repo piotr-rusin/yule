@@ -31,7 +31,7 @@ import java.util.List;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
-import org.springframework.orm.hibernate5.HibernateOptimisticLockingFailureException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import com.github.piotr_rusin.yule.domain.Article;
 import com.github.piotr_rusin.yule.domain.ArticleStatus;
@@ -100,7 +100,7 @@ public class AutoPublicationTask implements Runnable {
         try {
             repository.save(article);
             logger.info("Completed autopublication for " + article);
-        } catch (HibernateOptimisticLockingFailureException e) {
+        } catch (ObjectOptimisticLockingFailureException e) {
             logger.info(String.format("Postponing auto-publication of %s due to a concurrent update", article));
         } finally {
             Duration delay = Duration.ofSeconds(
