@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>Top menu include</title>
+  </head>
+  <body>
+    <nav th:fragment="top_menu">
+      <ul>
+        <li>
+          <a href="#" th:href="@{/}">
+            Home
+          </a>
+        </li>
+        <th:block th:if="${blogPageNameToSlug.size()} &gt; 0">
+          <li th:each="titleAndSlug : ${blogPageNameToSlug}">
+            <a href="#"
+               th:href="@{/{slug}(slug=${titleAndSlug.value})}"
+               th:text="${titleAndSlug.key}">
+              A page link
+            </a>
+          </li>
+        </th:block>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+        <li class="rightSideMenuItem">
+          <a href="#" th:href="@{/admin/articles}">Show all articles</a>
+        </li>
+        <li class="rightSideMenuItem">
+          <a href="#" th:href="@{/admin/article}">Add new article</a>
+        </li>
+        </th:block>
+      </ul>
+    </nav>
+  </body>
+</html>
