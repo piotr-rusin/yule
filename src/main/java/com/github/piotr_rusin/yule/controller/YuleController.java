@@ -26,10 +26,16 @@ package com.github.piotr_rusin.yule.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.github.piotr_rusin.yule.config.YuleConfig;
+import com.github.piotr_rusin.yule.domain.Article;
+import com.github.piotr_rusin.yule.exception.PageNotFoundException;
 import com.github.piotr_rusin.yule.repository.ArticleRepository;
 
 @Controller
@@ -46,10 +52,23 @@ public class YuleController {
         this.articleRepository = articleRepository;
     }
 
-
-
-    @GetMapping("/")
-    public String index() {
+    @GetMapping({"/", "/page/{page:[1-9][0-9]*}"})
+    public String getBlogPostListPage(@PathVariable(required = false) Integer page, Model model) {
+        logger.info("Requesting a page of index view");
+        if (page == null) {
+            logger.info("No page parameter provided, assuming the first page");
+            page = 1;
+        }
+        PageRequest pageRequest = new PageRequest(page - 1, config.getIndexPageSize());
+        Page<Article> articles = articleRepository.findPublishedPosts(pageRequest);
+        if (articles.getNumberOfElements() == 0) {
+            if (!articles.isFirst()) {
+                throw new PageNotFoundException(String.format("The requested blog post list page (%s) was not found.", page));
+            }
+            logger.warn("There are no published blog posts in the database");
+        }
+        model.addAttribute("articlePage", articles);
+        logger.info(String.format("Returning page %d of the blog post list", page));
         return "index";
     }
 }
