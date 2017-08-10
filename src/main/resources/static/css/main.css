@@ -1,0 +1,23 @@
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+nav li {
+  float: left;
+}
+
+nav li a {
+  display: block;
+  padding: 2px 8px;
+}
+
+nav li + li {
+  border-left: 1px solid #000000;
+}
+
+.rightSideMenuItem {
+  float: right;
+}
