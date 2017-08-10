@@ -97,6 +97,14 @@ public class ArticleRepositoryTests {
     }
 
     @Test
+    public void testFindPublishedPagesFindsAllExpectedArticles() {
+        List<Article> expectedArticles = filterPublicArticles(a -> !a.isPost());
+        List<Article> actualArticles = articleRepository.findPublishedPages();
+
+        assertThat(actualArticles).hasSameElementsAs(expectedArticles);
+    }
+
+    @Test
     public void testFindPublishedPostBy() {
         Article expectedArticle = getRandomPublicArticleBy(Article::isPost);
         Article actualArticle = articleRepository.findPublishedPostBy(expectedArticle.getSlug());

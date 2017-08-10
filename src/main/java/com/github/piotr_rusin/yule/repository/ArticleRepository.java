@@ -44,6 +44,11 @@ public interface ArticleRepository
             + "order by a.publicationDate desc")
     Page<Article> findPublishedPosts(Pageable pageRequest);
 
+    @Query("select a from Article a where a.post = false "
+            + "and a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLISHED "
+            + "order by a.publicationDate desc")
+    List<Article> findPublishedPages();
+
     @Query("select a from Article a where a.post = true "
             + "and a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLISHED "
             + "and a.slug = :slug")
