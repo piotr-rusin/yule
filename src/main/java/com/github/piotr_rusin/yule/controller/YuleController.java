@@ -30,6 +30,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.github.piotr_rusin.yule.config.YuleConfig;
+import com.github.piotr_rusin.yule.repository.ArticleRepository;
 
 @Controller
 public class YuleController {
@@ -37,10 +38,12 @@ public class YuleController {
     private static final Logger logger = LoggerFactory.getLogger(YuleController.class);
 
     private YuleConfig config;
+    private ArticleRepository articleRepository;
 
     @Autowired
-    public YuleController(YuleConfig config) {
+    public YuleController(YuleConfig config, ArticleRepository articleRepository) {
         this.config = config;
+        this.articleRepository = articleRepository;
     }
 
 
