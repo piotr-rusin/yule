@@ -26,7 +26,6 @@ package com.github.piotr_rusin.yule.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.github.piotr_rusin.yule.config.YuleConfig;
 
@@ -40,15 +39,7 @@ public class YuleController {
         this.config = config;
     }
 
-    @ModelAttribute("blogTitle")
-    public String getBlogTitle() {
-        return config.getTitle();
-    }
 
-    @ModelAttribute("blogDescription")
-    public String getBlogDescription() {
-        return config.getDescription();
-    }
 
     @GetMapping("/")
     public String index() {
