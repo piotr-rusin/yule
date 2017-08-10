@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>Pagination include</title>
+  </head>
+  <body>
+    <nav th:fragment="article_pagination (baseUrl)"
+      th:if="${articlePage.totalPages} &gt; 1">
+      <ul>
+        <li th:each="i : ${#numbers.sequence(1, articlePage.totalPages)}">
+          <a href="#"
+             th:href="${i.equals(1)}? @{/} : @{${baseUrl}(page=${i})}"
+             th:text="${i}">
+            A page link
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </body>
+</html>
