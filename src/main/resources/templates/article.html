@@ -1,0 +1,14 @@
+<html layout:decorate="~{base}">
+  <head>
+    <title th:text="${article.title} + ' - ' + ${blogTitle}">Article title - Blog title</title>
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <div
+        th:replace="~{article-include :: article_view (list=false)}">
+        Here there would be an article presented on its own page.
+        Look at article-include.html to see an example.
+      </div>
+    </section>
+  </body>
+</html>
