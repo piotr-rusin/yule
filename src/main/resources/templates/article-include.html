@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <title> Article include</title>
+  </head>
+  <body>
+    <!--th:fragment="article_view (article, userTimeZone, list)"-->
+    <th:block
+        th:fragment="article_view (list)"
+        th:with="
+        publishedOn=${#temporals.format(
+        article.publicationDate.atZone(userTimeZone), 'dd MMM, yyyy')},
+        url=@{/{date}/{slug}(date=${
+        article.publicationDate.atZone('UTC').toLocalDate().toString()},
+        slug=${article.slug})}"
+        >
+        <article th:if="${list} AND ${article.introduction != null}">
+          <header>
+            <h1>
+              <a href="#" th:href="${url}" th:text="${article.title}">
+                An article as presented on front page, with an introduction
+              </a>
+            </h1>
+          </header>
+          <div>
+            <div th:utext="${article.introduction}">
+              Introduction to the article.
+            </div>
+            <a href="#" th:href="${url}">Read more</a>
+          </div>
+          <footer>
+            <span> Posted on: </span>
+            <time th:text="${publishedOn}"
+               th:datetime="${article.publicationDate}"
+               class="localDateTime">
+              2017-03-02
+            </time>
+          </footer>
+        </article>
+
+        <article th:if="${list} AND ${article.introduction == null}">
+          <header>
+            <h1>
+              <a href="#" th:href="${url}" th:text="${article.title}">
+                An article as presented on front page, with a full text
+              </a>
+            </h1>
+          </header>
+          <div th:utext="${article.content}">
+            Full content of the article.
+          </div>
+          <footer>
+            <span> Posted on: </span>
+            <time th:text="${publishedOn}"
+               th:datetime="${article.publicationDate}"
+               class="localDateTime">
+              2017-03-02
+            </time>
+          </footer>
+        </article>
+
+        <article th:unless="${list}">
+          <header>
+            <h1 th:text="${article.title}">
+              An article as presented on its own page
+            </h1>
+          </header>
+          <div th:utext="${article.content}">
+            Article content.
+          </div>
+          <footer>
+            <span> Posted on: </span>
+            <time th:text="${publishedOn}"
+               th:datetime="${article.publicationDate}"
+               class="localDateTime">
+              2017-03-02
+            </time>
+          </footer>
+        </article>
+      </th:block>
+  </body>
+</html>
+
