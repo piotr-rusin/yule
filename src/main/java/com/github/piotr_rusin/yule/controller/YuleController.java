@@ -93,4 +93,16 @@ public class YuleController {
         model.addAttribute("article", article);
         return "article";
     }
+
+    @GetMapping("/{slug:[a-z-]+}")
+    public String showPage(@PathVariable String slug, Model model) {
+        Article article = articleRepository.findPublishedPageBy(slug);
+        if (article == null) {
+            throw new ResourceNotFoundException(
+                    String.format("The requested blog page (%s) was not found.", slug));
+        }
+        logger.info("Returning requested blog page: " + slug);
+        model.addAttribute("article", article);
+        return "article";
+    }
 }
