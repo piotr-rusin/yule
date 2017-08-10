@@ -6,9 +6,21 @@
       Blog title
     </title>
   </head>
-<body>
-  <section layout:fragment="content">
-    <p>Blog index paragraph</p>
-  </section>
-</body>
+  <body>
+    <section layout:fragment="content">
+      <th:block th:each="article: ${articlePage.content}">
+        <div
+          th:replace="~{article-include :: article_view (list=true)}">
+          Here there would be a list of articles as presented on the index page.
+          Look at article-include.html to see an example.
+        </div>
+      </th:block>
+      <nav th:replace="~{article-pagination-include ::
+      article_pagination (baseUrl='/page/{page}')}">
+        <a href="#">
+          A page link
+        </a>
+      </nav>
+    </section>
+  </body>
 </html>
