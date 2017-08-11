@@ -37,6 +37,8 @@ public class YuleConfig {
 
     private int indexPageSize = 5;
 
+    private int adminArticleListPageSize = 10;
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -59,5 +61,13 @@ public class YuleConfig {
 
     public int getIndexPageSize() {
         return indexPageSize;
+    }
+
+    public void setAdminArticleListPageSize(int size) {
+        adminArticleListPageSize = size;
+    }
+
+    public int getAdminArticleListPageSize() {
+        return adminArticleListPageSize;
     }
  }
