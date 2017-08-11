@@ -1,0 +1,23 @@
+<html layout:decorate="~{base}">
+  <head>
+    <title
+      th:text="${error} + ' - ' + ${blogTitle}">
+      ErrorName - Blog title
+    </title>
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <h2>
+        Error <span th:text="${status}">status</span>:
+        <span th:text="${error}">description</span>
+      </h2>
+      <p th:if="${timestamp}" id="created">
+      <span th:text="${timestamp}">Timestamp</span>
+      </p>
+      <div th:switch="${status}">
+        <p th:case="'404'">The requested page was not found.</p>
+        <p th:case="*">An error occured</p>
+      </div>
+    </section>
+  </body>
+</html>
