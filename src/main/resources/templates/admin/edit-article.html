@@ -1,0 +1,120 @@
+<html layout:decorate="~{admin/base}">
+  <head>
+    <title
+      th:text="${article.isNew()} ? 'New article' : 'Editing &quot;' + ${article.title} + '&quot;'">
+      Editing article
+    </title>
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <header>
+        <h1 th:text="${article.isNew()} ? 'Creating a new article' : 'Editing &quot;' + ${article.title} + '&quot;'">
+        </h1>
+      </header>
+      <p th:unless="${article.isNew()}">
+      Created on
+      <time class="articleDateTime"
+            th:datetime="${article.creationDate}">
+        Creation time
+      </time>,
+      last modified on
+      <time class="articleDateTime"
+            th:datetime="${article.modificationDate}">
+        Modification time
+      </time>
+      </p>
+      <form action="#"
+            th:action="${article.isNew()} ?
+            @{/admin/article} :
+            @{/admin/article/{id}(id=${article.id})}"
+            id="articleForm"
+            th:object="${article}" method="post">
+
+        <p>
+        <button th:unless="${article.isNew()}"
+                                   id="deleteArticle"
+                                   class="deleteArticle"
+                                   type="button"
+                                   th:value="*{id}">Delete</button>
+        </p>
+        <p>
+        <label th:for="${#ids.next('title')}">Title</label>
+        <p class="error"
+           th:if="${#fields.hasErrors('title')}"
+           th:errors="*{title}">
+        Example title value error.
+        </p>
+        <input type="text" th:field="*{title}">
+        </p>
+
+        <p>
+        <label th:for="${#ids.next('introduction')}">
+          Introduction
+        </label>
+        <p class="error"
+           th:if="${#fields.hasErrors('introduction')}"
+           th:errors="*{introduction}">
+        Example introduction value error.
+        </p>
+        <textarea th:field="*{introduction}"></textarea>
+        </p>
+
+        <p>
+        <label th:for="${#ids.next('content')}">Content</label>
+        <p class="error"
+           th:if="${#fields.hasErrors('content')}"
+           th:errors="*{content}">
+        Example content value error.
+        </p>
+        <textarea th:field="*{content}"></textarea>
+        </p>
+
+        <p>
+        <label for="localPublicationDate">
+          Publication date
+        </label>
+        <span id="publicationTimeHint" style="display=none;">
+          Leave empty to publish immediately.
+        </span>
+        <p class="error"
+           th:if="${#fields.hasErrors('publicationDate')}"
+           th:errors="*{publicationDate}">
+        Example publication date value error
+        </p>
+        <input type="datetime-local" id="localPublicationDate">
+        <input type="hidden" th:field="*{publicationDate}">
+        </p>
+
+        <p>
+        <label th:for="${#ids.next('status')}">
+          Status
+        </label>
+        <p class="error"
+           th:if="${#fields.hasErrors('status')}"
+           th:errors="*{status}">
+        Example status value error.
+        </p>
+        <select th:field="*{status}">i
+          <option th:each="status :
+          ${T(com.github.piotr_rusin.yule.domain.ArticleStatus).values()}"
+           th:value="${status}"
+           th:text="${status}">
+          Status type
+          </option>
+        </select>
+        </p>
+
+        <p>
+        <label th:for="${#ids.next('post')}">
+          The article is a blog post
+        </label>
+        <input type="checkbox" th:field="*{post}">
+        </p>
+
+        <p>
+        <button type="submit" th:value="*{id}">Save</button>
+        </p>
+      </form>
+    </section>
+  </body>
+</html>
