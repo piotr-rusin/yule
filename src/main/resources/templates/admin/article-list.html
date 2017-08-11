@@ -1,0 +1,63 @@
+<html layout:decorate="~{admin/base}">
+  <head>
+    <title>
+      Article list
+    </title>
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <header>
+        <h1>Existing blog posts and pages</h1>
+      </header>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Publication Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="article : ${articlePage.content}">
+            <td>
+              <span class="articleTitle"
+                th:text="${article.title}">
+                A title of an article
+              </span>
+            </td>
+            <td th:text="${article.post}? 'Blog post' : 'Page'">
+              Blog post or page
+            </td>
+            <td th:text="${article.status}">Article status</td>
+            <td>
+              <time class="articleDateTime"
+                    th:text="${article.publicationDate} != null?
+                    ${#temporals.format(article.publicationDate.atZone(
+                    userTimeZone), #locale)} : ''"
+                    th:datetime="${article.publicationDate}">
+                2017-03-02
+              </time>
+            </td>
+            <td>
+              <a href="#" th:href="@{/admin/article/{id}(id=${article.id})}">
+                Edit
+              </a>
+              <button class="deleteArticle" th:value="${article.id}">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <nav th:replace="~{article-pagination-include ::
+      article_pagination (baseUrl='/admin/articles/page/{page}')}">
+        <a href="#">
+          A page link
+        </a>
+      </nav>
+    </section>
+  </body>
+</html>
