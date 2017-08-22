@@ -43,6 +43,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -60,6 +61,7 @@ import com.github.piotr_rusin.yule.domain.ArticleStatus;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Sql("insert_article_repository_test_data.sql")
+@ActiveProfiles("test")
 public class ArticleRepositoryTests {
 
     @Autowired
