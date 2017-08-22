@@ -43,9 +43,6 @@ public class UserConfig {
     @Size(min = 6, max = 20)
     private String password;
 
-    @Size(min = 1)
-    private String[] roles;
-
     private String name = login;
 
     @Email
@@ -65,14 +62,6 @@ public class UserConfig {
 
     public String getPassword() {
         return password;
-    }
-
-    public void setRoles(String[] roles) {
-        this.roles = roles;
-    }
-
-    public String[] getRoles() {
-        return roles;
     }
 
     public String getName() {
