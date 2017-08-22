@@ -20,12 +20,12 @@
           </li>
         </th:block>
         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-        <li class="rightSideMenuItem">
-          <a href="#" th:href="@{/admin/articles}">Show all articles</a>
-        </li>
-        <li class="rightSideMenuItem">
-          <a href="#" th:href="@{/admin/article}">Add new article</a>
-        </li>
+          <li class="rightSideMenuItem">
+            <a href="#" th:href="@{/admin/articles}">Show all articles</a>
+          </li>
+          <li class="rightSideMenuItem">
+            <a href="#" th:href="@{/admin/article}">Add new article</a>
+          </li>
         </th:block>
       </ul>
     </nav>
