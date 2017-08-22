@@ -46,6 +46,12 @@ public class AdminController {
         this.config = config;
     }
 
+    @GetMapping()
+    public String redirectToArticleList() {
+        logger.info("Redirecting to article list");
+        return "redirect:/admin/articles";
+    }
+
     @GetMapping({"/articles", "/articles/page/{page:[1-9][0-9]*}"})
     public String articleList(@PathVariable(required=false) Integer page, Model model) {
         logger.info("Requesting a page of admin panel article list view");
