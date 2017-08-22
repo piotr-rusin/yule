@@ -66,8 +66,10 @@ public class AdminController {
                 throw new PageNotFoundException(String.format("The requested page (%s) of the article list was not found.", page));
             }
             logger.warn("There are no articles in the database");
+            model.addAttribute(ARTICLE_PAGE_ATTR, null);
+        } else {
+            model.addAttribute(ARTICLE_PAGE_ATTR, articles);
         }
-        model.addAttribute(ARTICLE_PAGE_ATTR, articles);
         logger.info("Admin panel: showing page {} of the article list.", page);
         return "admin/article-list";
     }

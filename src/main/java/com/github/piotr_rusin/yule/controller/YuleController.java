@@ -72,8 +72,10 @@ public class YuleController {
                 throw new PageNotFoundException(String.format("The requested blog post list page (%s) was not found.", page));
             }
             logger.warn("There are no published blog posts in the database");
+            model.addAttribute("articlePage", null);
+        } else {
+            model.addAttribute("articlePage", articles);
         }
-        model.addAttribute("articlePage", articles);
         logger.info(String.format("Returning page %d of the blog post list", page));
         return "index";
     }
