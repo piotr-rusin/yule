@@ -45,8 +45,8 @@ public class AutoPublicationTaskFactory {
      * Create a new instance
      *
      * @param repository
-     *            is an article repository to be passed to each
-     *            auto-publication task.
+     *            is an article repository to be passed to each auto-publication
+     *            task.
      */
     @Autowired
     public AutoPublicationTaskFactory(ArticleRepository repository) {

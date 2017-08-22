@@ -30,7 +30,8 @@ import org.springframework.data.domain.Sort.Direction;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(AdminController.class);
     final static String ARTICLE_PAGE_ATTR = "articlePage";
     final static String ARTICLE_ATTR = "article";
     final static String MESSAGE_ATTR = "message";
@@ -40,7 +41,8 @@ public class AdminController {
     private YuleConfig config;
 
     public AdminController(ArticleRepository articleRepository,
-            AutoPublicationScheduler autoPublicationScheduler, YuleConfig config) {
+            AutoPublicationScheduler autoPublicationScheduler,
+            YuleConfig config) {
         this.articleRepository = articleRepository;
         this.autoPublicationScheduler = autoPublicationScheduler;
         this.config = config;
@@ -52,18 +54,22 @@ public class AdminController {
         return "redirect:/admin/articles";
     }
 
-    @GetMapping({"/articles", "/articles/page/{page:[1-9][0-9]*}"})
-    public String articleList(@PathVariable(required=false) Integer page, Model model) {
+    @GetMapping({ "/articles", "/articles/page/{page:[1-9][0-9]*}" })
+    public String articleList(@PathVariable(required = false) Integer page,
+            Model model) {
         logger.info("Requesting a page of admin panel article list view");
         if (page == null) {
             logger.info("No page parameter provided, assuming the first page");
             page = 1;
         }
-        PageRequest pageRequest = new PageRequest(page - 1, config.getAdminArticleListPageSize(), Direction.DESC, "id");
+        PageRequest pageRequest = new PageRequest(page - 1,
+                config.getAdminArticleListPageSize(), Direction.DESC, "id");
         Page<Article> articles = articleRepository.findAll(pageRequest);
         if (articles.getNumberOfElements() == 0) {
             if (!articles.isFirst()) {
-                throw new PageNotFoundException(String.format("The requested page (%s) of the article list was not found.", page));
+                throw new PageNotFoundException(String.format(
+                        "The requested page (%s) of the article list was not found.",
+                        page));
             }
             logger.warn("There are no articles in the database");
             model.addAttribute(ARTICLE_PAGE_ATTR, null);
@@ -87,7 +93,8 @@ public class AdminController {
         Article article = articleRepository.findOne(id);
 
         if (article == null) {
-            throw new ResourceNotFoundException("There is no article with the id = " + id);
+            throw new ResourceNotFoundException(
+                    "There is no article with the id = " + id);
         }
 
         addArticleToModel(model, article);
@@ -96,7 +103,8 @@ public class AdminController {
     }
 
     @PostMapping("/article")
-    public String saveNewArticle(@Valid Article dto, BindingResult bindingResult, RedirectAttributes attributes){
+    public String saveNewArticle(@Valid Article dto,
+            BindingResult bindingResult, RedirectAttributes attributes) {
         logger.info("Beginning a save operation for article " + dto);
         if (bindingResult.hasErrors()) {
             logger.info("Invalid data: {}. Showing validation errors.", dto);
@@ -107,18 +115,24 @@ public class AdminController {
         logger.info("The new article {} has been successfully saved.", saved);
 
         if (saved.isScheduledForPublication()) {
-            logger.info("The article {} has been scheduled for auto-publication. "
-                    + "Rescheduling auto-publication task.", saved);
+            logger.info(
+                    "The article {} has been scheduled for auto-publication. "
+                            + "Rescheduling auto-publication task.",
+                    saved);
         }
 
-        attributes.addAttribute("id", saved.getId()).addFlashAttribute(MESSAGE_ATTR, "The article has been successfully saved");
+        attributes.addAttribute("id", saved.getId()).addFlashAttribute(
+                MESSAGE_ATTR, "The article has been successfully saved");
 
         return "redirect:/admin/article/{id}";
     }
 
     @PostMapping("/article/{id:\\d+}")
-    public String updateArticle(@PathVariable long id, @Valid Article dto, BindingResult bindingResult, RedirectAttributes attributes) {
-        logger.info("Handling update operation for an article (id: {}, new data: {})", id, dto);
+    public String updateArticle(@PathVariable long id, @Valid Article dto,
+            BindingResult bindingResult, RedirectAttributes attributes) {
+        logger.info(
+                "Handling update operation for an article (id: {}, new data: {})",
+                id, dto);
         if (bindingResult.hasErrors()) {
             logger.info("Invalid data {}. Showing validation errors.", dto);
             return "admin/edit-article";
@@ -131,9 +145,11 @@ public class AdminController {
         try {
             saved = articleRepository.save(saved);
         } catch (HibernateOptimisticLockingFailureException ex) {
-            logger.info("The article {} was edited concurrently. The changes are "
-                    + "being merged based on an assumption that the concurrent edit "
-                    + "was only an automatic publication.", saved);
+            logger.info(
+                    "The article {} was edited concurrently. The changes are "
+                            + "being merged based on an assumption that the concurrent edit "
+                            + "was only an automatic publication.",
+                    saved);
             Article mostRecentlySaved = articleRepository.findOne(id);
             mostRecentlySaved.setAdminAlterableData(saved);
             saved = articleRepository.save(mostRecentlySaved);
@@ -144,43 +160,49 @@ public class AdminController {
         String reschedulingReason = null;
 
         if (isScheduled != previous.isScheduledForPublication()) {
-            reschedulingReason = "new status for the article: " + saved.getStatus();
-        } else if (isScheduled && !publicationTimestamp.equals(previous.getPublicationDate())) {
-            reschedulingReason = "new publication time: " + publicationTimestamp;
+            reschedulingReason = "new status for the article: "
+                    + saved.getStatus();
+        } else if (isScheduled && !publicationTimestamp
+                .equals(previous.getPublicationDate())) {
+            reschedulingReason = "new publication time: "
+                    + publicationTimestamp;
         }
 
         if (reschedulingReason != null) {
-            logger.info("Rescheduling auto-publication for article {}. Reason: {}", saved,
-                    reschedulingReason);
+            logger.info(
+                    "Rescheduling auto-publication for article {}. Reason: {}",
+                    saved, reschedulingReason);
             autoPublicationScheduler.scheduleNew();
         }
 
         logger.info("The article {} was successfully updated.", saved);
-        attributes.addAttribute("id", saved.getId()).addFlashAttribute(MESSAGE_ATTR, "The article has been successfully updated");
+        attributes.addAttribute("id", saved.getId()).addFlashAttribute(
+                MESSAGE_ATTR, "The article has been successfully updated");
         return "redirect:/admin/article/{id}";
     }
 
     /**
-     * Delete an article and redirect to a page of the admin panel
-     * article list
+     * Delete an article and redirect to a page of the admin panel article list
      * <p>
      * If the article was the last element of the last page, the method
-     * redirects to the current last page. Otherwise, it redirects to a
-     * page of the same number as the one on which the deleted article
-     * was listed.
+     * redirects to the current last page. Otherwise, it redirects to a page of
+     * the same number as the one on which the deleted article was listed.
      *
      * @param id
      * @return
      */
     @PostMapping("/article/{id:\\d+}/delete")
-    public String deleteArticleAndRedirectToArticleList(@PathVariable long id, RedirectAttributes attributes) {
+    public String deleteArticleAndRedirectToArticleList(@PathVariable long id,
+            RedirectAttributes attributes) {
         Article article = articleRepository.findOne(id);
 
         if (article == null) {
-            throw new ResourceNotFoundException("There is no article with id = " + id);
+            throw new ResourceNotFoundException(
+                    "There is no article with id = " + id);
         }
 
-        int articleNumber = articleRepository.getPositionOnAdminPanelArticleList(id);
+        int articleNumber = articleRepository
+                .getPositionOnAdminPanelArticleList(id);
 
         articleRepository.delete(id);
         logger.info("The article {} has been successfully deleted.", article);
@@ -202,10 +224,13 @@ public class AdminController {
             pageNumber -= 1;
         }
 
-        attributes.addFlashAttribute(MESSAGE_ATTR, String
-                .format("The article \"%s\" has been successfully deleted.", article.getTitle()));
+        attributes.addFlashAttribute(MESSAGE_ATTR,
+                String.format(
+                        "The article \"%s\" has been successfully deleted.",
+                        article.getTitle()));
         String baseRedirect = "redirect:/admin/articles";
-        return pageNumber == 1 ? baseRedirect : baseRedirect + "/page/" + pageNumber;
+        return pageNumber == 1 ? baseRedirect
+                : baseRedirect + "/page/" + pageNumber;
     }
 
     private void addArticleToModel(Model model, Article article) {

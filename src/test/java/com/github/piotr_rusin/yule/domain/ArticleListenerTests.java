@@ -61,8 +61,9 @@ public class ArticleListenerTests {
     public void prepareArticle() {
         article = new Article();
         article.setTitle("Lorem ipsum: dolor sit amet");
-        article.setContent("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "
-                + "eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+        article.setContent(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "
+                        + "eiusmod tempor incididunt ut labore et dolore magna aliqua.");
     }
 
     private void assertSlugIsEqualTo(String expectedSlug) {
@@ -97,9 +98,9 @@ public class ArticleListenerTests {
     }
 
     /**
-     * Test if a slug based on the original title of a persisted
-     * article is preserved after the title has been modified and
-     * the database has been updated.
+     * Test if a slug based on the original title of a persisted article is
+     * preserved after the title has been modified and the database has been
+     * updated.
      */
     @Test
     public void testSlugIsPreservedAfterUpdate() {
@@ -111,9 +112,8 @@ public class ArticleListenerTests {
     }
 
     /**
-     * Test if a new slug value is created for a persisted article
-     * after its slug value has been set to null and the database
-     * has been updated.
+     * Test if a new slug value is created for a persisted article after its
+     * slug value has been set to null and the database has been updated.
      */
     @Test
     public void testSlugIsCreatedFromTitleAfterUpdate() {

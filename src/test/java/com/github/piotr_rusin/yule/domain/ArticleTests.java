@@ -39,8 +39,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Tests for validation constraints of Article class and for some of its
- * methods
+ * Tests for validation constraints of Article class and for some of its methods
  */
 public class ArticleTests {
 
@@ -80,15 +79,15 @@ public class ArticleTests {
         Instant publicationDate;
 
         switch (status) {
-            case PUBLISHED:
-                publicationDate = Instant.MIN;
-                break;
-            case SCHEDULED_FOR_PUBLICATION:
-                publicationDate = Instant.MAX;
-                break;
-            case DRAFT:
-            default:
-                publicationDate = null;
+        case PUBLISHED:
+            publicationDate = Instant.MIN;
+            break;
+        case SCHEDULED_FOR_PUBLICATION:
+            publicationDate = Instant.MAX;
+            break;
+        case DRAFT:
+        default:
+            publicationDate = null;
         }
 
         article.setPublicationDate(publicationDate);
@@ -97,14 +96,15 @@ public class ArticleTests {
 
     @Test
     public void articleIsValid() {
-        Set<ConstraintViolation<Article>> constraints = validator.validate(article);
+        Set<ConstraintViolation<Article>> constraints = validator
+                .validate(article);
         assertThat(constraints).isEmpty();
     }
 
     @Test
     public void shouldDetectBlankOrNullTitle() {
-        String[] titles = {null, "", " "};
-        for (String t: titles) {
+        String[] titles = { null, "", " " };
+        for (String t : titles) {
             article.setTitle(t);
             assertDetectedOneExpectedViolation("title", t, "may not be empty");
         }
@@ -112,26 +112,28 @@ public class ArticleTests {
 
     @Test
     public void shouldDetectBlankAndNullContent() {
-        Object[][] statusAndMessagePairs = {
-                { ArticleStatus.SCHEDULED_FOR_PUBLICATION,
-                        "this value must not be blank for scheduled publication" },
-                { ArticleStatus.PUBLISHED, "this value must not be blank for publication" } };
+        Object[][] statusAndMessagePairs = { {
+                ArticleStatus.SCHEDULED_FOR_PUBLICATION,
+                "this value must not be blank for scheduled publication" },
+                { ArticleStatus.PUBLISHED,
+                        "this value must not be blank for publication" } };
 
         String[] contentValues = { null, "", "  " };
         for (String content : contentValues) {
             for (Object[] data : statusAndMessagePairs) {
                 prepareValidArticle((ArticleStatus) data[0]);
                 article.setContent(content);
-                assertDetectedOneExpectedViolation("content", article, (String) data[1]);
+                assertDetectedOneExpectedViolation("content", article,
+                        (String) data[1]);
             }
         }
     }
 
     @Test
     public void shouldDetectInvalidPublicationDate() {
-        Object[][] statusPublicationDateAndMessageCombinations = {
-                { ArticleStatus.SCHEDULED_FOR_PUBLICATION, Instant.MIN,
-                        "this value must be a future one for scheduled publication" },
+        Object[][] statusPublicationDateAndMessageCombinations = { {
+                ArticleStatus.SCHEDULED_FOR_PUBLICATION, Instant.MIN,
+                "this value must be a future one for scheduled publication" },
                 { ArticleStatus.PUBLISHED, Instant.MAX,
                         "this value must be a current or a past one for publication" } };
 
@@ -139,7 +141,8 @@ public class ArticleTests {
             Instant publicationDate = (Instant) data[1];
             article.setStatus((ArticleStatus) data[0]);
             article.setPublicationDate(publicationDate);
-            assertDetectedOneExpectedViolation("publicationDate", article, (String) data[2]);
+            assertDetectedOneExpectedViolation("publicationDate", article,
+                    (String) data[2]);
         }
     }
 
@@ -153,21 +156,22 @@ public class ArticleTests {
      * Assert that one expected violation was detected.
      *
      * @param propertyName
-     *            is a name of a property for which we expect a
-     *            violation
+     *            is a name of a property for which we expect a violation
      * @param expectedValue
      *            is an expected value associated with the violation
      * @param expectedMessage
      *            is an expected message associated with the violation
      */
-    private void assertDetectedOneExpectedViolation(String propertyName, Object expectedValue,
-            String expectedMessage) {
-        Set<ConstraintViolation<Article>> constraints = validator.validate(article);
+    private void assertDetectedOneExpectedViolation(String propertyName,
+            Object expectedValue, String expectedMessage) {
+        Set<ConstraintViolation<Article>> constraints = validator
+                .validate(article);
 
         assertThat(constraints).hasSize(1);
         ConstraintViolation<Article> violation = constraints.iterator().next();
         assertThat(violation.getMessage()).isEqualTo(expectedMessage);
-        assertThat(violation.getPropertyPath().toString()).isEqualTo(propertyName);
+        assertThat(violation.getPropertyPath().toString())
+                .isEqualTo(propertyName);
         assertThat(violation.getInvalidValue()).isEqualTo(expectedValue);
     }
 }

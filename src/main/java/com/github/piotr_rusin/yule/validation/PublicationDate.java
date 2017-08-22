@@ -29,26 +29,24 @@ import java.util.function.BiPredicate;
 import com.github.piotr_rusin.yule.domain.Article;
 
 /**
- * A constraint fulfilled if publication date of an article is not null
- * and is in a pre-configured range (either future or non-future).
+ * A constraint fulfilled if publication date of an article is not null and is
+ * in a pre-configured range (either future or non-future).
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  *
  */
 public class PublicationDate extends ExistingArticleConstraint {
     /**
-     * A function to be used to test the publication date in relation to
-     * the current time.
+     * A function to be used to test the publication date in relation to the
+     * current time.
      */
     private BiPredicate<Instant, Instant> propertyTest;
 
     /**
-     * Create the constraint ensuring an article has a future
-     * publication date.
+     * Create the constraint ensuring an article has a future publication date.
      *
      * @param violationMessageTemplate
-     *            is a message associated with a violation of this
-     *            constraint
+     *            is a message associated with a violation of this constraint
      * @return a new constraint object
      */
     public static PublicationDate Future(String violationMessageTemplate) {
@@ -56,12 +54,11 @@ public class PublicationDate extends ExistingArticleConstraint {
     }
 
     /**
-     * Create a constraint ensuring an article has a non-future
-     * publication date.
+     * Create a constraint ensuring an article has a non-future publication
+     * date.
      *
      * @param violationMessageTemplate
-     *            is a message associated with a violation of this
-     *            constraint
+     *            is a message associated with a violation of this constraint
      * @return a new constraint object
      */
     public static PublicationDate NonFuture(String violationMessageTemplate) {
@@ -72,9 +69,9 @@ public class PublicationDate extends ExistingArticleConstraint {
      * Construct the constraint.
      *
      * @param future
-     *            if true, the Article fulfilling the constraint must
-     *            have a future publication date, otherwise it must have
-     *            a non-future one
+     *            if true, the Article fulfilling the constraint must have a
+     *            future publication date, otherwise it must have a non-future
+     *            one
      */
     private PublicationDate(boolean future, String violationMessageTemplate) {
         super("publicationDate", violationMessageTemplate);

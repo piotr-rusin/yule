@@ -31,8 +31,8 @@ import javax.validation.ConstraintValidatorContext;
 import com.github.piotr_rusin.yule.domain.Article;
 
 /**
- * A validator ensuring given article violates no constraints put on it
- * by its status.
+ * A validator ensuring given article violates no constraints put on it by its
+ * status.
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  *
@@ -45,7 +45,8 @@ public class StatusConstraintValidator
     }
 
     @Override
-    public boolean isValid(Article article, ConstraintValidatorContext context) {
+    public boolean isValid(Article article,
+            ConstraintValidatorContext context) {
         if (article == null)
             return true;
         List<ExistingArticleConstraint> violatedStatusConstraints = article
@@ -53,7 +54,8 @@ public class StatusConstraintValidator
 
         for (ExistingArticleConstraint constraint : violatedStatusConstraints) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(constraint.getViolationMessageTemplate())
+            context.buildConstraintViolationWithTemplate(
+                    constraint.getViolationMessageTemplate())
                     .addPropertyNode(constraint.getPropertyName())
                     .addConstraintViolation();
         }

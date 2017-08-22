@@ -18,7 +18,8 @@ public class CommonModelAttributeController {
     private ArticleRepository articleRepository;
 
     @Autowired
-    public CommonModelAttributeController(YuleConfig config, ArticleRepository articleRepository) {
+    public CommonModelAttributeController(YuleConfig config,
+            ArticleRepository articleRepository) {
         this.config = config;
         this.articleRepository = articleRepository;
     }

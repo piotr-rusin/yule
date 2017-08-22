@@ -42,7 +42,8 @@ import com.github.piotr_rusin.yule.repository.ArticleRepository;
  */
 @Service
 public class AutoPublicationTrigger implements Trigger {
-    private static final Logger logger = LoggerFactory.getLogger(AutoPublicationTrigger.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(AutoPublicationTrigger.class);
 
     private ArticleRepository repository;
 
@@ -50,8 +51,8 @@ public class AutoPublicationTrigger implements Trigger {
      * Create a new instance.
      *
      * @param repository
-     *            is an article repository to be queried for next
-     *            scheduled auto-publication time.
+     *            is an article repository to be queried for next scheduled
+     *            auto-publication time.
      */
     @Autowired
     public AutoPublicationTrigger(ArticleRepository repository) {
@@ -62,7 +63,8 @@ public class AutoPublicationTrigger implements Trigger {
     public Date nextExecutionTime(TriggerContext arg0) {
         Date nextExecutionTime = repository.findNextScheduledPublicationTime();
         if (nextExecutionTime != null) {
-            logger.info("Next auto-publication scheduled on " + nextExecutionTime);
+            logger.info(
+                    "Next auto-publication scheduled on " + nextExecutionTime);
         } else {
             logger.info("No article scheduled for auto-publication");
         }

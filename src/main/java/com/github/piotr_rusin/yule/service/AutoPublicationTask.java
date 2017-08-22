@@ -36,9 +36,10 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import com.github.piotr_rusin.yule.domain.Article;
 import com.github.piotr_rusin.yule.domain.ArticleStatus;
 import com.github.piotr_rusin.yule.repository.ArticleRepository;
+
 /**
- * Represents an auto-publication task performed for all scheduled articles whose
- * publication date has come or passed.
+ * Represents an auto-publication task performed for all scheduled articles
+ * whose publication date has come or passed.
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  *
@@ -52,14 +53,14 @@ public class AutoPublicationTask implements Runnable {
      * Create a new instance.
      *
      * @param repository
-     *            is an object to be used to query for articles to
-     *            publish
+     *            is an object to be used to query for articles to publish
      * @param clock
-     *            is a clock object to be used for detecting delayed
-     *            executions of the task
+     *            is a clock object to be used for detecting delayed executions
+     *            of the task
      * @param loggerFactory
      */
-    public AutoPublicationTask(ArticleRepository repository, Clock clock, ILoggerFactory loggerFactory) {
+    public AutoPublicationTask(ArticleRepository repository, Clock clock,
+            ILoggerFactory loggerFactory) {
         this.repository = repository;
         this.clock = clock;
         logger = loggerFactory.getLogger(AutoPublicationTask.class.getName());
@@ -71,7 +72,8 @@ public class AutoPublicationTask implements Runnable {
     @Override
     public void run() {
         logger.info("Executing scheduled automatic publication task");
-        List<Article> toBePublished = repository.findCurrentAutoPublicationTargets();
+        List<Article> toBePublished = repository
+                .findCurrentAutoPublicationTargets();
         if (toBePublished.isEmpty())
             logger.warn("No articles to publish");
         for (Article a : toBePublished) {
@@ -82,14 +84,13 @@ public class AutoPublicationTask implements Runnable {
     /**
      * Publish an article.
      * <p>
-     * If the article is being concurrently edited, the method fails and
-     * logs a warning.
+     * If the article is being concurrently edited, the method fails and logs a
+     * warning.
      * <p>
-     * In any case, the method calculates the difference
-     * between scheduled auto-publication time and the actual time of
-     * the attempt. If this time is longer than a minute, it may
-     * indicate some problems preventing executing the task on time
-     * (possibly server failures).
+     * In any case, the method calculates the difference between scheduled
+     * auto-publication time and the actual time of the attempt. If this time is
+     * longer than a minute, it may indicate some problems preventing executing
+     * the task on time (possibly server failures).
      *
      * @param article
      *            is an article to be published
@@ -101,13 +102,17 @@ public class AutoPublicationTask implements Runnable {
             repository.save(article);
             logger.info("Completed autopublication for " + article);
         } catch (ObjectOptimisticLockingFailureException e) {
-            logger.info(String.format("Postponing auto-publication of %s due to a concurrent update", article));
+            logger.info(String.format(
+                    "Postponing auto-publication of %s due to a concurrent update",
+                    article));
         } finally {
-            Duration delay = Duration.ofSeconds(
-                    article.getPublicationDate().until(Instant.now(clock), ChronoUnit.SECONDS));
+            Duration delay = Duration.ofSeconds(article.getPublicationDate()
+                    .until(Instant.now(clock), ChronoUnit.SECONDS));
             if (delay.toMinutes() >= 1) {
-                logger.warn(String.format("The auto-publication attempt for %s was delayed - it was executed "
-                        + "%s after the scheduled publication time.", article, delay));
+                logger.warn(String.format(
+                        "The auto-publication attempt for %s was delayed - it was executed "
+                                + "%s after the scheduled publication time.",
+                        article, delay));
             }
         }
     }

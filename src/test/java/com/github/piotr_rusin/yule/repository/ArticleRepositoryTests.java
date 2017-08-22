@@ -51,8 +51,7 @@ import com.github.piotr_rusin.yule.domain.Article;
 import com.github.piotr_rusin.yule.domain.ArticleStatus;
 
 /**
- * Integration tests for custom queries defined in
- * ArticleRepository interface.
+ * Integration tests for custom queries defined in ArticleRepository interface.
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  *
@@ -73,19 +72,18 @@ public class ArticleRepositoryTests {
 
     @Before
     public void setUp() {
-        allArticlePageRequest = new PageRequest(0, (int) articleRepository.count());
+        allArticlePageRequest = new PageRequest(0,
+                (int) articleRepository.count());
         allArticles = articleRepository.findAll();
     }
 
     @Test
     public void testFindPublishedPostsOrdersByPublicationDate() {
         Comparator<Article> desc = Comparator
-                .comparing(Article::getPublicationDate)
-                .reversed();
+                .comparing(Article::getPublicationDate).reversed();
 
         List<Article> actualArticles = articleRepository
-                .findPublishedPosts(allArticlePageRequest)
-                .getContent();
+                .findPublishedPosts(allArticlePageRequest).getContent();
 
         assertThat(actualArticles).isSortedAccordingTo(desc);
     }
@@ -93,7 +91,8 @@ public class ArticleRepositoryTests {
     @Test
     public void testFindPublishedPostsFindsAllExpectedArticles() {
         List<Article> expectedArticles = filterPublicArticles(Article::isPost);
-        Page<Article> actualArticles = articleRepository.findPublishedPosts(allArticlePageRequest);
+        Page<Article> actualArticles = articleRepository
+                .findPublishedPosts(allArticlePageRequest);
 
         assertThat(actualArticles).hasSameElementsAs(expectedArticles);
     }
@@ -120,7 +119,8 @@ public class ArticleRepositoryTests {
     @Test
     public void testFindPublishedPostBy() {
         Article expectedArticle = getRandomPublicArticleBy(Article::isPost);
-        Article actualArticle = articleRepository.findPublishedPostBy(expectedArticle.getSlug());
+        Article actualArticle = articleRepository
+                .findPublishedPostBy(expectedArticle.getSlug());
 
         assertThat(actualArticle).isEqualTo(expectedArticle);
     }
@@ -128,14 +128,15 @@ public class ArticleRepositoryTests {
     @Test
     public void testFindPublishedPageBy() {
         Article expectedArticle = getRandomPublicArticleBy(a -> !a.isPost());
-        Article actualArticle = articleRepository.findPublishedPageBy(expectedArticle.getSlug());
+        Article actualArticle = articleRepository
+                .findPublishedPageBy(expectedArticle.getSlug());
 
         assertThat(actualArticle).isEqualTo(expectedArticle);
     }
 
     /**
-     * Get an article randomly chosen from persistent published
-     * articles fulfilling given condition.
+     * Get an article randomly chosen from persistent published articles
+     * fulfilling given condition.
      *
      * @param condition
      * @return
@@ -148,7 +149,8 @@ public class ArticleRepositoryTests {
     @Test
     public void testFindOneBySlug() {
         Article expectedArticle = getRandomArticleFrom(allArticles);
-        Article actualArticle = articleRepository.findOneBySlug(expectedArticle.getSlug());
+        Article actualArticle = articleRepository
+                .findOneBySlug(expectedArticle.getSlug());
 
         assertThat(actualArticle).isEqualTo(expectedArticle);
     }
@@ -158,17 +160,18 @@ public class ArticleRepositoryTests {
     }
 
     /**
-     * Test if the method finds all scheduled articles with given
-     * publication date.
+     * Test if the method finds all scheduled articles with given publication
+     * date.
      */
     @Test
     public void findScheduledBy() {
-        Article randomScheduled = getRandomArticleFrom(getAllScheduledArticles());
+        Article randomScheduled = getRandomArticleFrom(
+                getAllScheduledArticles());
         Instant publicationDate = randomScheduled.getPublicationDate();
         List<Article> expected = filterScheduledArticles(
-                (a) -> a.getPublicationDate().equals(publicationDate)
-        );
-        List<Article> actual = articleRepository.findScheduledBy(publicationDate);
+                (a) -> a.getPublicationDate().equals(publicationDate));
+        List<Article> actual = articleRepository
+                .findScheduledBy(publicationDate);
 
         assertThat(actual).hasSameElementsAs(expected);
     }
@@ -193,7 +196,8 @@ public class ArticleRepositoryTests {
     @Test
     public void findNextScheduledPublicationTime() {
         Instant expected = filterScheduledArticles(null).stream()
-                .map(Article::getPublicationDate).min((d1, d2) -> d1.compareTo(d2)).orElse(null);
+                .map(Article::getPublicationDate)
+                .min((d1, d2) -> d1.compareTo(d2)).orElse(null);
         Date actual = articleRepository.findNextScheduledPublicationTime();
 
         assertThat(actual).isEqualTo(Date.from(expected));
@@ -201,17 +205,22 @@ public class ArticleRepositoryTests {
 
     @Test
     public void findCurrentAutoPublicationTargets() {
-        List<Article> expected = filterScheduledArticles(a -> !a.getPublicationDate().isAfter(Instant.now()));
-        List<Article> actual = articleRepository.findCurrentAutoPublicationTargets();
+        List<Article> expected = filterScheduledArticles(
+                a -> !a.getPublicationDate().isAfter(Instant.now()));
+        List<Article> actual = articleRepository
+                .findCurrentAutoPublicationTargets();
 
         assertThat(actual).hasSameElementsAs(expected);
     }
 
-    private List<Article> filterScheduledArticles(Predicate<Article> condition) {
-        return filterArticles(condition, ArticleStatus.SCHEDULED_FOR_PUBLICATION);
+    private List<Article> filterScheduledArticles(
+            Predicate<Article> condition) {
+        return filterArticles(condition,
+                ArticleStatus.SCHEDULED_FOR_PUBLICATION);
     }
 
-    private List<Article> filterArticles(Predicate<Article> condition, ArticleStatus status) {
+    private List<Article> filterArticles(Predicate<Article> condition,
+            ArticleStatus status) {
         Predicate<Article> hasStatus = (a) -> a.getStatus() == status;
         condition = condition != null ? condition : (a) -> true;
         return filterArticles(hasStatus.and(condition));
@@ -224,9 +233,7 @@ public class ArticleRepositoryTests {
      * @return a list of articles
      */
     private List<Article> filterArticles(Predicate<Article> condition) {
-        return allArticles
-                .stream()
-                .filter(condition::test)
+        return allArticles.stream().filter(condition::test)
                 .collect(Collectors.toList());
     }
 }

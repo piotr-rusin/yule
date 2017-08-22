@@ -73,8 +73,7 @@ public class AutoPublicationTaskTest {
     public void setUp() throws Exception {
         setUpAutoPublicationTargetsAndTime();
         Clock clock = Clock.fixed(publicationTime, ZoneId.systemDefault());
-        loggerFactory = Settings.instance()
-                .enableAll()
+        loggerFactory = Settings.instance().enableAll()
                 .delegate(AutoPublicationTask.class.getName(), mockLogger)
                 .buildLogging();
         task = new AutoPublicationTask(repository, clock, loggerFactory);
@@ -84,11 +83,12 @@ public class AutoPublicationTaskTest {
         for (int i = 0; i < 4; i++) {
             Article article = getAutoPublicationTarget(Instant.now());
             if (i == 0)
-                publicationTime  = article.getPublicationDate();
+                publicationTime = article.getPublicationDate();
             autoPublicationTargets.add(article);
         }
 
-        when(repository.findCurrentAutoPublicationTargets()).thenReturn(autoPublicationTargets);
+        when(repository.findCurrentAutoPublicationTargets())
+                .thenReturn(autoPublicationTargets);
     }
 
     private Article getAutoPublicationTarget(Instant publicationDate) {
@@ -102,7 +102,8 @@ public class AutoPublicationTaskTest {
     @Test
     public void runLogsInitialMessage() {
         task.run();
-        verify(mockLogger).info("Executing scheduled automatic publication task");
+        verify(mockLogger)
+                .info("Executing scheduled automatic publication task");
     }
 
     @Test
@@ -115,26 +116,32 @@ public class AutoPublicationTaskTest {
     @Test
     public void runSetsPublishedStatus() {
         task.run();
-        Condition<Article> published = new Condition<>(a -> a.getStatus() == ArticleStatus.PUBLISHED, "published");
+        Condition<Article> published = new Condition<>(
+                a -> a.getStatus() == ArticleStatus.PUBLISHED, "published");
         assertThat(autoPublicationTargets).are(published);
     }
 
     @Test
     public void runSavesArticle() {
         task.run();
-        ArgumentCaptor<Article> article = ArgumentCaptor.forClass(Article.class);
-        verify(repository, times(autoPublicationTargets.size())).save(article.capture());
+        ArgumentCaptor<Article> article = ArgumentCaptor
+                .forClass(Article.class);
+        verify(repository, times(autoPublicationTargets.size()))
+                .save(article.capture());
         List<Article> articles = article.getAllValues();
         assertThat(articles).containsOnlyElementsOf(autoPublicationTargets);
     }
 
     @Test
     public void runLogsWhenOptimisticLockFails() {
-        ObjectOptimisticLockingFailureException ex = mock(ObjectOptimisticLockingFailureException.class);
+        ObjectOptimisticLockingFailureException ex = mock(
+                ObjectOptimisticLockingFailureException.class);
         when(repository.save(any(Article.class))).thenThrow(ex);
         task.run();
-        for (Article a: autoPublicationTargets) {
-            verify(mockLogger).info(String.format("Postponing auto-publication of %s due to a concurrent update", a));
+        for (Article a : autoPublicationTargets) {
+            verify(mockLogger).info(String.format(
+                    "Postponing auto-publication of %s due to a concurrent update",
+                    a));
         }
     }
 
@@ -143,17 +150,21 @@ public class AutoPublicationTaskTest {
         Map<Article, Duration> articleAutoPublicationDelay = new HashMap<>();
         for (int d = 2; d <= 4; d++) {
             Duration delay = Duration.ofSeconds(d * 60);
-            Article article = getAutoPublicationTarget(publicationTime.minus(delay));
+            Article article = getAutoPublicationTarget(
+                    publicationTime.minus(delay));
             autoPublicationTargets.add(article);
             articleAutoPublicationDelay.put(article, delay);
         }
 
         task.run();
-        for (Map.Entry<Article, Duration> articleAndDelay: articleAutoPublicationDelay.entrySet()) {
+        for (Map.Entry<Article, Duration> articleAndDelay : articleAutoPublicationDelay
+                .entrySet()) {
             Article article = articleAndDelay.getKey();
             Duration delay = articleAndDelay.getValue();
-            verify(mockLogger).warn(String.format("The auto-publication attempt for %s was delayed - it was executed "
-                    + "%s after the scheduled publication time.", article, delay));
+            verify(mockLogger).warn(String.format(
+                    "The auto-publication attempt for %s was delayed - it was executed "
+                            + "%s after the scheduled publication time.",
+                    article, delay));
         }
     }
 }

@@ -23,7 +23,6 @@
  *******************************************************************************/
 package com.github.piotr_rusin.yule.service;
 
-
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -60,7 +59,8 @@ public class AutoPublicationSchedulerTest {
     public void setUp() {
         when(taskFactory.getNew()).thenReturn(task);
         doReturn(taskFuture).when(taskScheduler).schedule(task, trigger);
-        autoPublicationScheduler = new AutoPublicationScheduler(trigger, taskFactory, taskScheduler);
+        autoPublicationScheduler = new AutoPublicationScheduler(trigger,
+                taskFactory, taskScheduler);
     }
 
     @Test

@@ -35,8 +35,8 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * A constraint for validating instances of Article against constraints
- * put on them by their current status values.
+ * A constraint for validating instances of Article against constraints put on
+ * them by their current status values.
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  *
@@ -48,7 +48,7 @@ import javax.validation.Payload;
 public @interface StatusConstraintsFulfilled {
     String message() default "Status constraints not fulfilled";
 
-    Class<?>[] groups() default { };
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default { };
+    Class<? extends Payload>[] payload() default {};
 }

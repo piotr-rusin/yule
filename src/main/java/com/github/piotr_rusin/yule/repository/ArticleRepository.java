@@ -36,49 +36,53 @@ import org.springframework.data.repository.query.Param;
 
 import com.github.piotr_rusin.yule.domain.Article;
 
-public interface ArticleRepository
-        extends JpaRepository<Article, Long>, JpaSpecificationExecutor<Article> {
+public interface ArticleRepository extends JpaRepository<Article, Long>,
+        JpaSpecificationExecutor<Article> {
 
     @Query("select a from Article a where a.post = true "
-            + "and a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLISHED "
-            + "order by a.publicationDate desc")
+            + "and a.status = com.github.piotr_rusin.yule.domain"
+            + ".ArticleStatus.PUBLISHED order by a.publicationDate desc")
     Page<Article> findPublishedPosts(Pageable pageRequest);
 
     @Query("select a from Article a where a.post = false "
-            + "and a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLISHED "
-            + "order by a.publicationDate desc")
+            + "and a.status = com.github.piotr_rusin.yule.domain"
+            + ".ArticleStatus.PUBLISHED order by a.publicationDate desc")
     List<Article> findPublishedPages();
 
     @Query("select count(a) from Article a where a.id >= :id")
     int getPositionOnAdminPanelArticleList(@Param("id") long id);
 
     @Query("select a from Article a where a.post = true "
-            + "and a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLISHED "
-            + "and a.slug = :slug")
+            + "and a.status = com.github.piotr_rusin.yule.domain"
+            + ".ArticleStatus.PUBLISHED and a.slug = :slug")
     Article findPublishedPostBy(@Param("slug") String slug);
 
     @Query("select a from Article a where a.post = false "
-            + "and a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.PUBLISHED "
-            + "and a.slug = :slug")
+            + "and a.status = com.github.piotr_rusin.yule.domain"
+            + ".ArticleStatus.PUBLISHED and a.slug = :slug")
     Article findPublishedPageBy(@Param("slug") String slug);
 
     Article findOneBySlug(String slug);
 
     @Query("select a from Article a where "
-            + "a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.SCHEDULED_FOR_PUBLICATION "
+            + "a.status = com.github.piotr_rusin.yule.domain"
+            + ".ArticleStatus.SCHEDULED_FOR_PUBLICATION "
             + "and a.publicationDate = :timestamp")
     List<Article> findScheduledBy(@Param("timestamp") Instant publicationTime);
 
     @Query("select a from Article a where "
-            + "a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.SCHEDULED_FOR_PUBLICATION")
+            + "a.status = com.github.piotr_rusin.yule.domain"
+            + ".ArticleStatus.SCHEDULED_FOR_PUBLICATION")
     List<Article> findAllScheduled();
 
     @Query("select min(a.publicationDate) from Article a where "
-            + "a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.SCHEDULED_FOR_PUBLICATION")
+            + "a.status = com.github.piotr_rusin.yule.domain"
+            + ".ArticleStatus.SCHEDULED_FOR_PUBLICATION")
     Date findNextScheduledPublicationTime();
 
     @Query("select a from Article a where "
-            + "a.status = com.github.piotr_rusin.yule.domain.ArticleStatus.SCHEDULED_FOR_PUBLICATION "
+            + "a.status = com.github.piotr_rusin.yule.domain"
+            + ".ArticleStatus.SCHEDULED_FOR_PUBLICATION "
             + "and a.publicationDate <= CURRENT_TIMESTAMP")
     List<Article> findCurrentAutoPublicationTargets();
 }

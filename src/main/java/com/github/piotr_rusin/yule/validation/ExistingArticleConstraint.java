@@ -26,8 +26,8 @@ package com.github.piotr_rusin.yule.validation;
 import com.github.piotr_rusin.yule.domain.Article;
 
 /**
- * A testable constraint for an article object, associated with one of
- * its fields and a violation message template.
+ * A testable constraint for an article object, associated with one of its
+ * fields and a violation message template.
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  *
@@ -42,10 +42,11 @@ abstract public class ExistingArticleConstraint {
      * @param propertyName
      *            is a name of a property associated with the constraint
      * @param violationMessageTemplate
-     *            is a message template associated with a violation of
-     *            the constraint
+     *            is a message template associated with a violation of the
+     *            constraint
      */
-    protected ExistingArticleConstraint(String propertyName, String violationMessageTemplate) {
+    protected ExistingArticleConstraint(String propertyName,
+            String violationMessageTemplate) {
         this.propertyName = propertyName;
         this.violationMessageTemplate = violationMessageTemplate;
     }
@@ -60,8 +61,7 @@ abstract public class ExistingArticleConstraint {
     }
 
     /**
-     * Get the message template associated with a violation of this
-     * constraint.
+     * Get the message template associated with a violation of this constraint.
      *
      * @return the message template
      */
@@ -74,8 +74,7 @@ abstract public class ExistingArticleConstraint {
      *
      * @param article
      *            is an article to be checked
-     * @return true if the article is not null and fulfills the
-     *         constraint
+     * @return true if the article is not null and fulfills the constraint
      */
     public boolean isFulfilledFor(Article article) {
         if (article == null)

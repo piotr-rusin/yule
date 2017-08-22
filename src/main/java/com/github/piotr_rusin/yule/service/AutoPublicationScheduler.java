@@ -56,14 +56,16 @@ public class AutoPublicationScheduler {
      *            is an object used to schedule auto-publication tasks.
      */
     @Autowired
-    public AutoPublicationScheduler(AutoPublicationTrigger trigger, AutoPublicationTaskFactory taskFactory, TaskScheduler scheduler) {
+    public AutoPublicationScheduler(AutoPublicationTrigger trigger,
+            AutoPublicationTaskFactory taskFactory, TaskScheduler scheduler) {
         this.trigger = trigger;
         this.taskFactory = taskFactory;
         this.scheduler = scheduler;
     }
 
     /**
-     * Schedule a new auto-publication task (and cancel an existing one, if present).
+     * Schedule a new auto-publication task (and cancel an existing one, if
+     * present).
      */
     @PostConstruct
     public void scheduleNew() {

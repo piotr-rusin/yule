@@ -26,8 +26,8 @@ package com.github.piotr_rusin.yule.validation;
 import com.github.piotr_rusin.yule.domain.Article;
 
 /**
- * A constraint fulfilled if content of an article is neither null nor
- * empty (after whitespaces have been trimmed from it).
+ * A constraint fulfilled if content of an article is neither null nor empty
+ * (after whitespaces have been trimmed from it).
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  *
@@ -38,8 +38,7 @@ public class ContentNotBlank extends ExistingArticleConstraint {
      * Create a new constraint.
      *
      * @param violationMessageTemplate
-     *            is a message associated with a violation of the
-     *            constraint
+     *            is a message associated with a violation of the constraint
      */
     public ContentNotBlank(String violationMessageTemplate) {
         super("content", violationMessageTemplate);

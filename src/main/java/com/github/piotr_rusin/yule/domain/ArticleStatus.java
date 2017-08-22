@@ -34,18 +34,22 @@ import com.github.piotr_rusin.yule.validation.ExistingArticleConstraint;
  * Life cycle stages of an article
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
- *
+ * 
  */
 public enum ArticleStatus {
+    //@formatter:off
     DRAFT,
     SCHEDULED_FOR_PUBLICATION(
-            PublicationDate.Future("this value must be a future one for scheduled publication"),
-            new ContentNotBlank("this value must not be blank for scheduled publication")
-    ),
+            PublicationDate.Future("this value must be a future one"
+                    + " for scheduled publication"),
+            new ContentNotBlank("this value must not be blank"
+                    + " for scheduled publication")),
     PUBLISHED(
-            PublicationDate.NonFuture("this value must be a current or a past one for publication"),
-            new ContentNotBlank("this value must not be blank for publication")
-    );
+            PublicationDate.NonFuture("this value must be a current or"
+                    + " a past one for publication"),
+            new ContentNotBlank("this value must not be blank"
+                    + " for publication"));
+    //@formatter:on
 
     /**
      * Additional constraints for owners of the status
@@ -56,9 +60,9 @@ public enum ArticleStatus {
      * Create a new instance of the enum
      *
      * @param constraints
-     *            are objects representing additional constraints put on
-     *            all instances of Article to which the new
-     *            ArticleStatus will be applied
+     *            are objects representing additional constraints put on all
+     *            instances of Article to which the new ArticleStatus will be
+     *            applied
      */
     ArticleStatus(ExistingArticleConstraint... constraints) {
         this.constraints = Arrays.asList(constraints);

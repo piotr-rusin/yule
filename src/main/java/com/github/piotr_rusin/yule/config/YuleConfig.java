@@ -70,4 +70,4 @@ public class YuleConfig {
     public int getAdminArticleListPageSize() {
         return adminArticleListPageSize;
     }
- }
+}
