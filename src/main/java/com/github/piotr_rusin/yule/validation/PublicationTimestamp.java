@@ -35,34 +35,35 @@ import com.github.piotr_rusin.yule.domain.Article;
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  *
  */
-public class PublicationDate extends ExistingArticleConstraint {
+public class PublicationTimestamp extends ExistingArticleConstraint {
     /**
-     * A function to be used to test the publication date in relation to the
-     * current time.
+     * A function to be used to test the publication timestamp in relation to
+     * the current time.
      */
     private BiPredicate<Instant, Instant> propertyTest;
 
     /**
-     * Create the constraint ensuring an article has a future publication date.
+     * Create the constraint ensuring an article has a future publication time.
      *
      * @param violationMessageTemplate
      *            is a message associated with a violation of this constraint
      * @return a new constraint object
      */
-    public static PublicationDate Future(String violationMessageTemplate) {
-        return new PublicationDate(true, violationMessageTemplate);
+    public static PublicationTimestamp Future(String violationMessageTemplate) {
+        return new PublicationTimestamp(true, violationMessageTemplate);
     }
 
     /**
      * Create a constraint ensuring an article has a non-future publication
-     * date.
+     * time.
      *
      * @param violationMessageTemplate
      *            is a message associated with a violation of this constraint
      * @return a new constraint object
      */
-    public static PublicationDate NonFuture(String violationMessageTemplate) {
-        return new PublicationDate(false, violationMessageTemplate);
+    public static PublicationTimestamp NonFuture(
+            String violationMessageTemplate) {
+        return new PublicationTimestamp(false, violationMessageTemplate);
     }
 
     /**
@@ -70,20 +71,22 @@ public class PublicationDate extends ExistingArticleConstraint {
      *
      * @param future
      *            if true, the Article fulfilling the constraint must have a
-     *            future publication date, otherwise it must have a non-future
+     *            future publication time, otherwise it must have a non-future
      *            one
      */
-    private PublicationDate(boolean future, String violationMessageTemplate) {
-        super("publicationDate", violationMessageTemplate);
+    private PublicationTimestamp(boolean future,
+            String violationMessageTemplate) {
+        super("publicationTimestamp", violationMessageTemplate);
         propertyTest = future ? Instant::isBefore : (n, p) -> !n.isBefore(p);
     }
 
     @Override
     protected boolean isFulfilledForExisting(Article article) {
-        Instant publicationDate = article.getPublicationDate();
+        Instant publicationDate = article.getPublicationTimestamp();
         if (publicationDate == null)
             return false;
-        return propertyTest.test(Instant.now(), article.getPublicationDate());
+        return propertyTest.test(Instant.now(),
+                article.getPublicationTimestamp());
     }
 
 }

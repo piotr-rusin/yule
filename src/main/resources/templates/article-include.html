@@ -7,9 +7,9 @@
       th:fragment="article_view (list)"
       th:with="
       publishedOn=${#temporals.format(
-      article.publicationDate.atZone(userTimeZone), 'dd MMM, yyyy')},
+      article.publicationTimestamp.atZone(userTimeZone), 'dd MMM, yyyy')},
       url=@{/{date}/{slug}(date=${
-      article.publicationDate.atZone('UTC').toLocalDate().toString()},
+      article.publicationTimestamp.atZone('UTC').toLocalDate().toString()},
       slug=${article.slug})}"
       >
       <article th:if="${list} AND ${article.introduction != null}">
@@ -29,7 +29,7 @@
         <footer>
           <span> Posted on: </span>
           <time th:text="${publishedOn}"
-             th:datetime="${article.publicationDate}"
+             th:datetime="${article.publicationTimestamp}"
              class="localDateTime">
             2017-03-02
           </time>
@@ -50,7 +50,7 @@
         <footer>
           <span> Posted on: </span>
           <time th:text="${publishedOn}"
-               th:datetime="${article.publicationDate}"
+               th:datetime="${article.publicationTimestamp}"
                class="localDateTime">
             2017-03-02
           </time>
@@ -69,7 +69,7 @@
         <footer>
           <span> Posted on: </span>
           <time th:text="${publishedOn}"
-               th:datetime="${article.publicationDate}"
+               th:datetime="${article.publicationTimestamp}"
                class="localDateTime">
             2017-03-02
           </time>

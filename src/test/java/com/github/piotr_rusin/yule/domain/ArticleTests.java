@@ -90,7 +90,7 @@ public class ArticleTests {
             publicationDate = null;
         }
 
-        article.setPublicationDate(publicationDate);
+        article.setPublicationTimestamp(publicationDate);
         article.setStatus(status);
     }
 
@@ -140,8 +140,8 @@ public class ArticleTests {
         for (Object[] data : statusPublicationDateAndMessageCombinations) {
             Instant publicationDate = (Instant) data[1];
             article.setStatus((ArticleStatus) data[0]);
-            article.setPublicationDate(publicationDate);
-            assertDetectedOneExpectedViolation("publicationDate", article,
+            article.setPublicationTimestamp(publicationDate);
+            assertDetectedOneExpectedViolation("publicationTimestamp", article,
                     (String) data[2]);
         }
     }

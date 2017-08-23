@@ -179,14 +179,14 @@ public class AdminController {
         }
 
         boolean isScheduled = saved.isScheduledForPublication();
-        Instant publicationTimestamp = saved.getPublicationDate();
+        Instant publicationTimestamp = saved.getPublicationTimestamp();
         String reschedulingReason = null;
 
         if (isScheduled != previous.isScheduledForPublication()) {
             reschedulingReason = "new status for the article: "
                     + saved.getStatus();
         } else if (isScheduled && !publicationTimestamp
-                .equals(previous.getPublicationDate())) {
+                .equals(previous.getPublicationTimestamp())) {
             reschedulingReason = "new publication time: "
                     + publicationTimestamp;
         }

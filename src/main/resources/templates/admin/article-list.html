@@ -35,10 +35,10 @@
               <td th:text="${article.status}">Article status</td>
               <td>
                 <time class="articleDateTime"
-                      th:text="${article.publicationDate} != null?
-                      ${#temporals.format(article.publicationDate.atZone(
+                      th:text="${article.publicationTimestamp} != null?
+                      ${#temporals.format(article.publicationTimestamp.atZone(
                       userTimeZone), #locale)} : ''"
-                      th:datetime="${article.publicationDate}">
+                      th:datetime="${article.publicationTimestamp}">
                   2017-03-02
                 </time>
               </td>

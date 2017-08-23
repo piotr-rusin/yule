@@ -41,12 +41,12 @@ public interface ArticleRepository extends JpaRepository<Article, Long>,
 
     @Query("select a from Article a where a.post = true "
             + "and a.status = com.github.piotr_rusin.yule.domain"
-            + ".ArticleStatus.PUBLISHED order by a.publicationDate desc")
+            + ".ArticleStatus.PUBLISHED order by a.publicationTimestamp desc")
     Page<Article> findPublishedPosts(Pageable pageRequest);
 
     @Query("select a from Article a where a.post = false "
             + "and a.status = com.github.piotr_rusin.yule.domain"
-            + ".ArticleStatus.PUBLISHED order by a.publicationDate desc")
+            + ".ArticleStatus.PUBLISHED order by a.publicationTimestamp desc")
     List<Article> findPublishedPages();
 
     @Query("select count(a) from Article a where a.id >= :id")
@@ -67,7 +67,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long>,
     @Query("select a from Article a where "
             + "a.status = com.github.piotr_rusin.yule.domain"
             + ".ArticleStatus.SCHEDULED_FOR_PUBLICATION "
-            + "and a.publicationDate = :timestamp")
+            + "and a.publicationTimestamp = :timestamp")
     List<Article> findScheduledBy(@Param("timestamp") Instant publicationTime);
 
     @Query("select a from Article a where "
@@ -75,7 +75,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long>,
             + ".ArticleStatus.SCHEDULED_FOR_PUBLICATION")
     List<Article> findAllScheduled();
 
-    @Query("select min(a.publicationDate) from Article a where "
+    @Query("select min(a.publicationTimestamp) from Article a where "
             + "a.status = com.github.piotr_rusin.yule.domain"
             + ".ArticleStatus.SCHEDULED_FOR_PUBLICATION")
     Date findNextScheduledPublicationTime();
@@ -83,6 +83,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long>,
     @Query("select a from Article a where "
             + "a.status = com.github.piotr_rusin.yule.domain"
             + ".ArticleStatus.SCHEDULED_FOR_PUBLICATION "
-            + "and a.publicationDate <= CURRENT_TIMESTAMP")
+            + "and a.publicationTimestamp <= CURRENT_TIMESTAMP")
     List<Article> findCurrentAutoPublicationTargets();
 }

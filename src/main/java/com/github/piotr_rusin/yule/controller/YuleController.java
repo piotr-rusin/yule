@@ -94,7 +94,7 @@ public class YuleController {
             @PathVariable String slug, Model model) {
         Article article = articleRepository.findPublishedPostBy(slug);
         LocalDate actualPublicationDate = LocalDateTime
-                .ofInstant(article.getPublicationDate(), ZoneOffset.UTC)
+                .ofInstant(article.getPublicationTimestamp(), ZoneOffset.UTC)
                 .toLocalDate();
 
         if (article == null || !publicationDate.equals(actualPublicationDate)) {

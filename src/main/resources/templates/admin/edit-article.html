@@ -14,12 +14,12 @@
       <p th:unless="${article.isNew()}">
       Created on
       <time class="articleDateTime"
-            th:datetime="${article.creationDate}">
+            th:datetime="${article.creationTimestamp}">
         Creation time
       </time>,
       last modified on
       <time class="articleDateTime"
-            th:datetime="${article.modificationDate}">
+            th:datetime="${article.modificationTimestamp}">
         Modification time
       </time>
       </p>
@@ -77,12 +77,12 @@
           Leave empty to publish immediately.
         </span>
         <p class="error"
-           th:if="${#fields.hasErrors('publicationDate')}"
-           th:errors="*{publicationDate}">
-        Example publication date value error
+           th:if="${#fields.hasErrors('publicationTimestamp')}"
+           th:errors="*{publicationTimestamp}">
+        Example publication time value error
         </p>
         <input type="datetime-local" id="localPublicationDate">
-        <input type="hidden" th:field="*{publicationDate}">
+        <input type="hidden" th:field="*{publicationTimestamp}">
         </p>
 
         <p>

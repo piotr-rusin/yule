@@ -80,7 +80,7 @@ public class ArticleRepositoryTests {
     @Test
     public void testFindPublishedPostsOrdersByPublicationDate() {
         Comparator<Article> desc = Comparator
-                .comparing(Article::getPublicationDate).reversed();
+                .comparing(Article::getPublicationTimestamp).reversed();
 
         List<Article> actualArticles = articleRepository
                 .findPublishedPosts(allArticlePageRequest).getContent();
@@ -167,9 +167,9 @@ public class ArticleRepositoryTests {
     public void findScheduledBy() {
         Article randomScheduled = getRandomArticleFrom(
                 getAllScheduledArticles());
-        Instant publicationDate = randomScheduled.getPublicationDate();
+        Instant publicationDate = randomScheduled.getPublicationTimestamp();
         List<Article> expected = filterScheduledArticles(
-                (a) -> a.getPublicationDate().equals(publicationDate));
+                (a) -> a.getPublicationTimestamp().equals(publicationDate));
         List<Article> actual = articleRepository
                 .findScheduledBy(publicationDate);
 
@@ -196,7 +196,7 @@ public class ArticleRepositoryTests {
     @Test
     public void findNextScheduledPublicationTime() {
         Instant expected = filterScheduledArticles(null).stream()
-                .map(Article::getPublicationDate)
+                .map(Article::getPublicationTimestamp)
                 .min((d1, d2) -> d1.compareTo(d2)).orElse(null);
         Date actual = articleRepository.findNextScheduledPublicationTime();
 
@@ -206,7 +206,7 @@ public class ArticleRepositoryTests {
     @Test
     public void findCurrentAutoPublicationTargets() {
         List<Article> expected = filterScheduledArticles(
-                a -> !a.getPublicationDate().isAfter(Instant.now()));
+                a -> !a.getPublicationTimestamp().isAfter(Instant.now()));
         List<Article> actual = articleRepository
                 .findCurrentAutoPublicationTargets();
 

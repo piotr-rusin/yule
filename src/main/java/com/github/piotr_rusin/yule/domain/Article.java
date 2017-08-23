@@ -73,21 +73,21 @@ public class Article {
 
     private String content;
 
-    @Column(name = "creation_date")
+    @Column(name = "creation_timestamp")
     @CreationTimestamp
-    private Instant creationDate;
+    private Instant creationTimestamp;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @Column(name = "publication_date")
-    private Instant publicationDate;
+    @Column(name = "publication_timestamp")
+    private Instant publicationTimestamp;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private ArticleStatus status = ArticleStatus.DRAFT;
 
-    @Column(name = "modification_date")
+    @Column(name = "modification_timestamp")
     @UpdateTimestamp
-    private Instant modificationDate;
+    private Instant modificationTimestamp;
 
     @Version
     private int version;
@@ -112,8 +112,8 @@ public class Article {
     public Article(Article article) {
         this.setAdminAlterableData(article);
         this.id = article.id;
-        this.creationDate = article.creationDate;
-        this.modificationDate = article.modificationDate;
+        this.creationTimestamp = article.creationTimestamp;
+        this.modificationTimestamp = article.modificationTimestamp;
         this.slug = article.slug;
         this.version = article.version;
     }
@@ -123,9 +123,9 @@ public class Article {
      * provided by a data transfer object.
      * <p>
      * We assume admin-alterable data are all properties of the Article, except:
-     * {@link Article#id id}, {@link Article#creationDate creation date},
-     * {@link Article#modificationDate modification date}, {@link Article#slug
-     * slug} and {@link Article#version version}.
+     * {@link Article#id id}, {@link Article#creationTimestamp creation
+     * timestamp}, {@link Article#modificationTimestamp modification timestamp},
+     * {@link Article#slug slug} and {@link Article#version version}.
      *
      * @param dto
      *            is the object providing new data for this article.
@@ -134,7 +134,7 @@ public class Article {
         this.title = dto.title;
         this.content = dto.content;
         this.post = dto.post;
-        this.publicationDate = dto.publicationDate;
+        this.publicationTimestamp = dto.publicationTimestamp;
         this.status = dto.status;
         this.introduction = dto.introduction;
     }
@@ -237,29 +237,30 @@ public class Article {
         this.content = content;
     }
 
-    public Instant getCreationDate() {
-        return creationDate;
+    public Instant getCreationTimestamp() {
+        return creationTimestamp;
     }
 
-    public Instant getPublicationDate() {
-        return publicationDate;
+    public Instant getPublicationTimestamp() {
+        return publicationTimestamp;
     }
 
     /**
-     * Set the publication date of the article
+     * Set the publication timestamp of the article
      *
-     * @param publicationDate
-     *            is a publication date to be set. Using an incorrect value will
-     *            result in leaving the article object in an invalid state. The
-     *            choice of a correct value depends on
+     * @param publicationTimestamp
+     *            is a publication date and time value (in UTC) to be set. Using
+     *            an incorrect value will result in leaving the article object
+     *            in an invalid state. The choice of a correct value depends on
      *            {@link Article#getStatus() the current status} of the article.
      * @see ArticleStatus
      * @see StatusConstraintsFulfilled
      */
-    public void setPublicationDate(Instant publicationDate) {
-        if (publicationDate != null)
-            publicationDate = publicationDate.truncatedTo(ChronoUnit.MINUTES);
-        this.publicationDate = publicationDate;
+    public void setPublicationTimestamp(Instant publicationTimestamp) {
+        if (publicationTimestamp != null)
+            publicationTimestamp = publicationTimestamp
+                    .truncatedTo(ChronoUnit.MINUTES);
+        this.publicationTimestamp = publicationTimestamp;
     }
 
     /**
@@ -279,8 +280,9 @@ public class Article {
      * so setting it may leave the article in an invalid state.
      * <p>
      * If the status being set is {@link ArticleStatus#PUBLISHED "PUBLISHED"}
-     * and the article has no {@link Article#publicationDate publication date}
-     * set, the current moment will be set as the publication date.
+     * and the article has no {@link Article#publicationTimestamp publication
+     * timestamp} set, the current moment will be set as the publication
+     * timestamp.
      *
      * @param status
      *            is a status value to be set
@@ -288,8 +290,8 @@ public class Article {
      * @see StatusConstraintsFulfilled
      */
     public void setStatus(ArticleStatus status) {
-        if (status == ArticleStatus.PUBLISHED && publicationDate == null)
-            setPublicationDate(Instant.now());
+        if (status == ArticleStatus.PUBLISHED && publicationTimestamp == null)
+            setPublicationTimestamp(Instant.now());
         this.status = status;
     }
 
@@ -310,8 +312,8 @@ public class Article {
                 .collect(Collectors.toList());
     }
 
-    public Instant getModificationDate() {
-        return modificationDate;
+    public Instant getModificationTimestamp() {
+        return modificationTimestamp;
     }
 
     /**
@@ -352,10 +354,11 @@ public class Article {
     @Override
     public String toString() {
         return "Article [" + (title != null ? "title=" + title + ", " : "")
-                + (creationDate != null ? "creationDate=" + creationDate + ", "
+                + (creationTimestamp != null
+                        ? "creationTimestamp=" + creationTimestamp + ", "
                         : "")
-                + (publicationDate != null
-                        ? "publicationDate=" + publicationDate + ", "
+                + (publicationTimestamp != null
+                        ? "publicationTimestamp=" + publicationTimestamp + ", "
                         : "")
                 + (status != null ? "status=" + status + ", " : "") + "post="
                 + post + "]";

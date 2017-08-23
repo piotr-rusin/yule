@@ -83,7 +83,7 @@ public class AutoPublicationTaskTest {
         for (int i = 0; i < 4; i++) {
             Article article = getAutoPublicationTarget(Instant.now());
             if (i == 0)
-                publicationTime = article.getPublicationDate();
+                publicationTime = article.getPublicationTimestamp();
             autoPublicationTargets.add(article);
         }
 
@@ -95,7 +95,7 @@ public class AutoPublicationTaskTest {
         int index = autoPublicationTargets.size();
         Article article = new Article("title " + index, "content " + index);
         article.setStatus(ArticleStatus.SCHEDULED_FOR_PUBLICATION);
-        article.setPublicationDate(publicationDate);
+        article.setPublicationTimestamp(publicationDate);
         return article;
     }
 

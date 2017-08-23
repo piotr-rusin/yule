@@ -106,8 +106,9 @@ public class AutoPublicationTask implements Runnable {
                     "Postponing auto-publication of %s due to a concurrent update",
                     article));
         } finally {
-            Duration delay = Duration.ofSeconds(article.getPublicationDate()
-                    .until(Instant.now(clock), ChronoUnit.SECONDS));
+            Duration delay = Duration
+                    .ofSeconds(article.getPublicationTimestamp()
+                            .until(Instant.now(clock), ChronoUnit.SECONDS));
             if (delay.toMinutes() >= 1) {
                 logger.warn(String.format(
                         "The auto-publication attempt for %s was delayed - it was executed "

@@ -1,5 +1,6 @@
 INSERT INTO articles
-(title, slug, content, creation_date, modification_date, is_blog_post, status, publication_date)
+(title, slug, content, creation_timestamp, modification_timestamp,
+	is_blog_post, status, publication_timestamp)
 VALUES
 (
 	'The first title',

@@ -6,8 +6,9 @@ if (typeof HTMLDialogElement !== 'function') {
 
 
 (function setLocalPublicationDate() {
-  console.log('Setting value of local publication date field...');
-  var currentInstant = $('#publicationDate').val();
+  console.log(
+    'Setting value of local publication datetime field...');
+  var currentInstant = $('#publicationTimestamp').val();
   if (currentInstant) {
     var ldt = new Date(currentInstant);
     ldt.setMinutes(ldt.getMinutes() - ldt.getTimezoneOffset());
@@ -17,13 +18,13 @@ if (typeof HTMLDialogElement !== 'function') {
 
 
 $('#articleForm').submit(function() {
-  console.log('Setting value of publicationDate field...');
+  console.log('Setting value of publicationTimestamp field...');
   var localValue = $('#localPublicationDate').val();
-  var instant = $('#publicationDate');
+  var instant = $('#publicationTimestamp');
   instant.val('');
   if (localValue) {
-    console.log('Local publication date is not empty' +
-        ', setting publicationDate');
+    console.log('Local publication datetime is not empty' +
+        ', setting publicationTimestamp');
     instant.val(new Date(localValue).toISOString());
   }
 });

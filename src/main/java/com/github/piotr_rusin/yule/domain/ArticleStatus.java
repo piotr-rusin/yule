@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.github.piotr_rusin.yule.validation.ContentNotBlank;
-import com.github.piotr_rusin.yule.validation.PublicationDate;
+import com.github.piotr_rusin.yule.validation.PublicationTimestamp;
 import com.github.piotr_rusin.yule.validation.ExistingArticleConstraint;
 
 /**
@@ -40,12 +40,12 @@ public enum ArticleStatus {
     //@formatter:off
     DRAFT,
     SCHEDULED_FOR_PUBLICATION(
-            PublicationDate.Future("this value must be a future one"
+            PublicationTimestamp.Future("this value must be a future one"
                     + " for scheduled publication"),
             new ContentNotBlank("this value must not be blank"
                     + " for scheduled publication")),
     PUBLISHED(
-            PublicationDate.NonFuture("this value must be a current or"
+            PublicationTimestamp.NonFuture("this value must be a current or"
                     + " a past one for publication"),
             new ContentNotBlank("this value must not be blank"
                     + " for publication"));
