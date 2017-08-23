@@ -31,7 +31,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class YuleConfig {
     @NotEmpty
-    private String title;
+    private String title = "Default blog title";
 
     private String description;
 

@@ -37,7 +37,7 @@ import com.github.piotr_rusin.yule.validation.Email;
 public class UserConfig {
 
     @NotEmpty
-    private String login;
+    private String login = "admin";
 
     @NotNull
     @Size(min = 6, max = 20)
