@@ -23,6 +23,9 @@
  *******************************************************************************/
 package com.github.piotr_rusin.yule.config;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
@@ -33,10 +36,13 @@ public class YuleConfig {
     @NotEmpty
     private String title = "Default blog title";
 
+    @Size(min = 1)
     private String description;
 
+    @Min(5)
     private int indexPageSize = 5;
 
+    @Min(5)
     private int adminArticleListPageSize = 10;
 
     public void setTitle(String title) {
