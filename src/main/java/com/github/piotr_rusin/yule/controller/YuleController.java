@@ -108,6 +108,11 @@ public class YuleController {
         return "article";
     }
 
+    @GetMapping("/login")
+    public String showLoginPage() {
+        return "login";
+    }
+
     @GetMapping("/{slug:[a-z-]+}")
     public String showPage(@PathVariable String slug, Model model) {
         Article article = articleRepository.findPublishedPageBy(slug);

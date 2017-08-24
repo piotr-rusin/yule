@@ -1,0 +1,27 @@
+<html layout:decorate="~{base}">
+  <head>
+    <title
+      th:text="${blogTitle} + ' - Login page'">
+      Login page
+    </title>
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <header>
+        <h1>
+          Log in to admin panel
+        </h1>
+      </header>
+      <p th:if="${param.error}" class="error">Incorrect username or password.</p>
+      <p th:if="${param.logout}">You have been logged out.</p>
+      <form th:action="@{/login}" method="post">
+        <label for="username">Username</label>:
+        <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
+        <label for="password">Password</label>:
+        <input type="password" id="password" name="password" /> <br />
+        <input type="submit" value="Log in" />
+      </form>
+    </section>
+  </body>
+</html>
+
