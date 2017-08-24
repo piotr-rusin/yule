@@ -142,6 +142,7 @@ public class AdminController {
                     "The article {} has been scheduled for auto-publication. "
                             + "Rescheduling auto-publication task.",
                     saved);
+            autoPublicationScheduler.scheduleNew();
         }
 
         attributes.addAttribute("id", saved.getId()).addFlashAttribute(
@@ -162,8 +163,8 @@ public class AdminController {
         }
 
         Article saved = articleRepository.findOne(id);
-        saved.setAdminAlterableData(dto);
         Article previous = new Article(saved);
+        saved.setAdminAlterableData(dto);
 
         try {
             saved = articleRepository.save(saved);
