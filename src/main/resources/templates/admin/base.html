@@ -38,7 +38,14 @@
       <p>Admin panel content goes here</p>
     </section>
     <footer>
-      <p>Admin panel footer</p>
+      <p>
+      Powered by:
+        <a href="https://github.com/piotr-rusin/yule">Yule</a>
+      </p>
+      <p>
+      Copyright ©
+        <time th:text="${#dates.year(#dates.createNow())}">2017</time> Piotr Rusin
+      </p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             type="text/javascript"></script>
