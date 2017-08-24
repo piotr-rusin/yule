@@ -21,6 +21,11 @@
         </th:block>
         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
           <li class="rightSideMenuItem">
+            <form th:action="@{/logout}" method="post">
+              <button type="submit">Log out</button>
+            </form>
+          </li>
+          <li class="rightSideMenuItem">
             <a href="#" th:href="@{/admin/articles}">Show all articles</a>
           </li>
           <li class="rightSideMenuItem">
