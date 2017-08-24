@@ -36,17 +36,22 @@ import com.github.piotr_rusin.yule.validation.Email;
 @Validated
 public class UserConfig {
 
-    @NotEmpty
+    @NotEmpty(message = "Administrator's login is optional, but when "
+            + "configured, it must not be empty. The default value is "
+            + "\"admin\".")
     private String login = "admin";
 
-    @NotNull
+    @NotNull(message = "Admistrator's password has to be from 6 to 20 "
+            + "characters long.")
     @Size(min = 6, max = 20)
     private String password;
 
-    @NotEmpty
+    @NotEmpty(message = "Administrator's name is optional, but when "
+            + "configured, it must not be empty. The default is \"admin\".")
     private String name = login;
 
-    @Email
+    @Email(message = "The value of administrator's email must be "
+            + "a correct email address")
     private String email;
 
     public void setLogin(String login) {

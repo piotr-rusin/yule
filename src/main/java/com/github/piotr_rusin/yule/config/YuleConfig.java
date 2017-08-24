@@ -33,16 +33,23 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties("yule")
 @Validated
 public class YuleConfig {
-    @NotEmpty
+    @NotEmpty(message = "The configured blog title must not be empty. "
+            + "The default value is \"Default blog title\".")
     private String title = "Default blog title";
 
-    @Size(min = 1)
+    @Size(min = 1, message = "Blog description is optional, but when "
+            + "specified, it must not be an empty value.")
     private String description;
 
-    @Min(5)
+    @Min(value = 5, message = "The number of articles presented on a single "
+            + "page of the published blog post list (indexPageSize) must not "
+            + "be smaller than 5 (the default value)")
     private int indexPageSize = 5;
 
-    @Min(5)
+    @Min(value = 5, message = "The number of articles visible on a page of "
+            + "the article list on administrator's panel "
+            + "(adminArticleListPageSize) must not be smaller than 5 "
+            + "(the default value is 10)")
     private int adminArticleListPageSize = 10;
 
     public void setTitle(String title) {
