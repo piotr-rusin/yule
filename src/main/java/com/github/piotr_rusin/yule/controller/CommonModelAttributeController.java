@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.github.piotr_rusin.yule.config.UserConfig;
 import com.github.piotr_rusin.yule.config.YuleConfig;
 import com.github.piotr_rusin.yule.domain.Article;
 import com.github.piotr_rusin.yule.repository.ArticleRepository;
@@ -38,12 +39,14 @@ import com.github.piotr_rusin.yule.repository.ArticleRepository;
 @ControllerAdvice
 public class CommonModelAttributeController {
     private YuleConfig config;
+    private UserConfig adminConfig;
     private ArticleRepository articleRepository;
 
     @Autowired
     public CommonModelAttributeController(YuleConfig config,
-            ArticleRepository articleRepository) {
+            UserConfig userConfig, ArticleRepository articleRepository) {
         this.config = config;
+        this.adminConfig = userConfig;
         this.articleRepository = articleRepository;
     }
 
@@ -66,5 +69,15 @@ public class CommonModelAttributeController {
     @ModelAttribute("userTimeZone")
     public ZoneId getUserTimezone(ZoneId userTimeZoneId) {
         return userTimeZoneId;
+    }
+
+    @ModelAttribute("adminName")
+    public String getAdminName() {
+        return adminConfig.getName();
+    }
+
+    @ModelAttribute("adminEmail")
+    public String getAdminEmail() {
+        return adminConfig.getEmail();
     }
 }

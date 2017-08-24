@@ -22,7 +22,21 @@
       <p>Base template content</p>
     </section>
     <footer layout:fragment="footer">
-      <p>Base template footer</p>
+      <p>
+      Copyright ©
+        <time th:text="${#dates.year(#dates.createNow())}">2017</time>
+        <span th:text="${adminName}">John Doe</span>
+      </p>
+      <p th:if="${adminEmail}">
+      Contact:
+        <a href="#" th:href="${adminEmail}" th:text="${adminEmail}">
+          john.doe@example.com
+        </a>
+      </p>
+      <p>
+      Powered by:
+        <a href="https://github.com/piotr-rusin/yule">Yule</a>
+      </p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             type="text/javascript"
