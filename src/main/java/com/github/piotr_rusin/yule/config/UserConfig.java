@@ -47,7 +47,8 @@ public class UserConfig {
     private String password;
 
     @NotEmpty(message = "Administrator's name is optional, but when "
-            + "configured, it must not be empty. The default is \"admin\".")
+            + "configured, it must not be empty. The default is the same "
+            + "as login.")
     private String name = login;
 
     @Email(message = "The value of administrator's email must be "
