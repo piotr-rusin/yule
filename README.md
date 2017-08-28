@@ -130,7 +130,6 @@ Instead of being executed from a directory manually or with a custom script, the
 
 ## License
 
-MIT
-
+MIT <br>
 See [LICENSE](https://github.com/piotr-rusin/yule/blob/master/LICENSE)
 
