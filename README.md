@@ -108,7 +108,7 @@ Once the project is running, the configured blog can be viewed at [localhost:808
 
 ### Installing the jar
 
-Instead of being executed from a directory manually or with a custom script, the jar file may be installed as a [Unix/Linux service](https://docs.spring.io/spring-boot/docs/current/reference/html/deployment-install.html#deployment-service)
+Instead of being executed from a directory manually or with a custom script, the jar file may be installed as a [Unix/Linux service](https://docs.spring.io/spring-boot/docs/current/reference/html/deployment-install.html#deployment-service).
 
 ## Built with
 
