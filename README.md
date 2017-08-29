@@ -84,7 +84,7 @@ You can test the project by running it from the project directory:
 ```bash
 $ git clone https://github.com/piotr-rusin/yule
 $ cd yule
-$ maven spring-boot:run -Dspring.config.location="file:/path/to/application.yml"
+$ mvn spring-boot:run -Dspring.config.location="file:/path/to/application.yml"
 ```
 
 To run unit and integration tests, execute:
