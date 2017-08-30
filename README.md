@@ -65,7 +65,7 @@ yule:
 
 To be able to run tests, provide additional configuration in test profile. You can do so by adding a separat section to the configuration file, to be loaded when test profile is active. Example:
 
-```
+```yaml
 # The rest of the configuration options is specified before this line
 ---
 
