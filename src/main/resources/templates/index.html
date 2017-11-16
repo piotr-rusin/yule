@@ -2,14 +2,16 @@
 <html layout:decorate="~{base}">
   <head>
     <title
-      th:text="${blogDescription} ? (${blogTitle} + ' - ' + ${blogDescription}): (${blogTitle})">
+      th:text="${blogDescription} ? (${blogTitle} + ' - ' +
+      ${blogDescription}): (${blogTitle})">
       Blog title
     </title>
   </head>
   <body>
     <section layout:fragment="content">
       <th:block th:if="${articlePage}">
-        <th:block th:if="${articlePage}" th:each="article: ${articlePage.content}">
+        <th:block th:if="${articlePage}" th:each="article:
+          ${articlePage.content}">
           <div
             th:replace="~{article-include :: article_view (list=true)}">
             Here there would be a list of articles as presented on the index page.

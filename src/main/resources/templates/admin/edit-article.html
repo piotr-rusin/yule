@@ -8,7 +8,8 @@
   <body>
     <section layout:fragment="content">
       <header>
-        <h1 th:text="${article.isNew()} ? 'Creating a new article' : 'Editing &quot;' + ${article.title} + '&quot;'">
+        <h1 th:text="${article.isNew()} ? 'Creating a new article' :
+          'Editing &quot;' + ${article.title} + '&quot;'">
         </h1>
       </header>
       <p th:unless="${article.isNew()}">
