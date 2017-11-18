@@ -165,5 +165,3 @@ function togglePublicationTimeHint() {
 
 togglePublicationTimeHint();
 $('#status').change(togglePublicationTimeHint);
-
-
