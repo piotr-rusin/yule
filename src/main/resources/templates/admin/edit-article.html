@@ -33,10 +33,12 @@
 
         <p>
         <button th:unless="${article.isNew()}"
-                                   id="deleteArticle"
-                                   class="deleteArticle"
-                                   type="button"
-                                   th:value="*{id}">Delete</button>
+                id="deleteArticle"
+                class="deleteArticle"
+                type="button"
+                th:value="*{id}">
+                  Delete
+        </button>
         </p>
         <p>
         <label th:for="${#ids.next('title')}">Title</label>
