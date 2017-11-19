@@ -63,7 +63,7 @@ YuleDialog.prototype.hide = function() {
 var messageDialog = new YuleDialog('#messageDialog');
 
 
-var requestConfirmationDialog = new YuleDialog('#confirm');
+var requestConfirmationDialog = new YuleDialog('#confirmationDialog');
 
 
 requestConfirmationDialog.disableButtons = function(disabled) {
