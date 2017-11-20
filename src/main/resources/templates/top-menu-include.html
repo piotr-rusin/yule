@@ -5,6 +5,11 @@
   <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark"
          th:fragment="top_menu">
+      <a class="navbar-brand"
+         th:text="${blogTitle}"
+         th:href="@{/}">
+          Yule blog engine
+      </a>
       <button class="navbar-toggler"
               type="button"
               data-toggle="collapse"

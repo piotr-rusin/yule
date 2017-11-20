@@ -11,10 +11,6 @@
   </head>
   <body>
     <header>
-      <h1 th:text="${blogTitle}">Blog title</h1>
-      <p th:if="${blogDescription}" th:text="${blogDescription}">
-      Blog description
-      </p>
       <nav th:replace="~{top-menu-include :: top_menu}">
         <a href="#">
           A page link
