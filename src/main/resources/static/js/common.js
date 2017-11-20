@@ -11,3 +11,8 @@ function updateTimeTags(selector, date) {
 
 
 updateTimeTags('.localDateTime', true);
+
+// find navbar item with a link that leads to the current URL and
+// apply .active class to it
+
+$('[href="' + document.location.pathname + '"]').parent().addClass('active');
