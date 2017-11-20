@@ -3,36 +3,71 @@
     <title>Top menu include</title>
   </head>
   <body>
-    <nav th:fragment="top_menu">
-      <ul>
-        <li>
-          <a href="#" th:href="@{/}">
-            Home
-          </a>
-        </li>
-        <th:block th:if="${blogPageNameToSlug.size()} &gt; 0">
-          <li th:each="titleAndSlug : ${blogPageNameToSlug}">
-            <a href="#"
-               th:href="@{/{slug}(slug=${titleAndSlug.value})}"
-               th:text="${titleAndSlug.key}">
-              A page link
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark"
+         th:fragment="top_menu">
+      <button class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#" th:href="@{/}">
+              Home
             </a>
           </li>
-        </th:block>
-        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-          <li class="rightSideMenuItem">
-            <form th:action="@{/logout}" method="post">
-              <button type="submit">Log out</button>
-            </form>
-          </li>
-          <li class="rightSideMenuItem">
-            <a href="#" th:href="@{/admin/articles}">Show all articles</a>
-          </li>
-          <li class="rightSideMenuItem">
-            <a href="#" th:href="@{/admin/article}">Add new article</a>
-          </li>
-        </th:block>
-      </ul>
+          <th:block th:if="${blogPageNameToSlug.size()} &gt; 0">
+            <li clas="nav-item"
+                th:each="titleAndSlug : ${blogPageNameToSlug}">
+              <a href="#"
+                 class="nav-link"
+                 th:href="@{/{slug}(slug=${titleAndSlug.value})}"
+                 th:text="${titleAndSlug.key}">
+                A page link
+              </a>
+            </li>
+          </th:block>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <th:block sec:authorize="isAnonymous()">
+            <li class="nav-item">
+              <a href="#"
+                 class="nav-link"
+                 th:href="@{/login}">
+                  Log in
+              </a>
+            </li>
+          </th:block>
+          <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+            <li class="nav-item">
+              <a href="#"
+                 class="nav-link"
+                 th:href="@{/admin/articles}">
+                  Show all articles
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#"
+                 class="nav-link"
+                 th:href="@{/admin/article}">
+                  Add new article
+              </a>
+            </li>
+            <li class="nav-item">
+              <form class="form-inline my-2 my-lg-0"
+                    th:action="@{/logout}"
+                    method="post">
+                <button class="btn btn-outline-success my-2 my-sm-0"
+                        type="submit">
+                    Log out
+                </button>
+              </form>
+            </li>
+          </th:block>
+        </ul>
+      </div>
     </nav>
   </body>
 </html>
