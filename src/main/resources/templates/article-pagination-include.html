@@ -4,13 +4,17 @@
   </head>
   <body>
     <nav th:fragment="article_pagination (baseUrl)"
-      th:if="${articlePage.totalPages} &gt; 1">
+         th:if="${articlePage.totalPages} &gt; 1"
+         th:with="pageSuffix = ${pageSuffix} ?: 'page/{page}',
+         suffixedUrl = ${baseUrl.endsWith('/')} ?
+         ${baseUrl.substring(0, baseUrl.length() - 1)} : ${baseUrl}">
       <ul class="pagination">
         <li th:each="i : ${#numbers.sequence(1, articlePage.totalPages)}"
             class="page-item">
           <a href="#"
              class="page-link"
-             th:href="${i.equals(1)}? @{/} : @{${baseUrl}(page=${i})}"
+             th:href="${i.equals(1)}? @{${baseUrl}} :
+             @{${suffixedUrl} + '/' + ${pageSuffix}(page=${i})}"
              th:text="${i}">
             A page link
           </a>
