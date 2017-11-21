@@ -23,6 +23,9 @@
       <p>Base template content</p>
     </section>
     <footer layout:fragment="footer">
+      <p th:if="${blogDescription}" th:text="${blogDescription}">
+        A medium-length blog description.
+      </p>
       <p>
       Copyright ©
         <time th:text="${#dates.year(#dates.createNow())}">2017</time>
