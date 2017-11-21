@@ -3,18 +3,18 @@
     <title>Pagination include</title>
   </head>
   <body>
-    <nav th:fragment="article_pagination (baseUrl)"
+    <nav th:fragment="article_pagination (basePath)"
          th:if="${articlePage.totalPages} &gt; 1"
          th:with="pageSuffix = ${pageSuffix} ?: 'page/{page}',
-         suffixedUrl = ${baseUrl.endsWith('/')} ?
-         ${baseUrl.substring(0, baseUrl.length() - 1)} : ${baseUrl}">
+         suffixedPath = ${basePath.endsWith('/')} ?
+         ${basePath.substring(0, basePath.length() - 1)} : ${basePath}">
       <ul class="pagination">
         <li th:each="i : ${#numbers.sequence(1, articlePage.totalPages)}"
             class="page-item">
           <a href="#"
              class="page-link"
-             th:href="${i.equals(1)}? @{${baseUrl}} :
-             @{${suffixedUrl} + '/' + ${pageSuffix}(page=${i})}"
+             th:href="${i.equals(1)}? @{${basePath}} :
+             @{${suffixedPath} + '/' + ${pageSuffix}(page=${i})}"
              th:text="${i}">
             A page link
           </a>
