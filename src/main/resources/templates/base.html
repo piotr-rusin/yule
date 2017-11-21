@@ -22,7 +22,7 @@
     <section layout:fragment="content">
       <p>Base template content</p>
     </section>
-    <footer>
+    <footer class="bg-dark text-light">
       <p th:if="${blogDescription}" th:text="${blogDescription}">
         A medium-length blog description.
       </p>
@@ -33,13 +33,18 @@
       </p>
       <p th:if="${adminEmail}">
       Contact:
-        <a href="#" th:href="${adminEmail}" th:text="${adminEmail}">
+        <a class="text-light"
+           href="#"
+           th:href="${adminEmail}"
+           th:text="${adminEmail}">
           john.doe@example.com
         </a>
       </p>
       <p>
       Powered by:
-        <a href="https://github.com/piotr-rusin/yule">Yule</a>
+        <a class="text-light" href="https://github.com/piotr-rusin/yule">
+          Yule
+        </a>
       </p>
     </footer>
     <script src="/webjars/jquery/jquery.min.js" type="text/javascript">
