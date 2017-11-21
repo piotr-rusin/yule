@@ -14,11 +14,11 @@
       >
       <article th:if="${list} AND ${article.introduction != null}">
         <header>
-          <h1>
+          <h3>
             <a href="#" th:href="${url}" th:text="${article.title}">
               An article as presented on front page, with an introduction
             </a>
-          </h1>
+          </h3>
         </header>
         <div>
           <div th:utext="${article.introduction}">
@@ -38,11 +38,11 @@
 
       <article th:if="${list} AND ${article.introduction == null}">
         <header>
-          <h1>
+          <h3>
             <a href="#" th:href="${url}" th:text="${article.title}">
               An article as presented on front page, with a full text
             </a>
-          </h1>
+          </h3>
         </header>
         <div th:utext="${article.content}">
           Full content of the article.
