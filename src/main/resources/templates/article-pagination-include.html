@@ -5,9 +5,11 @@
   <body>
     <nav th:fragment="article_pagination (baseUrl)"
       th:if="${articlePage.totalPages} &gt; 1">
-      <ul>
-        <li th:each="i : ${#numbers.sequence(1, articlePage.totalPages)}">
+      <ul class="pagination">
+        <li th:each="i : ${#numbers.sequence(1, articlePage.totalPages)}"
+            class="page-item">
           <a href="#"
+             class="page-link"
              th:href="${i.equals(1)}? @{/} : @{${baseUrl}(page=${i})}"
              th:text="${i}">
             A page link
