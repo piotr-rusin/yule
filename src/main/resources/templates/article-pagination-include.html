@@ -7,16 +7,45 @@
          th:if="${articlePage.totalPages} &gt; 1"
          th:with="pageSuffix = ${pageSuffix} ?: 'page/{page}',
          suffixedPath = ${basePath.endsWith('/')} ?
-         ${basePath.substring(0, basePath.length() - 1)} : ${basePath}">
+         ${basePath.substring(0, basePath.length() - 1)} : ${basePath},
+         currentPage = ${articlePage.number + 1}">
       <ul class="pagination">
-        <li th:each="i : ${#numbers.sequence(1, articlePage.totalPages)}"
-            class="page-item">
-          <a href="#"
-             class="page-link"
-             th:href="${i.equals(1)}? @{${basePath}} :
-             @{${suffixedPath} + '/' + ${pageSuffix}(page=${i})}"
-             th:text="${i}">
-            A page link
+        <li class="page-item"
+            th:classappend="${articlePage.hasPrevious()} ? '' :
+            'disabled'">
+          <span class="page-link"
+                th:if="${not articlePage.hasPrevious()}">
+              Previous
+          </span>
+          <a class="page-link"
+             th:if="${articlePage.hasPrevious()}"
+             th:href="${currentPage.equals(2)}? @{${basePath}} :
+             @{${suffixedPath} + '/' +
+             ${pageSuffix}(page=${currentPage - 1})}">
+              Previous
+          </a>
+        </li>
+
+        <li class="page-item active">
+          <span class="page-link"
+                th:text="${currentPage} + ' of ' +
+                ${articlePage.totalPages}">
+            1 of 9
+          </span>
+        </li>
+
+        <li class="page-item"
+            th:classappend="${articlePage.hasNext()} ? '' :
+            'disabled'">
+          <span class="page-link"
+                th:if="${not articlePage.hasNext()}">
+              Next
+          </span>
+          <a class="page-link"
+             th:if="${articlePage.hasNext()}"
+             th:href="@{${suffixedPath} + '/' +
+             ${pageSuffix}(page=${currentPage + 1})}">
+              Next
           </a>
         </li>
       </ul>
