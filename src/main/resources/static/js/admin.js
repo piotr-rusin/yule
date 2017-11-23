@@ -1,18 +1,18 @@
-(function setLocalPublicationDate() {
+(function setLocalPublicationDateTime() {
   console.log(
     'Setting value of local publication datetime field...');
   var currentInstant = $('#publicationTimestamp').val();
   if (currentInstant) {
     var ldt = new Date(currentInstant);
     ldt.setMinutes(ldt.getMinutes() - ldt.getTimezoneOffset());
-    $('#localPublicationDate').val(ldt.toJSON().slice(0, 16));
+    $('#localPublicationDateTime').val(ldt.toJSON().slice(0, 16));
   }
 })();
 
 
 $('#articleForm').submit(function() {
   console.log('Setting value of publicationTimestamp field...');
-  var localValue = $('#localPublicationDate').val();
+  var localValue = $('#localPublicationDateTime').val();
   var instant = $('#publicationTimestamp');
   instant.val('');
   if (localValue) {
