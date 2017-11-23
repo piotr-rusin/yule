@@ -58,6 +58,7 @@ public class AdminController {
     final static String ARTICLE_PAGE_ATTR = "articlePage";
     final static String ARTICLE_ATTR = "article";
     final static String MESSAGE_ATTR = "message";
+    final static String ARTICLE_NOT_VALIDATED = "articleNotValidated";
 
     private ArticleRepository articleRepository;
     private AutoPublicationScheduler autoPublicationScheduler;
@@ -107,6 +108,7 @@ public class AdminController {
     public String newArticleDisplayForm(Model model) {
         Article article = new Article();
         addArticleToModel(model, article);
+        model.addAttribute(ARTICLE_NOT_VALIDATED, true);
         logger.info("Showing new article form.");
         return "admin/edit-article";
     }
