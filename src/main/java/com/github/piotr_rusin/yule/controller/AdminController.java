@@ -215,9 +215,15 @@ public class AdminController {
      * <p>
      * If the article was the last element of the last page, the method
      * redirects to the current last page. Otherwise, it redirects to a page of
-     * the same number as the one on which the deleted article was listed.
-     *
+     * the same number as the one on which the deleted article was displayed.
+     * 
      * @param id
+     *            is an identifier of the article to be deleted
+     * @param attributes
+     *            is a container for redirect attributes
+     * @param pageRequest
+     *            is an object representing page request used to display the
+     *            page on which the article was presented
      * @return
      */
     @PostMapping("/article/{id:\\d+}/delete")
