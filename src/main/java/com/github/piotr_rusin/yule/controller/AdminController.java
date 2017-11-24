@@ -248,7 +248,7 @@ public class AdminController {
 
         Page<Article> articles = articleRepository.findAll(pageRequest);
 
-        if (articles.getNumberOfElements() == 0) {
+        if (!articles.hasContent()) {
             pageRequest = pageRequest.previousOrFirst();
         }
 
