@@ -49,9 +49,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long>,
             + ".ArticleStatus.PUBLISHED order by a.publicationTimestamp desc")
     List<Article> findPublishedPages();
 
-    @Query("select count(a) from Article a where a.id >= :id")
-    int getPositionOnAdminPanelArticleList(@Param("id") long id);
-
     @Query("select a from Article a where a.post = true "
             + "and a.status = com.github.piotr_rusin.yule.domain"
             + ".ArticleStatus.PUBLISHED and a.slug = :slug")

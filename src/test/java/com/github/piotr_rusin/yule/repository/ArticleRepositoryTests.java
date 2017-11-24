@@ -106,17 +106,6 @@ public class ArticleRepositoryTests {
     }
 
     @Test
-    public void testGetPositionOnAdminPanelArticleListCalculatesExpectedPosition() {
-        Article randomArticle = getRandomArticleFrom(allArticles);
-        int expectedPosition = (int) allArticles.stream()
-                .sorted((a1, a2) -> Long.compare(a2.getId(), a1.getId()))
-                .collect(Collectors.toList()).indexOf(randomArticle) + 1;
-        int actualNumber = articleRepository
-                .getPositionOnAdminPanelArticleList(randomArticle.getId());
-        assertThat(actualNumber).isEqualTo(expectedPosition);
-    }
-
-    @Test
     public void testFindPublishedPostBy() {
         Article expectedArticle = getRandomPublicArticleBy(Article::isPost);
         Article actualArticle = articleRepository
