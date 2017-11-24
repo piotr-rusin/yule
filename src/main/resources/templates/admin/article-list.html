@@ -11,7 +11,7 @@
         <h1>Existing blog posts and pages</h1>
       </header>
       <th:block th:if="${articlePage}">
-        <table>
+        <table class="table table-striped table-responsive-sm">
           <thead>
             <tr>
               <th>
@@ -54,10 +54,12 @@
                 </time>
               </td>
               <td>
-                <a href="#" th:href="@{/admin/article/{id}(id=${article.id})}">
+                <a class="btn btn-primary"
+                   href="#"
+                   th:href="@{/admin/article/{id}(id=${article.id})}">
                   Edit
                 </a>
-                <button class="deleteArticle" th:value="${article.id}">
+                <button class="deleteArticle btn btn-danger" th:value="${article.id}">
                   Delete
                 </button>
               </td>
