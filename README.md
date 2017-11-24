@@ -44,10 +44,6 @@ yule:
   # list
   # at least 5, optional, default is 5
   indexPageSize: 6
-  # a number of articles to be displayed on a page of the article list
-  # available on the admin panel
-  # at least 5, optional, default is 10
-  adminArticleListPageSize: 7
 ```
 
 An example of minimal configuration:

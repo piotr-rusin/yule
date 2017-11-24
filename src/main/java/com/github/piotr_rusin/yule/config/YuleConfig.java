@@ -46,12 +46,6 @@ public class YuleConfig {
             + "be smaller than 5 (the default value)")
     private int indexPageSize = 5;
 
-    @Min(value = 5, message = "The number of articles visible on a page of "
-            + "the article list on administrator's panel "
-            + "(adminArticleListPageSize) must not be smaller than 5 "
-            + "(the default value is 10)")
-    private int adminArticleListPageSize = 10;
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -74,13 +68,5 @@ public class YuleConfig {
 
     public int getIndexPageSize() {
         return indexPageSize;
-    }
-
-    public void setAdminArticleListPageSize(int size) {
-        adminArticleListPageSize = size;
-    }
-
-    public int getAdminArticleListPageSize() {
-        return adminArticleListPageSize;
     }
 }
