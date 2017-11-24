@@ -30,7 +30,9 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.orm.hibernate5.HibernateOptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,17 +41,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.github.piotr_rusin.yule.config.YuleConfig;
 import com.github.piotr_rusin.yule.domain.Article;
 import com.github.piotr_rusin.yule.exception.PageNotFoundException;
 import com.github.piotr_rusin.yule.exception.ResourceNotFoundException;
 import com.github.piotr_rusin.yule.repository.ArticleRepository;
 import com.github.piotr_rusin.yule.service.AutoPublicationScheduler;
-import org.springframework.data.domain.Sort.Direction;
 
 @Controller
+@SessionAttributes(AdminController.PAGE_REQUEST_ATTR)
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -59,17 +62,17 @@ public class AdminController {
     final static String ARTICLE_ATTR = "article";
     final static String MESSAGE_ATTR = "message";
     final static String ARTICLE_NOT_VALIDATED = "articleNotValidated";
+    final static String PAGE_REQUEST_ATTR = "pageRequest";
+
+    final static int DEFAULT_PAGE_SIZE = 10;
 
     private ArticleRepository articleRepository;
     private AutoPublicationScheduler autoPublicationScheduler;
-    private YuleConfig config;
 
     public AdminController(ArticleRepository articleRepository,
-            AutoPublicationScheduler autoPublicationScheduler,
-            YuleConfig config) {
+            AutoPublicationScheduler autoPublicationScheduler) {
         this.articleRepository = articleRepository;
         this.autoPublicationScheduler = autoPublicationScheduler;
-        this.config = config;
     }
 
     @GetMapping()
@@ -78,22 +81,22 @@ public class AdminController {
         return "redirect:/admin/articles";
     }
 
-    @GetMapping({ "/articles", "/articles/page/{page:[1-9][0-9]*}" })
-    public String articleList(@PathVariable(required = false) Integer page,
-            Model model) {
+    @GetMapping("/articles")
+    public String articleList(
+            @PageableDefault(size=DEFAULT_PAGE_SIZE) Pageable pageRequest,
+            Model model
+            ) {
         logger.info("Requesting a page of admin panel article list view");
-        if (page == null) {
-            logger.info("No page parameter provided, assuming the first page");
-            page = 1;
-        }
-        PageRequest pageRequest = new PageRequest(page - 1,
-                config.getAdminArticleListPageSize(), Direction.DESC, "id");
+        int page = pageRequest.getPageNumber();
+
+        model.addAttribute(PAGE_REQUEST_ATTR, pageRequest);
+
         Page<Article> articles = articleRepository.findAll(pageRequest);
         if (articles.getNumberOfElements() == 0) {
             if (!articles.isFirst()) {
                 throw new PageNotFoundException(String.format(
                         "The requested page (%s) of the article list was not found.",
-                        page));
+                        pageRequest.getPageNumber()));
             }
             logger.warn("There are no articles in the database");
             model.addAttribute(ARTICLE_PAGE_ATTR, null);
@@ -219,16 +222,14 @@ public class AdminController {
      */
     @PostMapping("/article/{id:\\d+}/delete")
     public String deleteArticleAndRedirectToArticleList(@PathVariable long id,
-            RedirectAttributes attributes) {
+            RedirectAttributes attributes,
+            @SessionAttribute(PAGE_REQUEST_ATTR) Pageable pageRequest) {
         Article article = articleRepository.findOne(id);
 
         if (article == null) {
             throw new ResourceNotFoundException(
                     "There is no article with id = " + id);
         }
-
-        int articleNumber = articleRepository
-                .getPositionOnAdminPanelArticleList(id);
 
         articleRepository.delete(id);
         logger.info("The article {} has been successfully deleted.", article);
@@ -240,23 +241,37 @@ public class AdminController {
             autoPublicationScheduler.scheduleNew();
         }
 
-        int pageSize = config.getAdminArticleListPageSize();
-        int pageNumber = articleNumber / pageSize + 1;
-
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, pageSize);
-        Page<Article> articles = articleRepository.findAll(pageRequest);
-
-        if (articles.getNumberOfElements() == 0 && !articles.isFirst()) {
-            pageNumber -= 1;
-        }
-
         attributes.addFlashAttribute(MESSAGE_ATTR,
                 String.format(
                         "The article \"%s\" has been successfully deleted.",
                         article.getTitle()));
-        String baseRedirect = "redirect:/admin/articles";
-        return pageNumber == 1 ? baseRedirect
-                : baseRedirect + "/page/" + pageNumber;
+
+        Page<Article> articles = articleRepository.findAll(pageRequest);
+
+        if (articles.getNumberOfElements() == 0) {
+            pageRequest = pageRequest.previousOrFirst();
+        }
+
+        Sort sort = pageRequest.getSort();
+        if (sort != null) {
+            for (Sort.Order o: pageRequest.getSort()) {
+                String property = o.getProperty();
+                String direction = o.isAscending() ? "asc" : "desc";
+                attributes.addAttribute("sort", property + "," + direction);
+            }
+        }
+
+        int pageNumber = pageRequest.getPageNumber();
+        if (pageNumber != 0) {
+            attributes.addAttribute("page", pageNumber);
+        }
+
+        int pageSize = pageRequest.getPageSize();
+        if (pageSize != DEFAULT_PAGE_SIZE) {
+            attributes.addAttribute("size", pageSize);
+        }
+
+        return "redirect:/admin/articles";
     }
 
     private void addArticleToModel(Model model, Article article) {
