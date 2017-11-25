@@ -208,6 +208,15 @@ public class Article {
     }
 
     /**
+     * Get a custom introduction value for the article
+     *
+     * @return the custom introduction value
+     */
+    public String getCustomIntroduction() {
+        return introduction;
+    }
+
+    /**
      * Set a custom value to be used as an introduction to the article.
      *
      * @param value
