@@ -83,9 +83,8 @@ public class AdminController {
 
     @GetMapping("/articles")
     public String articleList(
-            @PageableDefault(size=DEFAULT_PAGE_SIZE) Pageable pageRequest,
-            Model model
-            ) {
+            @PageableDefault(size = DEFAULT_PAGE_SIZE, sort = "creationTimestamp", direction = Sort.Direction.DESC) Pageable pageRequest,
+            Model model) {
         logger.info("Requesting a page of admin panel article list view");
         int page = pageRequest.getPageNumber();
 
