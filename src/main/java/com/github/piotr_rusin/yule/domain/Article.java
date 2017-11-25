@@ -69,7 +69,7 @@ public class Article {
 
     private String slug;
 
-    private String introduction;
+    private String customIntroduction;
 
     private String content;
 
@@ -136,7 +136,7 @@ public class Article {
         this.post = dto.post;
         this.publicationTimestamp = dto.publicationTimestamp;
         this.status = dto.status;
-        this.introduction = dto.introduction;
+        this.customIntroduction = dto.customIntroduction;
     }
 
     public Long getId() {
@@ -196,8 +196,8 @@ public class Article {
      *         returned, otherwise the whole content will.
      */
     public String getIntroduction() {
-        if (introduction != null && !introduction.isEmpty())
-            return introduction;
+        if (customIntroduction != null && !customIntroduction.isEmpty())
+            return customIntroduction;
         if (content == null)
             return null;
         String[] segments = content.split("<!--more-->");
@@ -213,7 +213,7 @@ public class Article {
      * @return the custom introduction value
      */
     public String getCustomIntroduction() {
-        return introduction;
+        return customIntroduction;
     }
 
     /**
@@ -221,10 +221,10 @@ public class Article {
      *
      * @param value
      *            is the value to be set
-     * @see #getIntroduction()
+     * @see #getCustomIntroduction()
      */
-    public void setIntroduction(String value) {
-        introduction = value;
+    public void setCustomIntroduction(String value) {
+        customIntroduction = value;
     }
 
     public String getContent() {

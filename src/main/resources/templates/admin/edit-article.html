@@ -48,18 +48,18 @@
         </div>
 
         <div class="form-group">
-          <label th:for="${#ids.next('introduction')}">
+          <label th:for="${#ids.next('customIntroduction')}">
             Introduction
           </label>
           <textarea class="introduction form-control"
-                    th:field="*{introduction}"
+                    th:field="*{customIntroduction}"
                     th:classappend="${articleNotValidated} ? '' :
-                    ( ${#fields.hasErrors('introduction')} ?
+                    ( ${#fields.hasErrors('customIntroduction')} ?
                     'is-invalid': 'is-valid' )">
           </textarea>
           <div class="invalid-feedback"
-               th:if="${#fields.hasErrors('introduction')}"
-               th:errors="*{introduction}">
+               th:if="${#fields.hasErrors('customIntroduction')}"
+               th:errors="*{customIntroduction}">
             Example introduction value error.
           </div>
         </div>
