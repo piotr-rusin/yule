@@ -3,12 +3,12 @@
     <title th:text="${article.title} + ' - ' + ${blogTitle}">Article title - Blog title</title>
   </head>
   <body>
-    <div layout:fragment="content">
+    <main layout:fragment="content">
       <div
         th:replace="~{article-include :: article_view (list=false)}">
         Here there would be an article presented on its own page.
         Look at article-include.html to see an example.
       </div>
-    </div>
+    </main>
   </body>
 </html>

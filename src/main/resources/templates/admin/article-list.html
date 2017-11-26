@@ -6,7 +6,7 @@
     <meta th:name="_csrf" th:content="${_csrf.token}"/>
   </head>
   <body>
-    <div layout:fragment="content">
+    <main layout:fragment="content">
       <header>
         <h1>Existing blog posts and pages</h1>
       </header>
@@ -99,6 +99,6 @@
       <p th:unless="${articlePage}">
       No articles have been created yet.
       </p>
-    </div>
+    </main>
   </body>
 </html>
