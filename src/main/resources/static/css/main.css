@@ -19,3 +19,8 @@ body > footer {
 main header {
   margin-bottom: 0.6rem;
 }
+
+.navbar {
+  padding-left: 0;
+}
+

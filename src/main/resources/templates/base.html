@@ -22,13 +22,12 @@
       </div>
     </header>
     <main class="container">
-      <div class="mx-3" layout:fragment="content">
+      <div layout:fragment="content">
         <p>Base template content</p>
       </div>
     </main>
     <footer class="bg-dark text-light">
       <div class="container">
-        <div class="px-3 py-2">
           <p th:if="${blogDescription}" th:text="${blogDescription}">
           A medium-length blog description.
           </p>
@@ -52,7 +51,6 @@
             Yule
           </a>
           </p>
-        </div>
       </div>
     </footer>
     <script src="/webjars/jquery/jquery.min.js" type="text/javascript">
