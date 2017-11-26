@@ -24,7 +24,11 @@
           <div th:utext="${article.introduction}">
             Introduction to the article.
           </div>
-          <a href="#" th:href="${url}">Read more</a>
+          <a class="btn btn-primary my-3"
+             role="button"
+             href="#" th:href="${url}">
+            Read more
+          </a>
         </div>
         <footer>
           <time th:text="${publishedOn}"
