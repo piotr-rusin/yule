@@ -26,29 +26,29 @@
     </main>
     <footer class="bg-dark text-light">
       <div class="container">
-          <p th:if="${blogDescription}" th:text="${blogDescription}">
-          A medium-length blog description.
-          </p>
-          <p>
-          Copyright ©
-          <time th:text="${#dates.year(#dates.createNow())}">2017</time>
-          <span th:text="${adminName}">John Doe</span>
-          </p>
-          <p th:if="${adminEmail}">
-          Contact:
-          <a class="text-light"
-             href="#"
-             th:href="${adminEmail}"
-             th:text="${adminEmail}">
-            john.doe@example.com
-          </a>
-          </p>
-          <p>
-          Powered by:
-          <a class="text-light" href="https://github.com/piotr-rusin/yule">
-            Yule
-          </a>
-          </p>
+        <p th:if="${blogDescription}" th:text="${blogDescription}">
+        A medium-length blog description.
+        </p>
+        <p>
+        Copyright ©
+        <time th:text="${#dates.year(#dates.createNow())}">2017</time>
+        <span th:text="${adminName}">John Doe</span>
+        </p>
+        <p th:if="${adminEmail}">
+        Contact:
+        <a class="text-light"
+           href="#"
+           th:href="${adminEmail}"
+           th:text="${adminEmail}">
+          john.doe@example.com
+        </a>
+        </p>
+        <p>
+        Powered by:
+        <a class="text-light" href="https://github.com/piotr-rusin/yule">
+          Yule
+        </a>
+        </p>
       </div>
     </footer>
     <script src="/webjars/jquery/jquery.min.js" type="text/javascript">
