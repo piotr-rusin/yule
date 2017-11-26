@@ -14,6 +14,8 @@ body > header, article {
 
 body > footer {
   margin-top: 1.2rem;
+  padding-bottom: 1.4rem;
+  padding-top: 1.4rem;
 }
 
 main header {
