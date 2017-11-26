@@ -7,3 +7,15 @@ body {
 main {
    flex: 1;
 }
+
+body > header, article {
+  margin-bottom: 1.75rem;
+}
+
+body > footer {
+  margin-top: 1.2rem;
+}
+
+main header {
+  margin-bottom: 0.6rem;
+}
