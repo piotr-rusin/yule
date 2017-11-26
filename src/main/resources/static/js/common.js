@@ -1,10 +1,19 @@
 function updateTimeTags(selector, date) {
   console.log("Updating content of <time> tags");
-  var toString = date ? "toLocaleDateString" : "toLocaleString";
+
+  var options = {
+    year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit",
+    minute: "2-digit"
+  };
+  if (date) {
+    options = {year: "numeric", month: "long", day: "numeric"};
+  }
+
+  var formatter = new Intl.DateTimeFormat(undefined, options);
   $(selector).each(function() {
     var datetime = $(this).attr('datetime');
     if (datetime) {
-      $(this).text(new Date(datetime)[toString]());
+      $(this).text(formatter.format(new Date(datetime)));
     }
   });
 }
