@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.dialect.springdata.SpringDataDialect;
 
 import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension;
+import com.vladsch.flexmark.ext.definition.DefinitionExtension;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.options.MutableDataSet;
@@ -46,7 +47,9 @@ public class AppConfig {
     public MutableDataSet getMarkdownOptions() {
         MutableDataSet options = new MutableDataSet()
                 .set(HtmlRenderer.GENERATE_HEADER_ID, true)
-                .set(Parser.EXTENSIONS, Arrays.asList(AnchorLinkExtension.create()));
+                .set(Parser.EXTENSIONS,
+                        Arrays.asList(AnchorLinkExtension.create(),
+                                DefinitionExtension.create()));
         return options;
     }
 
