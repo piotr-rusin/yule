@@ -33,6 +33,7 @@ import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension;
 import com.vladsch.flexmark.ext.definition.DefinitionExtension;
 import com.vladsch.flexmark.ext.footnotes.FootnoteExtension;
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughSubscriptExtension;
+import com.vladsch.flexmark.ext.tables.TablesExtension;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.options.MutableDataSet;
@@ -49,11 +50,16 @@ public class AppConfig {
     public MutableDataSet getMarkdownOptions() {
         MutableDataSet options = new MutableDataSet()
                 .set(HtmlRenderer.GENERATE_HEADER_ID, true)
+                .set(TablesExtension.COLUMN_SPANS, false)
+                .set(TablesExtension.APPEND_MISSING_COLUMNS, true)
+                .set(TablesExtension.DISCARD_EXTRA_COLUMNS, true)
+                .set(TablesExtension.HEADER_SEPARATOR_COLUMN_MATCH, true)
                 .set(Parser.EXTENSIONS,
                         Arrays.asList(AnchorLinkExtension.create(),
                                 DefinitionExtension.create(),
                                 FootnoteExtension.create(),
-                                StrikethroughSubscriptExtension.create()));
+                                StrikethroughSubscriptExtension.create(),
+                                TablesExtension.create()));
         return options;
     }
 
