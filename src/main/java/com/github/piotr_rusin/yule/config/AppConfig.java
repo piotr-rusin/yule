@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.dialect.springdata.SpringDataDialect;
 
+import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.options.MutableDataSet;
 
@@ -47,4 +48,10 @@ public class AppConfig {
     public Parser getMarkdownParser(MutableDataSet options) {
         return Parser.builder(options).build();
     }
+
+    @Bean
+    public HtmlRenderer getMarkdownHtmlRenderer(MutableDataSet options) {
+        return HtmlRenderer.builder(options).build();
+    }
+
 }
