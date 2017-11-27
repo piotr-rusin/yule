@@ -29,6 +29,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -138,8 +139,19 @@ public class AdminController {
             return "admin/edit-article";
         }
 
-        Article saved = articleRepository.save(dto);
-        logger.info("The new article {} has been successfully saved.", saved);
+        Article saved = null;
+
+        try {
+            saved = articleRepository.save(dto);
+            logger.info("The new article {} has been successfully saved.", saved);
+        } catch (DataIntegrityViolationException e) {
+            logger.info("The article {} was not saved - its name is already in use.", dto);
+            bindingResult.rejectValue("title", "error.duplicate-title",
+                    String.format(
+                            "An article named \"%s\" already exists.",
+                            dto.getTitle()));
+            return "admin/edit-article";
+        }
 
         if (saved.isScheduledForPublication()) {
             logger.info(
@@ -181,6 +193,13 @@ public class AdminController {
             Article mostRecentlySaved = articleRepository.findOne(id);
             mostRecentlySaved.setAdminAlterableData(saved);
             saved = articleRepository.save(mostRecentlySaved);
+        } catch (DataIntegrityViolationException e) {
+            logger.info("The article {} was not saved - its name is already in use.", dto);
+            bindingResult.rejectValue("title", "error.duplicate-title",
+                    String.format(
+                            "An article named \"%s\" already exists.",
+                            dto.getTitle()));
+            return "admin/edit-article";
         }
 
         boolean isScheduled = saved.isScheduledForPublication();
