@@ -165,3 +165,7 @@ function togglePublicationTimeHint() {
 
 togglePublicationTimeHint();
 $('#status').change(togglePublicationTimeHint);
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+});

@@ -36,6 +36,9 @@
             <tr th:each="article : ${articlePage.content}">
               <td class="align-middle">
                 <span class="articleTitle truncated"
+                      data-toggle="tooltip"
+                      data-placement="bottom"
+                      th:title="${article.title}"
                       th:text="${article.title}">
                   A title of an article
                 </span>
