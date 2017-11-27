@@ -23,10 +23,13 @@
  *******************************************************************************/
 package com.github.piotr_rusin.yule.config;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.dialect.springdata.SpringDataDialect;
 
+import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.options.MutableDataSet;
@@ -41,7 +44,10 @@ public class AppConfig {
 
     @Bean
     public MutableDataSet getMarkdownOptions() {
-        return new MutableDataSet();
+        MutableDataSet options = new MutableDataSet()
+                .set(HtmlRenderer.GENERATE_HEADER_ID, true)
+                .set(Parser.EXTENSIONS, Arrays.asList(AnchorLinkExtension.create()));
+        return options;
     }
 
     @Bean
