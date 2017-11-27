@@ -26,3 +26,11 @@ main header {
   padding-left: 0;
 }
 
+.truncated {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
