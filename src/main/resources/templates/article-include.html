@@ -21,7 +21,8 @@
           </h3>
         </header>
         <div>
-          <div th:utext="${article.introduction}">
+          <div th:utext="${@markdownToHtmlConverter.
+                        convert(article.introduction)}">
             Introduction to the article.
           </div>
           <a class="btn btn-primary mt-3"
@@ -47,7 +48,8 @@
             </a>
           </h3>
         </header>
-        <div th:utext="${article.content}">
+        <div th:utext="${@markdownToHtmlConverter.
+                      convert(article.content)}">
           Full content of the article.
         </div>
         <footer class="mt-3">
@@ -65,7 +67,8 @@
             An article as presented on its own page
           </h1>
         </header>
-        <div th:utext="${article.content}">
+        <div th:utext="${@markdownToHtmlConverter.
+                      convert(article.content)}">
           Article content.
         </div>
         <footer class="mt-3">
