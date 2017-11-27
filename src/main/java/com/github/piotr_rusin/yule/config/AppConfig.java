@@ -27,12 +27,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.dialect.springdata.SpringDataDialect;
 
+import com.vladsch.flexmark.util.options.MutableDataSet;
+
 @Configuration
 public class AppConfig {
 
     @Bean
     public SpringDataDialect springDataDialect() {
         return new SpringDataDialect();
+    }
+
+    @Bean
+    public MutableDataSet getMarkdownOptions() {
+        return new MutableDataSet();
     }
 
 }
