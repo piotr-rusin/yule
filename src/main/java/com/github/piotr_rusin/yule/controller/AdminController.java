@@ -34,7 +34,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.orm.hibernate5.HibernateOptimisticLockingFailureException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -184,7 +184,7 @@ public class AdminController {
 
         try {
             saved = articleRepository.save(saved);
-        } catch (HibernateOptimisticLockingFailureException ex) {
+        } catch (ObjectOptimisticLockingFailureException ex) {
             logger.info(
                     "The article {} was edited concurrently. The changes are "
                             + "being merged based on an assumption that the concurrent edit "
