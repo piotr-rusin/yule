@@ -25,9 +25,7 @@
       </time>
       </p>
       <form action="#"
-            th:action="${article.isNew()} ?
-            @{/admin/article} :
-            @{/admin/article/{id}(id=${article.id})}"
+            th:action="@{/admin/article}"
             id="articleForm"
             th:object="${article}" method="post">
 

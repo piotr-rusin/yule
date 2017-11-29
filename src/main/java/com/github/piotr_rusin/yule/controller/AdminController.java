@@ -129,58 +129,35 @@ public class AdminController {
     }
 
     @PostMapping("/article")
-    public String saveNewArticle(@Valid Article dto,
+    public String saveOrUpdate(@Valid Article article,
             BindingResult bindingResult, RedirectAttributes attributes) {
-        logger.info("Beginning a save operation for article " + dto);
+        String executing = "updating";
+        String executed = "updated";
+        if (article.isNew()) {
+            executing = "saving";
+            executed = "saved";
+        }
+        logger.info("Performing {} operation for article {}...", executing, article);
         if (bindingResult.hasErrors()) {
-            logger.info("Invalid data: {}. Showing validation errors.", dto);
+            logger.info("Invalid data: {}. Showing validation errors.", article);
             return "admin/edit-article";
         }
 
         Article saved = null;
         try {
-            saved = articleRepositoryUpdater.save(dto);
+            saved = articleRepositoryUpdater.save(article);
         } catch (DataIntegrityViolationException e) {
-            logger.info("The article {} was not saved - its name is already in use.", dto);
+            logger.info("The article {} was not {} - its name is already in use.", article, executed);
             bindingResult.rejectValue("title", "error.duplicate-title",
                     String.format(
                             "An article named \"%s\" already exists.",
-                            dto.getTitle()));
+                            article.getTitle()));
             return "admin/edit-article";
         }
 
         attributes.addAttribute("id", saved.getId()).addFlashAttribute(
-                MESSAGE_ATTR, "The article has been successfully saved");
+                MESSAGE_ATTR, String.format("The article has been successfully %s.", executed) );
 
-        return "redirect:/admin/article/{id}";
-    }
-
-    @PostMapping("/article/{id:\\d+}")
-    public String updateArticle(@PathVariable long id, @Valid Article dto,
-            BindingResult bindingResult, RedirectAttributes attributes) {
-        logger.info(
-                "Handling update operation for an article (id: {}, new data: {})",
-                id, dto);
-        if (bindingResult.hasErrors()) {
-            logger.info("Invalid data {}. Showing validation errors.", dto);
-            return "admin/edit-article";
-        }
-
-        Article saved = null;
-
-        try {
-            saved = articleRepositoryUpdater.save(dto);
-        } catch (DataIntegrityViolationException e) {
-            logger.info("The article {} was not saved - its name is already in use.", dto);
-            bindingResult.rejectValue("title", "error.duplicate-title",
-                    String.format(
-                            "An article named \"%s\" already exists.",
-                            dto.getTitle()));
-            return "admin/edit-article";
-        }
-
-        attributes.addAttribute("id", saved.getId()).addFlashAttribute(
-                MESSAGE_ATTR, "The article has been successfully updated");
         return "redirect:/admin/article/{id}";
     }
 
