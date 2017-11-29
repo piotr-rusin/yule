@@ -23,18 +23,16 @@
  *******************************************************************************/
 package com.github.piotr_rusin.yule.controller;
 
-import java.time.Instant;
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,7 +48,7 @@ import com.github.piotr_rusin.yule.domain.Article;
 import com.github.piotr_rusin.yule.exception.PageNotFoundException;
 import com.github.piotr_rusin.yule.exception.ResourceNotFoundException;
 import com.github.piotr_rusin.yule.repository.ArticleRepository;
-import com.github.piotr_rusin.yule.service.AutoPublicationScheduler;
+import com.github.piotr_rusin.yule.service.ArticleRepositoryUpdater;
 
 @Controller
 @SessionAttributes(AdminController.PAGE_REQUEST_ATTR)
@@ -68,12 +66,12 @@ public class AdminController {
     final static int DEFAULT_PAGE_SIZE = 10;
 
     private ArticleRepository articleRepository;
-    private AutoPublicationScheduler autoPublicationScheduler;
+    private ArticleRepositoryUpdater articleRepositoryUpdater;
 
     public AdminController(ArticleRepository articleRepository,
-            AutoPublicationScheduler autoPublicationScheduler) {
+            ArticleRepositoryUpdater articleRepositoryUpdater) {
         this.articleRepository = articleRepository;
-        this.autoPublicationScheduler = autoPublicationScheduler;
+        this.articleRepositoryUpdater = articleRepositoryUpdater;
     }
 
     @GetMapping()
@@ -140,10 +138,8 @@ public class AdminController {
         }
 
         Article saved = null;
-
         try {
-            saved = articleRepository.save(dto);
-            logger.info("The new article {} has been successfully saved.", saved);
+            saved = articleRepositoryUpdater.save(dto);
         } catch (DataIntegrityViolationException e) {
             logger.info("The article {} was not saved - its name is already in use.", dto);
             bindingResult.rejectValue("title", "error.duplicate-title",
@@ -151,14 +147,6 @@ public class AdminController {
                             "An article named \"%s\" already exists.",
                             dto.getTitle()));
             return "admin/edit-article";
-        }
-
-        if (saved.isScheduledForPublication()) {
-            logger.info(
-                    "The article {} has been scheduled for auto-publication. "
-                            + "Rescheduling auto-publication task.",
-                    saved);
-            autoPublicationScheduler.scheduleNew();
         }
 
         attributes.addAttribute("id", saved.getId()).addFlashAttribute(
@@ -179,20 +167,10 @@ public class AdminController {
         }
 
         Article saved = articleRepository.findOne(id);
-        Article previous = new Article(saved);
         saved.setAdminAlterableData(dto);
 
         try {
-            saved = articleRepository.save(saved);
-        } catch (ObjectOptimisticLockingFailureException ex) {
-            logger.info(
-                    "The article {} was edited concurrently. The changes are "
-                            + "being merged based on an assumption that the concurrent edit "
-                            + "was only an automatic publication.",
-                    saved);
-            Article mostRecentlySaved = articleRepository.findOne(id);
-            mostRecentlySaved.setAdminAlterableData(saved);
-            saved = articleRepository.save(mostRecentlySaved);
+            saved = articleRepositoryUpdater.save(saved);
         } catch (DataIntegrityViolationException e) {
             logger.info("The article {} was not saved - its name is already in use.", dto);
             bindingResult.rejectValue("title", "error.duplicate-title",
@@ -202,27 +180,6 @@ public class AdminController {
             return "admin/edit-article";
         }
 
-        boolean isScheduled = saved.isScheduledForPublication();
-        Instant publicationTimestamp = saved.getPublicationTimestamp();
-        String reschedulingReason = null;
-
-        if (isScheduled != previous.isScheduledForPublication()) {
-            reschedulingReason = "new status for the article: "
-                    + saved.getStatus();
-        } else if (isScheduled && !publicationTimestamp
-                .equals(previous.getPublicationTimestamp())) {
-            reschedulingReason = "new publication time: "
-                    + publicationTimestamp;
-        }
-
-        if (reschedulingReason != null) {
-            logger.info(
-                    "Rescheduling auto-publication for article {}. Reason: {}",
-                    saved, reschedulingReason);
-            autoPublicationScheduler.scheduleNew();
-        }
-
-        logger.info("The article {} was successfully updated.", saved);
         attributes.addAttribute("id", saved.getId()).addFlashAttribute(
                 MESSAGE_ATTR, "The article has been successfully updated");
         return "redirect:/admin/article/{id}";
@@ -248,27 +205,18 @@ public class AdminController {
     public String deleteArticleAndRedirectToArticleList(@PathVariable long id,
             RedirectAttributes attributes,
             @SessionAttribute(PAGE_REQUEST_ATTR) Pageable pageRequest) {
-        Article article = articleRepository.findOne(id);
-
-        if (article == null) {
+        Article deleted = null;
+        try {
+            deleted = articleRepositoryUpdater.delete(id);
+        } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(
                     "There is no article with id = " + id);
-        }
-
-        articleRepository.delete(id);
-        logger.info("The article {} has been successfully deleted.", article);
-
-        if (article.isScheduledForPublication()) {
-            logger.info(
-                    "The deleted article {} was scheduled for auto-publication. Rescheduling the auto-publication task.",
-                    article);
-            autoPublicationScheduler.scheduleNew();
         }
 
         attributes.addFlashAttribute(MESSAGE_ATTR,
                 String.format(
                         "The article \"%s\" has been successfully deleted.",
-                        article.getTitle()));
+                        deleted.getTitle()));
 
         Page<Article> articles = articleRepository.findAll(pageRequest);
 
