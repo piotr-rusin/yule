@@ -26,6 +26,7 @@ package com.github.piotr_rusin.yule.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.stereotype.Service;
 
 import com.github.piotr_rusin.yule.domain.Article;
 import com.github.piotr_rusin.yule.repository.ArticleRepository;
@@ -35,6 +36,7 @@ import com.github.piotr_rusin.yule.repository.ArticleRepository;
  *
  * @author Piotr Rusin <piotr.rusin88@gmail.com>
  */
+@Service
 public class ArticleRepositoryUpdater {
     private static final Logger logger = LoggerFactory
             .getLogger(ArticleRepositoryUpdater.class);
