@@ -244,26 +244,7 @@ public class AdminController {
             pageRequest = pageRequest.previousOrFirst();
         }
 
-        Sort sort = pageRequest.getSort();
-        if (sort != null) {
-            for (Sort.Order o: pageRequest.getSort()) {
-                String property = o.getProperty();
-                String direction = o.isAscending() ? "asc" : "desc";
-                attributes.addAttribute("sort", property + "," + direction);
-            }
-        }
-
-        int pageNumber = pageRequest.getPageNumber();
-        if (pageNumber != 0) {
-            attributes.addAttribute("page", pageNumber);
-        }
-
-        int pageSize = pageRequest.getPageSize();
-        if (pageSize != DEFAULT_PAGE_SIZE) {
-            attributes.addAttribute("size", pageSize);
-        }
-
-        return "redirect:/admin/articles";
+        return redirectToArticleList(attributes, pageRequest);
     }
 
     private void addArticleToModel(Model model, Article article) {
