@@ -162,6 +162,50 @@ public class AdminController {
     }
 
     /**
+     * Redirect to a page of admin article list.
+     *
+     * @param attributes
+     *            is a container for redirect attributes.
+     * @param pageRequest
+     *            is an object representing page request used to query for the
+     *            last displayed admin article list page, if any. If null, the
+     *            redirection target is assumed to be the first page of the
+     *            list, with default sorting order and page size (see
+     *            {@link AdminController#articleList(Pageable, Model)} and
+     *            {@link AdminController#DEFAULT_PAGE_SIZE})
+     * @return a value interpreted as redirection request
+     */
+    @GetMapping("/articles/redirect")
+    public String redirectToArticleList(RedirectAttributes attributes,
+            @SessionAttribute(value = PAGE_REQUEST_ATTR, required = false) Pageable pageRequest) {
+        String redirect = "redirect:/admin/articles";
+        if (pageRequest == null) {
+            return redirect;
+        }
+
+        Sort sort = pageRequest.getSort();
+        if (sort != null) {
+            for (Sort.Order o : pageRequest.getSort()) {
+                String property = o.getProperty();
+                String direction = o.isAscending() ? "asc" : "desc";
+                attributes.addAttribute("sort", property + "," + direction);
+            }
+        }
+
+        int pageNumber = pageRequest.getPageNumber();
+        if (pageNumber != 0) {
+            attributes.addAttribute("page", pageNumber);
+        }
+
+        int pageSize = pageRequest.getPageSize();
+        if (pageSize != DEFAULT_PAGE_SIZE) {
+            attributes.addAttribute("size", pageSize);
+        }
+
+        return redirect;
+    }
+
+    /**
      * Delete an article and redirect to a page of the admin panel article list
      * <p>
      * If the article was the last element of the last page, the method
