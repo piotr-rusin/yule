@@ -51,7 +51,7 @@ import com.github.piotr_rusin.yule.repository.ArticleRepository;
 import com.github.piotr_rusin.yule.service.ArticleRepositoryUpdater;
 
 @Controller
-@SessionAttributes(AdminController.PAGE_REQUEST_ATTR)
+@SessionAttributes({AdminController.PAGE_REQUEST_ATTR, AdminController.ARTICLE_ATTR})
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -166,11 +166,10 @@ public class AdminController {
             return "admin/edit-article";
         }
 
-        Article saved = articleRepository.findOne(id);
-        saved.setAdminAlterableData(dto);
+        Article saved = null;
 
         try {
-            saved = articleRepositoryUpdater.save(saved);
+            saved = articleRepositoryUpdater.save(dto);
         } catch (DataIntegrityViolationException e) {
             logger.info("The article {} was not saved - its name is already in use.", dto);
             bindingResult.rejectValue("title", "error.duplicate-title",
