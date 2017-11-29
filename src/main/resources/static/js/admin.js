@@ -143,6 +143,26 @@ $('.deleteArticle').each(function() {
   });
 });
 
+$('.cancelArticleAddOrEdit').each(function() {
+  $(this).click(function(){
+    var article = new ArticleIdData($(this));
+
+    function sendRedirectToArticleListRequest() {
+      console.log('Cancelling article add/edit operation for ' +
+        article.title + '. '+ 'Redirecting to admin article list.');
+      window.location.href = '/admin/articles/redirect';
+    }
+
+    task.init({
+      initialMessage: 'Are you sure you want to cancel? Your changes ' +
+      'will be lost.',
+      postConfirmationMessage: 'Redirecting to admin article list...',
+      description: 'Sending request to redirect to the previous page ' +
+      'of admin article list ',
+      execute: sendRedirectToArticleListRequest
+    });
+  });
+});
 
 $('#confirmRequest').click(function() {
   task.execute();
