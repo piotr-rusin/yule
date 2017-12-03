@@ -24,67 +24,36 @@
 package com.github.piotr_rusin.yule.controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.github.piotr_rusin.yule.config.YuleConfig;
 import com.github.piotr_rusin.yule.domain.Article;
-import com.github.piotr_rusin.yule.exception.PageNotFoundException;
-import com.github.piotr_rusin.yule.exception.ResourceNotFoundException;
-import com.github.piotr_rusin.yule.repository.ArticleRepository;
+import com.github.piotr_rusin.yule.service.ArticleProvider;
 
 @Controller
 public class YuleController {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(YuleController.class);
-
-    private YuleConfig config;
-    private ArticleRepository articleRepository;
+    private ArticleProvider articleProvider;
 
     @Autowired
-    public YuleController(YuleConfig config,
-            ArticleRepository articleRepository) {
-        this.config = config;
-        this.articleRepository = articleRepository;
+    public YuleController(ArticleProvider articleProvider) {
+        this.articleProvider = articleProvider;
     }
 
     @GetMapping({ "/", "/page/{page:[1-9][0-9]*}" })
     public String getBlogPostListPage(
             @PathVariable(required = false) Integer page, Model model) {
-        logger.info("Requesting a page of index view");
         if (page == null) {
-            logger.info("No page parameter provided, assuming the first page");
             page = 1;
         }
-        PageRequest pageRequest = new PageRequest(page - 1,
-                config.getIndexPageSize());
-        Page<Article> articles = articleRepository
-                .findPublishedPosts(pageRequest);
-        if (articles.getNumberOfElements() == 0) {
-            if (!articles.isFirst()) {
-                throw new PageNotFoundException(String.format(
-                        "The requested blog post list page (%s) was not found.",
-                        page));
-            }
-            logger.warn("There are no published blog posts in the database");
-            model.addAttribute("articlePage", null);
-        } else {
-            model.addAttribute("articlePage", articles);
-        }
-        logger.info(
-                String.format("Returning page %d of the blog post list", page));
+        Page<Article> articles = articleProvider.getBlogPostPage(page - 1);
+        model.addAttribute("articlePage", articles);
         return "index";
     }
 
@@ -92,18 +61,7 @@ public class YuleController {
     public String showBlogPost(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate publicationDate,
             @PathVariable String slug, Model model) {
-        Article article = articleRepository.findPublishedPostBy(slug);
-        LocalDate actualPublicationDate = LocalDateTime
-                .ofInstant(article.getPublicationTimestamp(), ZoneOffset.UTC)
-                .toLocalDate();
-
-        if (article == null || !publicationDate.equals(actualPublicationDate)) {
-            throw new ResourceNotFoundException(String.format(
-                    "The article '%s', published on %s, was not found.", slug,
-                    publicationDate));
-        }
-        logger.info("Returning the article '{}', published on {}", slug,
-                publicationDate);
+        Article article = articleProvider.getPublishedBlogPost(slug, publicationDate);
         model.addAttribute("article", article);
         return "article";
     }
@@ -115,12 +73,7 @@ public class YuleController {
 
     @GetMapping("/{slug:[a-z-]+}")
     public String showPage(@PathVariable String slug, Model model) {
-        Article article = articleRepository.findPublishedPageBy(slug);
-        if (article == null) {
-            throw new ResourceNotFoundException(String.format(
-                    "The requested blog page (%s) was not found.", slug));
-        }
-        logger.info("Returning requested blog page: " + slug);
+        Article article = articleProvider.getPublishedPage(slug);
         model.addAttribute("article", article);
         return "article";
     }

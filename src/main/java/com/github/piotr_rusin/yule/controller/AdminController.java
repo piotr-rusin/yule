@@ -44,9 +44,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.piotr_rusin.yule.domain.Article;
-import com.github.piotr_rusin.yule.exception.PageNotFoundException;
 import com.github.piotr_rusin.yule.exception.ResourceNotFoundException;
 import com.github.piotr_rusin.yule.repository.ArticleRepository;
+import com.github.piotr_rusin.yule.service.ArticleProvider;
 import com.github.piotr_rusin.yule.service.ArticleRepositoryUpdater;
 
 @Controller
@@ -66,11 +66,13 @@ public class AdminController {
 
     private ArticleRepository articleRepository;
     private ArticleRepositoryUpdater articleRepositoryUpdater;
+    private ArticleProvider articleProvider;
 
     public AdminController(ArticleRepository articleRepository,
-            ArticleRepositoryUpdater articleRepositoryUpdater) {
+            ArticleRepositoryUpdater articleRepositoryUpdater, ArticleProvider articleProvider) {
         this.articleRepository = articleRepository;
         this.articleRepositoryUpdater = articleRepositoryUpdater;
+        this.articleProvider = articleProvider;
     }
 
     @GetMapping()
@@ -83,24 +85,9 @@ public class AdminController {
     public String articleList(
             @PageableDefault(size = DEFAULT_PAGE_SIZE, sort = "creationTimestamp", direction = Sort.Direction.DESC) Pageable pageRequest,
             Model model) {
-        logger.info("Requesting a page of admin panel article list view");
-        int page = pageRequest.getPageNumber();
-
         model.addAttribute(PAGE_REQUEST_ATTR, pageRequest);
-
-        Page<Article> articles = articleRepository.findAll(pageRequest);
-        if (articles.getNumberOfElements() == 0) {
-            if (!articles.isFirst()) {
-                throw new PageNotFoundException(String.format(
-                        "The requested page (%s) of the article list was not found.",
-                        pageRequest.getPageNumber()));
-            }
-            logger.warn("There are no articles in the database");
-            model.addAttribute(ARTICLE_PAGE_ATTR, null);
-        } else {
-            model.addAttribute(ARTICLE_PAGE_ATTR, articles);
-        }
-        logger.info("Admin panel: showing page {} of the article list.", page);
+        Page<Article> articles = articleProvider.getAdminArticleListPage(pageRequest);
+        model.addAttribute(ARTICLE_PAGE_ATTR, articles);
         return "admin/article-list";
     }
 
