@@ -44,7 +44,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.piotr_rusin.yule.domain.Article;
-import com.github.piotr_rusin.yule.exception.ResourceNotFoundException;
 import com.github.piotr_rusin.yule.repository.ArticleRepository;
 import com.github.piotr_rusin.yule.service.ArticleProvider;
 import com.github.piotr_rusin.yule.service.ArticleRepositoryUpdater;
@@ -102,13 +101,7 @@ public class AdminController {
 
     @GetMapping("/article/{id:\\d+}")
     public String loadForEditing(@PathVariable long id, Model model) {
-        Article article = articleRepository.findOne(id);
-
-        if (article == null) {
-            throw new ResourceNotFoundException(
-                    "There is no article with the id = " + id);
-        }
-
+        Article article = articleProvider.getArticleById(id);
         addArticleToModel(model, article);
         logger.info("Loading article {} for editing", article);
         return "admin/edit-article";
