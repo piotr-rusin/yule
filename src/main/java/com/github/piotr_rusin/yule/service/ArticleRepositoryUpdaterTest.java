@@ -24,6 +24,7 @@
 package com.github.piotr_rusin.yule.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -36,6 +37,7 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.piotr_rusin.yule.domain.Article;
+import com.github.piotr_rusin.yule.exception.ResourceNotFoundException;
 import com.github.piotr_rusin.yule.repository.ArticleRepository;
 
 @RunWith(SpringRunner.class)
@@ -173,6 +175,8 @@ public class ArticleRepositoryUpdaterTest {
     @Test
     public void testDeleteDeletesAnArticle() {
         long id = 10;
+        getExistingArticle(id);
+
         articleManager.delete(id);
         verify(articleRepository).delete(id);
     }
@@ -180,6 +184,8 @@ public class ArticleRepositoryUpdaterTest {
     @Test
     public void testDeleteReschedulesAutoPublication() {
         long id = 10;
+        getExistingArticle(id);
+
         articleManager.delete(id);
         assertSchedulesAutoPublication();
     }
@@ -192,5 +198,13 @@ public class ArticleRepositoryUpdaterTest {
         Article actual = articleManager.delete(id);
 
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testDeleteThrowsResourceNotFound() {
+        long id = 10;
+        assertThatExceptionOfType(ResourceNotFoundException.class)
+                .isThrownBy(() -> articleManager.delete(id))
+                .withMessage("There is no article with id = 10.");
     }
 }

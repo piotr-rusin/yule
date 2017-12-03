@@ -29,6 +29,7 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import com.github.piotr_rusin.yule.domain.Article;
+import com.github.piotr_rusin.yule.exception.ResourceNotFoundException;
 import com.github.piotr_rusin.yule.repository.ArticleRepository;
 
 /**
@@ -92,10 +93,16 @@ public class ArticleRepositoryUpdater {
      * 
      * @param id
      *            is an identifier of the article to be deleted.
+     * @throws ResourceNotFoundException
+     *             if the article couldn't be found.
      * @return an article object representing the deleted article.
      */
     public Article delete(Long id) {
         Article article = articleRepository.findOne(id);
+        if (article == null) {
+            throw new ResourceNotFoundException(
+                    String.format("There is no article with id = %d.", id));
+        }
         articleRepository.delete(id);
         logger.info("The article {} has been successfully deleted.", article);
         publicationScheduler.scheduleNew();
