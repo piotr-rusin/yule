@@ -100,6 +100,7 @@ public class ArticleRepositoryUpdater {
      * @return an article object representing the deleted article.
      */
     public Article delete(long id) {
+        logger.info("Deleting an article with id = {}...", id);
         Article article = articleProvider.getArticleById(id);
         articleRepository.delete(id);
         logger.info("The article {} has been successfully deleted.", article);
