@@ -114,18 +114,6 @@ public class ArticleProviderTest {
     }
 
     @Test
-    public void testGetBlogPostPageReturnsTheFirstPageForZeroArgument() {
-        PageRequest pageRequest = new PageRequest(0, 10);
-        boolean empty = false;
-        Page<Article> expected = getArticlePage(pageRequest, empty);
-        setUpAsPublishedBlogPostPage(expected, pageRequest);
-
-        Page<Article> actual = articleProvider.getBlogPostPage(0);
-
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
     public void testGetBlogPostPageReturnsNull() {
         PageRequest pageRequest = new PageRequest(0, 10);
         boolean empty = true;
