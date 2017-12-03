@@ -101,10 +101,7 @@ public class ArticleProvider {
      *             if the page is empty and not first.
      * @return the requested page.
      */
-    public Page<Article> getBlogPostPage(Integer page) {
-        if (page == null) {
-            page = 0;
-        }
+    public Page<Article> getBlogPostPage(int page) {
         PageRequest pageRequest = new PageRequest(page,
                 config.getIndexPageSize());
 
