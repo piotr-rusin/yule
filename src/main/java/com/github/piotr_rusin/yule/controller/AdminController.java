@@ -44,7 +44,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.piotr_rusin.yule.domain.Article;
-import com.github.piotr_rusin.yule.repository.ArticleRepository;
+import com.github.piotr_rusin.yule.exception.PageNotFoundException;
 import com.github.piotr_rusin.yule.service.ArticleProvider;
 import com.github.piotr_rusin.yule.service.ArticleRepositoryUpdater;
 
@@ -63,13 +63,11 @@ public class AdminController {
 
     final static int DEFAULT_PAGE_SIZE = 10;
 
-    private ArticleRepository articleRepository;
     private ArticleRepositoryUpdater articleRepositoryUpdater;
     private ArticleProvider articleProvider;
 
-    public AdminController(ArticleRepository articleRepository,
-            ArticleRepositoryUpdater articleRepositoryUpdater, ArticleProvider articleProvider) {
-        this.articleRepository = articleRepository;
+    public AdminController(ArticleRepositoryUpdater articleRepositoryUpdater,
+            ArticleProvider articleProvider) {
         this.articleRepositoryUpdater = articleRepositoryUpdater;
         this.articleProvider = articleProvider;
     }
@@ -211,9 +209,9 @@ public class AdminController {
                         "The article \"%s\" has been successfully deleted.",
                         deleted.getTitle()));
 
-        Page<Article> articles = articleRepository.findAll(pageRequest);
-
-        if (!articles.hasContent()) {
+        try {
+            articleProvider.getAdminArticleListPage(pageRequest);
+        } catch (PageNotFoundException e) {
             pageRequest = pageRequest.previousOrFirst();
         }
 
