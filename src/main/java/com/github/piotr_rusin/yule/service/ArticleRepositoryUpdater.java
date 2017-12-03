@@ -44,11 +44,13 @@ public class ArticleRepositoryUpdater {
 
     private ArticleRepository articleRepository;
     private AutoPublicationScheduler publicationScheduler;
+    private ArticleProvider articleProvider;
 
     public ArticleRepositoryUpdater(ArticleRepository articleRepository,
-            AutoPublicationScheduler publicationScheduler) {
+            AutoPublicationScheduler publicationScheduler, ArticleProvider articleProvider) {
         this.articleRepository = articleRepository;
         this.publicationScheduler = publicationScheduler;
+        this.articleProvider = articleProvider;
     }
 
     /**
@@ -98,11 +100,7 @@ public class ArticleRepositoryUpdater {
      * @return an article object representing the deleted article.
      */
     public Article delete(Long id) {
-        Article article = articleRepository.findOne(id);
-        if (article == null) {
-            throw new ResourceNotFoundException(
-                    String.format("There is no article with id = %d.", id));
-        }
+        Article article = articleProvider.getArticleById(id);
         articleRepository.delete(id);
         logger.info("The article {} has been successfully deleted.", article);
         publicationScheduler.scheduleNew();

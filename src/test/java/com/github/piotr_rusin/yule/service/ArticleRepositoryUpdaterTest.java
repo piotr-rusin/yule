@@ -48,12 +48,15 @@ public class ArticleRepositoryUpdaterTest {
     @Mock
     private AutoPublicationScheduler autoPublicationScheduler;
 
+    @Mock
+    private ArticleProvider articleProvider;
+
     private ArticleRepositoryUpdater articleManager;
 
     @Before
     public void setUp() {
         articleManager = new ArticleRepositoryUpdater(articleRepository,
-                autoPublicationScheduler);
+                autoPublicationScheduler, articleProvider);
     }
 
     private void assertSaves(Article article) {
@@ -175,7 +178,8 @@ public class ArticleRepositoryUpdaterTest {
     @Test
     public void testDeleteDeletesAnArticle() {
         long id = 10;
-        getExistingArticle(id);
+        Article article = getExistingArticle(id);
+        doReturn(article).when(articleProvider).getArticleById(id);
 
         articleManager.delete(id);
         verify(articleRepository).delete(id);
@@ -184,7 +188,8 @@ public class ArticleRepositoryUpdaterTest {
     @Test
     public void testDeleteReschedulesAutoPublication() {
         long id = 10;
-        getExistingArticle(id);
+        Article article = getExistingArticle(id);
+        doReturn(article).when(articleProvider).getArticleById(id);
 
         articleManager.delete(id);
         assertSchedulesAutoPublication();
@@ -194,6 +199,7 @@ public class ArticleRepositoryUpdaterTest {
     public void testDeleteReturnsExpectedArticle() {
         long id = 10;
         Article expected = getExistingArticle(id);
+        doReturn(expected).when(articleProvider).getArticleById(id);
 
         Article actual = articleManager.delete(id);
 
@@ -203,8 +209,8 @@ public class ArticleRepositoryUpdaterTest {
     @Test
     public void testDeleteThrowsResourceNotFound() {
         long id = 10;
+        doThrow(ResourceNotFoundException.class).when(articleProvider).getArticleById(id);
         assertThatExceptionOfType(ResourceNotFoundException.class)
-                .isThrownBy(() -> articleManager.delete(id))
-                .withMessage("There is no article with id = 10.");
+                .isThrownBy(() -> articleManager.delete(id));
     }
 }
