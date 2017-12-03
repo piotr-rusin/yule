@@ -259,7 +259,7 @@ public class ArticleProviderTest {
         assertThatExceptionOfType(ResourceNotFoundException.class)
                 .isThrownBy(() -> articleProvider.getPublishedPage(slug))
                 .withMessage(String.format(
-                        "The requested blog page \"%s\" was not found.", slug));
+                        "The requested article \"%s\" was not found.", slug));
     }
 
 }

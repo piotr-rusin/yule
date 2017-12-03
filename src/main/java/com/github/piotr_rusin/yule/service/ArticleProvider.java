@@ -177,16 +177,7 @@ public class ArticleProvider {
      * @return the requested blog page.
      */
     public Article getPublishedPage(String slug) {
-        logger.info("Requesting \"{}\" blog page.", slug);
-        Article article = repository.findPublishedPageBy(slug);
-        if (article == null) {
-            throw new ResourceNotFoundException(String.format(
-                    "The requested blog page \"%s\" was not found.", slug));
-        }
-
-        logger.info("The request was handled succesfully, returning {}",
-                article);
-        return article;
+        return getArticleBy(slug, repository::findPublishedPageBy);
     }
 
 }
