@@ -122,6 +122,19 @@ public class ArticleProvider {
         return getArticlePage(repository::findAll, "articles", pageRequest);
     }
 
+    private Article getArticleBy(String slug, Function<String, Article> query) {
+        logger.info("Requesting \"{}\" article.", slug);
+        Article article = query.apply(slug);
+        if (article == null) {
+            throw new ResourceNotFoundException(String.format(
+                    "The requested article \"%s\" was not found.", slug));
+        }
+
+        logger.info("The request was handled succesfully, returning {}",
+                article);
+        return article;
+    }
+
     /**
      * Get a published blog post.
      *
