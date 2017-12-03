@@ -105,7 +105,7 @@ public class ArticleRepositoryUpdaterTest {
 
     /**
      * Versions of the same article involved in a concurrent update operation.
-     * 
+     *
      * @author Piotr Rusin <piotr.rusin88@gmail.com>
      */
     private class ConcurrentlyUpdated {
