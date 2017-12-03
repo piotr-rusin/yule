@@ -262,4 +262,25 @@ public class ArticleProviderTest {
                         "The requested article \"%s\" was not found.", slug));
     }
 
+    @Test
+    public void testGetArticleByIdReturnsArticle() {
+        long id = 10;
+
+        boolean post = false;
+        Article expected = getPublishedArticle(post);
+        doReturn(expected).when(repository).findOne(id);
+
+        Article actual = articleProvider.getArticleById(id);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGetArticleByIdThrowsResourceNotFound() {
+        long id = 10;
+        assertThatExceptionOfType(ResourceNotFoundException.class)
+                .isThrownBy(() -> articleProvider.getArticleById(id))
+                .withMessage(
+                        String.format("There is no article with id = %s.", id));
+    }
+
 }

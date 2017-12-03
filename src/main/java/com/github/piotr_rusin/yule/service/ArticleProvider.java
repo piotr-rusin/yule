@@ -136,6 +136,26 @@ public class ArticleProvider {
     }
 
     /**
+     * Get an article with given id.
+     *
+     * @param id is the id value used to find the requested article.
+     * @throws ResourceNotFoundException if the article was not found.
+     * @return the article.
+     */
+    public Article getArticleById(long id) {
+        logger.info("Requesting an article with id = {}.", id);
+        Article article = repository.findOne(id);
+        if (article == null) {
+            throw new ResourceNotFoundException(
+                    String.format("There is no article with id = %s.", id));
+        }
+
+        logger.info("The request was handled succesfully, returning {}.",
+                article);
+        return article;
+    }
+
+    /**
      * Get a published blog post.
      *
      * @param slug
