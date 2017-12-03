@@ -139,7 +139,7 @@ public class ArticleProvider {
      */
     public Article getPublishedBlogPost(String slug,
             LocalDate publicationDate) {
-        logger.info("Requesting a blog post \"%s\", published on %s.", slug,
+        logger.info("Requesting a blog post \"{}\", published on {}.", slug,
                 publicationDate);
         Article article = repository.findPublishedPostBy(slug);
         if (article == null) {
@@ -157,7 +157,7 @@ public class ArticleProvider {
                     article, publicationDate));
         }
 
-        logger.info("The request was handled succesfully, returning %s",
+        logger.info("The request was handled succesfully, returning {}.",
                 article);
         return article;
     }
@@ -172,7 +172,7 @@ public class ArticleProvider {
      * @return the requested blog page.
      */
     public Article getPublishedPage(String slug) {
-        logger.info("Requesting {} blog page.", slug);
+        logger.info("Requesting \"{}\" blog page.", slug);
         Article article = repository.findPublishedPageBy(slug);
         if (article == null) {
             throw new ResourceNotFoundException(String.format(
