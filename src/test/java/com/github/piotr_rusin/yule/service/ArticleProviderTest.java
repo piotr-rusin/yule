@@ -221,7 +221,7 @@ public class ArticleProviderTest {
                 .isThrownBy(() -> articleProvider.getPublishedBlogPost(slug,
                         publicationDate))
                 .withMessage(String.format(
-                        "The requested blog post \"%s\" was not found.", slug));
+                        "The requested article \"%s\" was not found.", slug));
     }
 
     @Test

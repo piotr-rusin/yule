@@ -151,12 +151,7 @@ public class ArticleProvider {
             LocalDate publicationDate) {
         logger.info("Requesting a blog post \"{}\", published on {}.", slug,
                 publicationDate);
-        Article article = repository.findPublishedPostBy(slug);
-        if (article == null) {
-            throw new ResourceNotFoundException(String.format(
-                    "The requested blog post \"%s\" was not found.", slug,
-                    publicationDate));
-        }
+        Article article = getArticleBy(slug, repository::findPublishedPostBy);
 
         LocalDate actualPublicationDate = LocalDateTime
                 .ofInstant(article.getPublicationTimestamp(), ZoneOffset.UTC)
