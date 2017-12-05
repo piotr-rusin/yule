@@ -7,11 +7,12 @@ A configurable, database-backed blog engine.
 * paginated list of published blog posts, displayed on the main page
 * blog pages displayed in the top navigation menu
 * admin panel with a paginated table of articles and a form page for creating and editing them
-* saving posts and pages with different statuses
+* saving posts and pages as drafts or published posts
 * automatic, schedulable publication of posts and pages
 * config-file based configuration
 * automatic database schema migrations with custom scripts
 * unit and integration tests
+* support for content written in Markdown
 
 ## Configuration
 
@@ -39,7 +40,7 @@ yule:
   # a non-empty string, optional, default is "Default blog title"
   title: Example blog title
   # a non-empty string, optional
-  description: Another Yule blog
+  description: A description of the blog
   # a number of published blog posts displayed on a page of the blog post
   # list
   # at least 5, optional, default is 5
@@ -111,6 +112,7 @@ Instead of being executed from a directory manually or with a custom script, the
 * [Spring Boot][1], [Hibernate ORM][2], [PostgreSQL][3], [Thymeleaf][4], [jQuery][5] - core functionality
 * [Flyway][6] - database schema migration
 * [JUnit][7], [AssertJ][8], [Mockito][9] - unit and integration tests
+* [Bootstrap][11] - CSS styles and dialog windows
 * [Maven][10] - project management
 
 [1]: https://projects.spring.io/spring-boot/
@@ -123,6 +125,7 @@ Instead of being executed from a directory manually or with a custom script, the
 [8]: http://joel-costigliola.github.io/assertj/
 [9]: http://site.mockito.org/
 [10]: https://maven.apache.org/
+[11]: https://getbootstrap.com/
 
 ## License
 
