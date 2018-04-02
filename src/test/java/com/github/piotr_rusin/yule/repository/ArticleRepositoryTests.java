@@ -59,7 +59,7 @@ import com.github.piotr_rusin.yule.domain.ArticleStatus;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@Sql("insert_article_repository_test_data.sql")
+@Sql(scripts = "classpath:insert_article_repository_test_data.sql")
 @ActiveProfiles("test")
 public class ArticleRepositoryTests {
 
