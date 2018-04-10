@@ -104,8 +104,7 @@ public class ArticleProviderTest {
     @Test
     public void testGetBlogPostPageReturnsRequestedPage() {
         PageRequest pageRequest = new PageRequest(2, 10);
-        boolean empty = false;
-        Page<Article> expected = getArticlePage(pageRequest, empty);
+        Page<Article> expected = getArticlePage(pageRequest, false);
         setUpAsPublishedBlogPostPage(expected, pageRequest);
 
         Page<Article> actual = articleProvider.getBlogPostPage(2);
@@ -116,8 +115,7 @@ public class ArticleProviderTest {
     @Test
     public void testGetBlogPostPageReturnsNull() {
         PageRequest pageRequest = new PageRequest(0, 10);
-        boolean empty = true;
-        Page<Article> expected = getArticlePage(pageRequest, empty);
+        Page<Article> expected = getArticlePage(pageRequest, true);
         setUpAsPublishedBlogPostPage(expected, pageRequest);
 
         Page<Article> actual = articleProvider.getBlogPostPage(0);
@@ -128,8 +126,7 @@ public class ArticleProviderTest {
     @Test
     public void testGetBlogPostPageRaisesPageNotFound() {
         PageRequest pageRequest = new PageRequest(2, 10);
-        boolean empty = true;
-        Page<Article> expected = getArticlePage(pageRequest, empty);
+        Page<Article> expected = getArticlePage(pageRequest, true);
         setUpAsPublishedBlogPostPage(expected, pageRequest);
 
         assertThatExceptionOfType(PageNotFoundException.class)
@@ -142,8 +139,7 @@ public class ArticleProviderTest {
     @Test
     public void testGetAdminArticleListPageReturnsRequestedPage() {
         PageRequest pageRequest = new PageRequest(2, 10);
-        boolean empty = false;
-        Page<Article> expected = getArticlePage(pageRequest, empty);
+        Page<Article> expected = getArticlePage(pageRequest, false);
         doReturn(expected).when(repository).findAll(pageRequest);
 
         Page<Article> actual = articleProvider
@@ -155,8 +151,7 @@ public class ArticleProviderTest {
     @Test
     public void testGetAdminArticleListPageReturnsNull() {
         PageRequest pageRequest = new PageRequest(0, 10);
-        boolean empty = true;
-        Page<Article> expected = getArticlePage(pageRequest, empty);
+        Page<Article> expected = getArticlePage(pageRequest, true);
         doReturn(expected).when(repository).findAll(pageRequest);
 
         Page<Article> actual = articleProvider
@@ -168,8 +163,7 @@ public class ArticleProviderTest {
     @Test
     public void testGetAdminArticleListPageRaisesPageNotFound() {
         PageRequest pageRequest = new PageRequest(2, 10);
-        boolean empty = true;
-        Page<Article> expected = getArticlePage(pageRequest, empty);
+        Page<Article> expected = getArticlePage(pageRequest, true);
         doReturn(expected).when(repository).findAll(pageRequest);
 
         assertThatExceptionOfType(PageNotFoundException.class).isThrownBy(
@@ -202,8 +196,7 @@ public class ArticleProviderTest {
     public void testGetPublishedBlogPostReturnsABlogPost() {
         String slug = "title";
         LocalDate publicationDate = LocalDate.now(ZoneOffset.UTC);
-        boolean post = true;
-        Article expected = getPublishedArticle(post);
+        Article expected = getPublishedArticle(true);
         doReturn(expected).when(repository).findPublishedPostBy(slug);
 
         Article actual = articleProvider.getPublishedBlogPost(slug,
@@ -227,8 +220,7 @@ public class ArticleProviderTest {
     @Test
     public void testGetPublishedBlogPostThrowsResourceNotFoundForIncorrectPublicationDate() {
         String slug = "title";
-        boolean post = true;
-        Article expected = getPublishedArticle(post);
+        Article expected = getPublishedArticle(true);
         doReturn(expected).when(repository).findPublishedPostBy(slug);
 
         LocalDate publicationDate = LocalDate.now(ZoneOffset.UTC).minusDays(1);
@@ -244,9 +236,7 @@ public class ArticleProviderTest {
     @Test
     public void testGetPublishedPageReturnsArticle() {
         String slug = "title";
-
-        boolean post = false;
-        Article expected = getPublishedArticle(post);
+        Article expected = getPublishedArticle(false);
         doReturn(expected).when(repository).findPublishedPageBy(slug);
 
         Article actual = articleProvider.getPublishedPage(slug);
@@ -265,9 +255,7 @@ public class ArticleProviderTest {
     @Test
     public void testGetArticleByIdReturnsArticle() {
         long id = 10;
-
-        boolean post = false;
-        Article expected = getPublishedArticle(post);
+        Article expected = getPublishedArticle(false);
         doReturn(expected).when(repository).findOne(id);
 
         Article actual = articleProvider.getArticleById(id);

@@ -115,16 +115,16 @@ public class ArticleRepositoryUpdaterTest {
         /**
          * The version of the article to be saved.
          */
-        public Article toSave;
+        Article toSave;
         /**
          * The newer version of the article, existing in the database at the
          * moment of calling {@link ArticleRepositoryUpdater#save(Article)} on
          * {@link ConcurrentlyUpdated#toSave}, as if the article is being
          * concurrently updated.
          */
-        public Article existing;
+        Article existing;
 
-        public ConcurrentlyUpdated() {
+        ConcurrentlyUpdated() {
             toSave = getArticleToSave();
             doThrow(ObjectOptimisticLockingFailureException.class)
                     .when(articleRepository).save(toSave);

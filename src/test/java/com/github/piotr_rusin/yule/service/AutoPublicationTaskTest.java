@@ -67,13 +67,12 @@ public class AutoPublicationTaskTest {
     private AutoPublicationTask task;
     private List<Article> autoPublicationTargets = new ArrayList<>();
     private Instant publicationTime;
-    private TestLoggerFactory loggerFactory;
 
     @Before
     public void setUp() throws Exception {
         setUpAutoPublicationTargetsAndTime();
         Clock clock = Clock.fixed(publicationTime, ZoneId.systemDefault());
-        loggerFactory = Settings.instance().enableAll()
+        TestLoggerFactory loggerFactory = Settings.instance().enableAll()
                 .delegate(AutoPublicationTask.class.getName(), mockLogger)
                 .buildLogging();
         task = new AutoPublicationTask(repository, clock, loggerFactory);

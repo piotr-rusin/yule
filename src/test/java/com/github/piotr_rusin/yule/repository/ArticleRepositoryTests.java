@@ -131,7 +131,7 @@ public class ArticleRepositoryTests {
      * @return
      */
     private Article getRandomPublicArticleBy(Predicate<Article> condition) {
-        List<Article> articles = filterPublicArticles(condition::test);
+        List<Article> articles = filterPublicArticles(condition);
         return getRandomArticleFrom(articles);
     }
 
@@ -186,7 +186,7 @@ public class ArticleRepositoryTests {
     public void findNextScheduledPublicationTime() {
         Instant expected = filterScheduledArticles(null).stream()
                 .map(Article::getPublicationTimestamp)
-                .min((d1, d2) -> d1.compareTo(d2)).orElse(null);
+                .min(Comparator.naturalOrder()).orElse(null);
         Date actual = articleRepository.findNextScheduledPublicationTime();
 
         assertThat(actual).isEqualTo(Date.from(expected));
@@ -210,8 +210,8 @@ public class ArticleRepositoryTests {
 
     private List<Article> filterArticles(Predicate<Article> condition,
             ArticleStatus status) {
-        Predicate<Article> hasStatus = (a) -> a.getStatus() == status;
-        condition = condition != null ? condition : (a) -> true;
+        Predicate<Article> hasStatus = a -> a.getStatus() == status;
+        condition = condition != null ? condition : a -> true;
         return filterArticles(hasStatus.and(condition));
     }
 
@@ -222,7 +222,7 @@ public class ArticleRepositoryTests {
      * @return a list of articles
      */
     private List<Article> filterArticles(Predicate<Article> condition) {
-        return allArticles.stream().filter(condition::test)
+        return allArticles.stream().filter(condition)
                 .collect(Collectors.toList());
     }
 }
